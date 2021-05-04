@@ -9,6 +9,7 @@
   "author": "Ludovit Kramar",
   "license": "AGPL-3.0",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
   }
 }
