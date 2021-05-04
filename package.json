@@ -1,0 +1,14 @@
+{
+  "name": "g-spiel",
+  "version": "1.0.0",
+  "description": "Grammatikspiel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ludovit Kramar",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
