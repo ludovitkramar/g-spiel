@@ -4,13 +4,20 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-//Monitor current connections
-var connectionCounter = 0;
-var connectionIDs = [];
+
+app.use(express.static('public')); // Serve Static Assets
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
+
+app.get('/spaceship/', (req, res) => {
+  res.sendFile(__dirname + '/spaceship.html');
+});
+
+//Variables for the app and game start here, above are essential things for server operation.
+var connectionCounter = 0; //Monitor current connections
+var connectionIDs = [];
 
 io.on('connection', (socket) => {
   const sID = socket.id //so that it remembers when disconnecting who is disconnecting
