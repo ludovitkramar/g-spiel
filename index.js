@@ -7,14 +7,6 @@ const io = new Server(server);
 
 app.use(express.static('public')); // Serve Static Assets
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.get('/spaceship/', (req, res) => {
-  res.sendFile(__dirname + '/spaceship.html');
-});
-
 //Variables for the app and game start here, above are essential things for server operation.
 var connectionCounter = 0; //Monitor current connections
 var connectionIDs = [];
