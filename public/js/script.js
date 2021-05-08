@@ -1,31 +1,26 @@
 let socket = io(); //connect ro socket.io
-var sid = "";
-var joinedPlayers = {};
-var readyPlayers = {};
-var myName = "";
+var sid = ""; //the session id of this player
+var joinedPlayers = {}; //same object as the server
+var readyPlayers = {}; //same object as the server
+var myName = ""; //the players name as returned from the server
 
-//document.getElementById("me").addEventListener("click", () => { socket.emit("test", "The big bad wolf.") });  //test
 
 //when connected succesfully
 socket.on("connect", () => {
     sid = socket.id;
     console.log(sid);
 });
-//when the server sends the updated list of users
-socket.on("connectionIDs", (msg) => {
+
+socket.on("connectionIDs", (msg) => { //when the server sends the updated list of users
     console.log(msg);
-    //out = document.getElementById('connectionsList'); //the div in which to put the ids
-    //out.innerHTML = ""; //clear the div
-    //put each id in the div as a new div
-    //msg.forEach(element => {
-    //    out.innerHTML += `<div class="connectedUser">${element}</div>`;
-    //});
 });
-socket.on("gameRunningError", (msg) => {
+
+socket.on("gameRunningError", (msg) => { //when the servers report an error
     alert(`Server says: ${msg}`);
 })
+
 socket.on("joinPlayersNames", (msg) => {
-    console.log(msg);
+    console.log(msg); //object with the ids and names of users that have joined.
     joinedPlayers = msg;
     updatePlayerLists();
 })
@@ -39,12 +34,16 @@ socket.on("joinSuccessful", (msg) => {
 })
 
 socket.on("readyPlayers", (msg) => {
-    readyPlayers = msg;
+    readyPlayers = msg; //object with id and name of players that are ready.
     updatePlayerLists();
 });
 
+socket.on("startGame", (msg) => {
+    console.log(msg);
+});
+
 document.getElementById('startReady').onclick = function () {
-    socket.emit("playerReady", sid);
+    socket.emit("playerReady", sid); //tell the server you are ready
 }
 
 function joinGame() {
@@ -54,25 +53,28 @@ function joinGame() {
 
 function updatePlayerLists() {
     //join Screen
-    const jpl = document.getElementById("joinPlayersList");
+    const jpl = document.getElementById("joinPlayersList"); //div where players that have joined are shown
     jpl.innerHTML = "";
     for (let key in joinedPlayers) {
         jpl.innerHTML += `<span class="joinPlayerName">${joinedPlayers[key]}</span><br />`;
     }
     //start Screen 
-    const rr = document.getElementById('startReadyPlayers');
-    const nr = document.getElementById('startNotReadyPlayers');
+    const rr = document.getElementById('startReadyPlayers'); //div element in which ready players are shown 
+    const nr = document.getElementById('startNotReadyPlayers'); //same but for not ready
     notReadyPlayers = {};
-    for(key in joinedPlayers){
+    for (key in joinedPlayers) { //create a copy of "joined players" named "not ready players".
         notReadyPlayers[key] = joinedPlayers[key];
     }
-    rr.innerHTML = "";
-    for(key in readyPlayers){
-        rr.innerHTML += `<div class="startReadyPlayer"><div></div><span>${readyPlayers[key]}</span></div>`
-        delete notReadyPlayers[key];
+    rr.innerHTML = ""; //clear the div
+    for (key in readyPlayers) {
+        rr.innerHTML += `<div class="startReadyPlayer"><div></div><span>${readyPlayers[key]}</span></div>` //create list of ready players
+        delete notReadyPlayers[key]; //remove all players that are ready, so that only the not ready ones are left.
     }
-    nr.innerHTML = "";
-    for(key in notReadyPlayers){
+    nr.innerHTML = ""; //clear the div
+    for (key in notReadyPlayers) {
         nr.innerHTML += `<div class="startNotReadyPlayer"><div></div><span>${notReadyPlayers[key]}</span></div>`
     }
+    var readyCount = Object.keys(readyPlayers).length; // players that are ready
+    var joinedCount = Object.keys(joinedPlayers).length; //player that have joined
+    document.getElementById('startProportion').innerHTML = (readyCount + "/" + joinedCount); //put that proportion info on the page
 }
