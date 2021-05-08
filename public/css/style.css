@@ -1,0 +1,31 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+div.page {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(240, 240, 240);
+}
+
+
+.startReadyPlayer > div {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: green;
+}
+
+.startNotReadyPlayer > div {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: red;
+}
