@@ -11,10 +11,12 @@
   <link rel="stylesheet" href="/css/spaceship.css">
   <link rel="shortcut icon" href="http://kykvit.com/favicon.ico" type="image/x-icon">
 </head>
-<body>
-<div class="page">
+<body onload="resizeCanvas()" onresize="resizeCanvas()">
+
+  <canvas id="tutorial">
     <img src="/images/ship.png" alt=":(">
-</div>
+  </canvas>
+
 
 <script src="/js/spaceship.js"></script>
 </body>
