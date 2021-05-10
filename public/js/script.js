@@ -40,8 +40,12 @@ socket.on("readyPlayers", (msg) => {
 });
 
 socket.on("startGame", (msg) => {
-    console.log(msg);
+    console.log("server says:" + msg);
 });
+
+socket.on("endGame", (msg) => {
+    console.log("server says:" + msg);
+})
 
 document.getElementById('startReady').onclick = function () {
     socket.emit("playerReady", sid); //tell the server you are ready

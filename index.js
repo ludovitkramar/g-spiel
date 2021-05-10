@@ -99,7 +99,15 @@ io.on('connection', (socket) => {
 
 //THE GAME ITSELF:
 function startGame() {
+  game = {
+    "players": [], //array with ids of players
+    "pnames": {}, //copy of readyplayers when startting game
+    "imposter": "", //id of the imposter
+    "round": 0, //round counter, when = player count game ends.
+    "playersLeft": [], //players that stil haven't said anything.
+  };
   gameRunning = true;
+  console.log('start game says hi!')
   rndmax = 0 //the player with maximun random value will be the imposter.
   for (key in readyPlayers) { // for every player that is ready
     num = Math.random();
@@ -111,19 +119,27 @@ function startGame() {
     game["pnames"][key] = readyPlayers[key]; //add player's name to the pnames object in game object
   };
   console.log(game)
-
   joinedPlayers = {}; //clear joined players for potential next game
   readyPlayers = {}; //clear ready players for potential next game
+  io.sockets.emit("joinPlayersNames", joinedPlayers); //send empty joinedPlayers to clients
+  io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
+
+  //TODO: add randomized order of sIDs to game.playersLeft, this will determine who goes first
+
   game["players"].forEach(e => { //send each player command to start game
     io.to(e).emit("startGame", "start"); //TODO: the client doesn't do anything yet.
   });
-  while (false) {
-    //game loop
 
-    gameRunning = false;
+  while (gameRunning) {
+    //TODO: game loop
+    gameRunning = false; //game finished
   }
-  console.log('start game says hi!')
-}
+
+  console.log('game ended')
+  game["players"].forEach(e => { //send each player command to end game
+    io.to(e).emit("endGame", "end"); //TODO: the client doesn't do anything yet.
+  });
+};
 
 
 server.listen(8282, () => {
