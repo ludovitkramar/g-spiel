@@ -9,6 +9,7 @@ http://example.com/gSpiel/
 
 ### Modules 
 
+- LoadModule rewrite_module modules/mod_rewrite.so
 - LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 - LoadModule proxy_http_module modules/mod_proxy_http.so
 
