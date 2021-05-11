@@ -9,6 +9,7 @@ var myName = ""; //the players name as returned from the server
 socket.on("connect", () => {
     sid = socket.id;
     console.log(sid);
+    //TODO: check if there is something in localstorage, and if game is running try to reconnect
 });
 
 socket.on("connectionIDs", (msg) => { //when the server sends the updated list of users
@@ -41,10 +42,15 @@ socket.on("readyPlayers", (msg) => {
 
 socket.on("startGame", (msg) => {
     console.log("server says:" + msg);
+    //TODO: add this sID to local storage, to handle disconnects and reconnects
 });
 
 socket.on("endGame", (msg) => {
     console.log("server says:" + msg);
+})
+
+socket.on("sMsg", (msg) => {
+    console.log("Mensaje provisional:" + msg);
 })
 
 document.getElementById('startReady').onclick = function () {

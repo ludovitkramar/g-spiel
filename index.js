@@ -14,20 +14,20 @@ var joinedPlayers = {};
 var readyPlayers = {};
 //game related variables:
 var gameRunning = false;
-const words = [["Tisch", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"]];
+const words = [["Stuhl", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"]];
 var game = {
   "players": [], //array with ids of players
   "pnames": {}, //copy of readyplayers when startting game
   "imposter": "", //id of the imposter
-  "round": 0, //round counter, when = player count game ends.
-  "playersLeft": [], //players that stil haven't said anything.
+  "round": 1, //round counter, when = player count game ends.
+  "playersOrder": [], //players that stil haven't said anything.
   "r1": { //each round is stored like this
     "ID1": "ID3", //id from players array, id1 voted id3
     "ID2": "ID1",
     "ID3": "imposter", //id3 was imposter, couldn't vote.
   },
 };
-
+var canVote = false;
 
 io.on('connection', (socket) => {
   const sID = socket.id //so that it remembers when disconnecting who is disconnecting
@@ -103,41 +103,96 @@ function startGame() {
     "players": [], //array with ids of players
     "pnames": {}, //copy of readyplayers when startting game
     "imposter": "", //id of the imposter
-    "round": 0, //round counter, when = player count game ends.
-    "playersLeft": [], //players that stil haven't said anything.
+    "round": 1, //round counter, when = player count game ends.
+    "playersOrder": [], //players that stil haven't said anything.
   };
   gameRunning = true;
   console.log('start game says hi!')
-  rndmax = 0 //the player with maximun random value will be the imposter.
   for (key in readyPlayers) { // for every player that is ready
-    num = Math.random();
-    if (num > rndmax) {
-      rndmax = num
-      game["imposter"] = key; //is imposter if has the largest number
-    };
     game["players"].push(key); //everybody is added to the players array
     game["pnames"][key] = readyPlayers[key]; //add player's name to the pnames object in game object
   };
-  console.log(game)
   joinedPlayers = {}; //clear joined players for potential next game
   readyPlayers = {}; //clear ready players for potential next game
   io.sockets.emit("joinPlayersNames", joinedPlayers); //send empty joinedPlayers to clients
   io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
-
-  //TODO: add randomized order of sIDs to game.playersLeft, this will determine who goes first
+  console.log(game)
 
   game["players"].forEach(e => { //send each player command to start game
-    io.to(e).emit("startGame", "start"); //TODO: the client doesn't do anything yet.
+    io.to(e).emit("startGame", "game start"); //TODO: the client doesn't do anything yet.
   });
 
+  var usedWordSets = []; //keys of sets used
+
   while (gameRunning) {
-    //TODO: game loop
-    gameRunning = false; //game finished
+    //game loop
+
+    //DECIDE PLAYERS ORDER
+    game["playersOrder"] = [...game["players"]]; //make playersOrder a copy of players
+    for (i = game["playersOrder"].length; i > 0; i--) { //shuffle order of sIDs in game.playersOrder, this will determine who goes first
+      let index = Math.floor(Math.random() * game["playersOrder"].length); //random id with which to swap
+      let temp = game["playersOrder"][index];
+      game["playersOrder"][index] = game["playersOrder"][i - 1];
+      game["playersOrder"][i - 1] = temp;
+    };
+
+    //CHOOSE IMPOSTER
+    rndmax = 0 //the player with maximun random value will be the imposter.
+    for (key in game["players"]) { // for every player
+      num = Math.random();
+      if (num > rndmax) {
+        rndmax = num
+        game["imposter"] = game["players"][key]; //is imposter if has the largest number
+      };
+    }
+
+    //CHOOSE WORD SET
+    if (words.length == usedWordSets.length) { //if all word sets have already been used, this is an edge case
+      usedWordSets = [];
+    }
+    var impIndex = 0;
+    impIndex = Math.round(Math.random()); //the imposter gets word 0 or 1 of the array?
+    let haventFoundSet = true; //this is to avoid repetition
+    var questionIndex = 0;
+    while (haventFoundSet) {
+      questionIndex = Math.floor(Math.random() * words.length); //which set of words is used?
+      if (usedWordSets.indexOf(questionIndex) == -1) {
+        haventFoundSet = false;
+      }
+    }
+    usedWordSets.push(questionIndex);
+
+    //SEND EACH PLAYER ITS CORRESPONDING WORD
+    game["playersOrder"].forEach(e => {
+      if (e == game["imposter"]) { // if imposter
+        io.sockets.emit("sMsg", `${game["pnames"][e]} is talking:`);
+        io.to(e).emit("sMsg", "you are imposter, this is your word: " + words[questionIndex][impIndex]);
+      } else { // if not imposter
+        io.sockets.emit("sMsg", `${game["pnames"][e]} is talking:`);
+        io.to(e).emit("sMsg", "you are normal, this is your word: " + words[questionIndex][Math.abs(impIndex - 1)]);
+      };
+      //TODO: wait 60 seconds (for people to talk)
+    });
+
+    //TODO: start voting screen (who was the imposter?)
+    io.sockets.emit("sMsg", `Voting time!`);
+    //TODO: wait 10 seconds (voting time)
+
+
+    //END OF ROUND
+    console.log("end of round:" + game["round"] + " , game state below:");
+    console.log(game);
+
+    if (game["round"] == game["players"].length) { //if the round is the same number as 
+      gameRunning = false; //game finished
+    } else {
+      game["round"] += 1; //move on to next round
+    }
   }
 
   console.log('game ended')
   game["players"].forEach(e => { //send each player command to end game
-    io.to(e).emit("endGame", "end"); //TODO: the client doesn't do anything yet.
+    io.to(e).emit("endGame", "game end"); //TODO: the client doesn't do anything yet.
   });
 };
 
