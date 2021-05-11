@@ -14,7 +14,7 @@ http://example.com/gSpiel/
 - LoadModule proxy_http_module modules/mod_proxy_http.so
 
 ### Configuration
-```
+```apache
 RewriteEngine On
 
 RewriteCond %{REQUEST_URI}  ^/gSpiel/socket.io            [NC]
