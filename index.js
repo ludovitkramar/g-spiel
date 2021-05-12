@@ -15,7 +15,7 @@ var readyPlayers = {}; //players that have joined and are ready to start, same f
 //game related variables:
 var gameRunning = false;
 const words = [["Stuhl", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"]];
-let game = {
+let game = { //this object here is never used directly, it this changed in gameInit(), this is just to help us orientate
   "players": [], //array with ids of players
   "pnames": {}, //copy of readyplayers when startting game
   "imposter": "", //id of the imposter
@@ -24,6 +24,8 @@ let game = {
   "usedWordSets": [], //keys of sets used
   "setIndex": 0, //current set
   "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
+  "talkTime": 20, // time for players to talk in seconds
+  "voteTime": 10, //time for players to vote in seconds
   "canVote": false, //when a client sends a vote, it will only be registered if this is true
   "r1": { //each round is stored like this
     "ID1": "ID3", //id from players array, id1 voted id3
@@ -104,7 +106,7 @@ io.on('connection', (socket) => {
 });
 
 
-//THE GAME ITSELF:
+//THE GAME FUNCTIONS:
 
 function gameInit() { //initialize the game
   game = {
@@ -116,7 +118,9 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "canVote": false,
+    "talkTime": 20, // time for players to talk in seconds
+    "voteTime": 10, //time for players to vote in seconds
+    "canVote": false, //when a client sends a vote, it will only be registered if this is true
   };
   gameRunning = true;
   console.log('start game says hi!')
@@ -196,6 +200,10 @@ function gameSendWord(client) { //client is the sID to whom the word is sent
 }
 
 function gameEndOfRound() {
+  game["canVote"] = false; //can't vote anymore
+  game["players"].forEach(e => { // to every player
+    io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
+  });
   console.log("end of round:" + game["round"] + " , game state below:");
   console.log(game);
   if (game["round"] == game["players"].length) { //if the round is the same number as number of players
@@ -213,28 +221,22 @@ function gameEnds() {
   });
 }
 
-function startGame() {
+async function startGame() { //THE MAIN GAME FUNCTION
   gameInit();
   while (gameRunning) { //GAME LOOP
-    //DECIDE PLAYERS ORDER
-    gameDecidePlayersOrder();
-    //CHOOSE IMPOSTER
-    gameChoosoImposter();
-    //CHOOSE WORD SET
-    gameChooseWordSet();
+    gameDecidePlayersOrder(); //DECIDE PLAYERS ORDER
+    gameChoosoImposter(); //CHOOSE IMPOSTER
+    gameChooseWordSet(); //CHOOSE WORD SET
 
-    //SEND EACH PLAYER ITS CORRESPONDING WORD
-    game["playersOrder"].forEach(e => { //e is the sID
+    for (const e of game["playersOrder"]) { //SEND EACH PLAYER ITS CORRESPONDING WORD
       gameSendWord(e);
-      //TODO: wait 60 seconds (for people to talk)
-    });
+      await new Promise(resolve => setTimeout(resolve, game["talkTime"] * 1000)); //wait 30 seconds (for people to talk)?
+    };
 
-    //START THE VOTING
-    gameVote();
-    //TODO: wait 10 seconds (voting time)
+    gameVote(); //START THE VOTING
+    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds?
 
-    //END OF ROUND
-    gameEndOfRound();
+    gameEndOfRound(); //END OF ROUND
   }
 };
 
