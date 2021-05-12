@@ -77,30 +77,65 @@ socket.on("gameNormalWord", (msg) => { //receives your normal word.
     document.getElementById('gameStateSubtitle').innerHTML = "You are not the imposter.";
 })
 
-socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters
+socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, msg is array of imposters
     //generate buttons with players names
     var voteZone = document.getElementById('gameVoteImposterBox');
-    playerListArray = [];
-    for (key in clientGame["pnames"]) {
-        playerListArray.push(clientGame["pnames"][key]);
-    }
-    playerListArray.sort();
-    for (key in playerListArray) {
-        for (s in clientGame["pnames"]) {
-            if (clientGame["pnames"][s] == playerListArray[key]) {
-                voteZone.innerHTML += `<button onclick="voteImposter('${s}')">${playerListArray[key]} is the Imposter</button>`;
+
+    if (msg.indexOf(sid) == -1) { //if you are not the imposter
+        playerListArray = [];
+        for (key in clientGame["pnames"]) {
+            playerListArray.push(clientGame["pnames"][key]);
+        }
+        playerListArray.sort();
+        for (key in playerListArray) {
+            for (s in clientGame["pnames"]) {
+                if (clientGame["pnames"][s] == playerListArray[key]) {
+                    voteZone.innerHTML += `<button onclick="voteImposter('${s}')">${playerListArray[key]} is the Imposter</button>`;
+                }
             }
         }
+        document.getElementById('gameStateTitle').innerHTML = `Vote who is the imposter!`;
+        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote and please don't vote yourself";
+    } else {
+        document.getElementById('gameStateTitle').innerHTML = `You were the imposter`;
+        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote";
     }
     //change game state title
-    document.getElementById('gameStateTitle').innerHTML = `Vote who is the imposter!`;
-    document.getElementById('gameStateSubtitle').innerHTML = "Imposters can vote and please don't vote yourself";
-})
+});
 
 socket.on("gameEndVoteImposter", (msg) => {
     var voteZone = document.getElementById('gameVoteImposterBox');
     voteZone.innerHTML = "";
     //change game state title
+    document.getElementById('gameStateTitle').innerHTML = ``;
+    document.getElementById('gameStateSubtitle').innerHTML = "";
+});
+
+socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["imp1", "imp2"] , "word" ]
+    var voteZone = document.getElementById('gameVoteCorrectnesBox');
+    voteZone.innerHTML = "<span>Evaluate the imposter's sentence: </span>";
+
+    if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
+        if (msg[0].length > 1) {  //multiple imposters
+            document.getElementById('gameStateTitle').innerHTML = `Multiple imposters`;
+            document.getElementById('gameStateSubtitle').innerHTML = "This sadly doesn't work yet";
+            console.log("cant vote more than one imposter, unsupported yet :(")
+        } else { //one imposter
+            document.getElementById('gameStateTitle').innerHTML = `${clientGame["pnames"][msg[0][0]]} was the imposter, ${msg[1]} was the fake word`;
+            document.getElementById('gameStateSubtitle').innerHTML = `How well was "${msg[1]}" described? Vote below`;
+            for (i = 0; i < 5; i++) {
+                voteZone.innerHTML += `<button onclick="evaluateImposter(${i + 1})">${i + 1}</button>`;
+            };
+        }
+    } else { //if you are imposter
+        document.getElementById('gameStateTitle').innerHTML = `You were the imposter...`;
+        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't evaluate themselves.";
+    }
+});
+
+socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
+    var voteZone = document.getElementById('gameVoteCorrectnesBox');
+    voteZone.innerHTML = "";
     document.getElementById('gameStateTitle').innerHTML = ``;
     document.getElementById('gameStateSubtitle').innerHTML = "";
 });
@@ -154,4 +189,8 @@ function updatePlayerLists() {
 
 function voteImposter(s) { //tell the server you want to vote the id "s"
     socket.emit("voteImposter", s);
+}
+
+function evaluateImposter(s) { //s is the score as a number
+    socket.emit("voteCorrectnes", s);
 }
