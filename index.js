@@ -16,9 +16,11 @@ var readyPlayers = {}; //players that have joined and are ready to start, same f
 var gameRunning = false;
 const words = [["Stuhl", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"]];
 let game = { //this object here is never used directly, it this changed in gameInit(), this is just to help us orientate
-  "players": [], //array with ids of players
+  "players": ["ID1", "ID2", "ID3", "ID4"], //array with ids of players
   "pnames": {}, //copy of readyplayers when startting game
-  "imposter": "", //id of the imposter
+  "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
+  "imposters": [], //array of ids of imposters
+  "impostersCount": 1, //how many imposters are in this game?
   "round": 1, //round counter, when = player count game ends.
   "playersOrder": [], //players that stil haven't said anything.
   "usedWordSets": [], //keys of sets used
@@ -26,8 +28,9 @@ let game = { //this object here is never used directly, it this changed in gameI
   "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
   "talkTime": 20, // time for players to talk in seconds
   "voteTime": 10, //time for players to vote in seconds
-  "canVote": false, //when a client sends a vote, it will only be registered if this is true
-  "r1": { //each round is stored like this
+  "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
+  "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
+  "r1": { //imposter voting results of each round are stored like this
     "ID1": "ID3", //id from players array, id1 voted id3
     "ID2": "ID1",
     "ID3": "imposter", //id3 was imposter, couldn't vote.
@@ -37,6 +40,22 @@ let game = { //this object here is never used directly, it this changed in gameI
     "ID2": "ID3",
     "ID3": "ID1",
   },
+  "c1": { //correctnes voting results are stored like this
+    "ID1": [9, 3, 5, 7], //ID1 got voted by four people
+    "ID2": [2, 1, 5, 0],
+    "ID3": [1, 7, 8], //shoul also handle incomplete votings
+    "ID4": [8, 7, 9, 8],
+  },
+};
+
+let clientGame = { //this object will be sent to the client to sync game state
+  "players": ["ID1", "ID2", "ID3", "ID4"], //array with ids of players
+  "pnames": {}, //copy of readyplayers when startting game
+  "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
+  "impostersCount": 1, //how many imposters are in this game?
+  "round": 1, //round counter, when = player count game ends.
+  "talkTime": 20, // time for players to talk in seconds
+  "voteTime": 10, //time for players to vote in seconds
 };
 
 io.on('connection', (socket) => {
@@ -85,6 +104,18 @@ io.on('connection', (socket) => {
     }
     //console.log(readyPlayers);
   });
+  //player votes an imposter
+  socket.on("voteImposter", msg => {
+    if (gameRunning && game["canVote"] && game["imposters"].indexOf(sID) == -1 && msg != sID) {
+      console.log(`${sID} voted ${msg}`);
+      if (game[`r${game["round"]}`] == undefined) { //if the round object in game have not yet been created
+        game[`r${game["round"]}`] = {};
+      };
+      game[`r${game["round"]}`][sID] = msg; // register the vote in the game object
+    } else {
+      console.log("invalid vote by " + sID)
+    }
+  });
   //When a connection goes down:
   socket.on('disconnect', (socket) => {
     connectionCounter -= 1;
@@ -112,15 +143,18 @@ function gameInit() { //initialize the game
   game = {
     "players": [], //array with ids of players
     "pnames": {}, //copy of readyplayers when startting game
-    "imposter": "", //id of the imposter
+    "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
+    "imposters": [], //array of ids of imposters
+    "impostersCount": 1, //how many imposters are in this game?
     "round": 1, //round counter, when = player count game ends.
     "playersOrder": [], //players that stil haven't said anything.
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 20, // time for players to talk in seconds
+    "talkTime": 2, // time for players to talk in seconds
     "voteTime": 10, //time for players to vote in seconds
-    "canVote": false, //when a client sends a vote, it will only be registered if this is true
+    "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
+    "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   };
   gameRunning = true;
   console.log('start game says hi!')
@@ -132,9 +166,26 @@ function gameInit() { //initialize the game
   readyPlayers = {}; //clear ready players for potential next game
   io.sockets.emit("joinPlayersNames", joinedPlayers); //send empty joinedPlayers to clients
   io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
+  game["impostersCount"] = Math.floor((game["players"].length + 4) / 5); //calculate number of imposters
   console.log(game)
-  game["players"].forEach(e => { //send each player command to start game
-    io.to(e).emit("startGame", "game start"); //TODO: the client doesn't do anything yet.
+  gameSendGameState();
+  game["players"].forEach(e => { //send each player command to start game and client game state
+    io.to(e).emit("startGame", "start");
+  });
+};
+
+function gameSendGameState() {
+  clientGame = { //this object will be sent to the client to sync game state
+    "players": game["players"], //array with ids of players
+    "pnames": game["pnames"], //copy of readyplayers when startting game
+    "ppoints": game["ppoints"], //object with sIds as keys and numbers representing the points of the player
+    "impostersCount": game["impostersCount"], //how many imposters are in this game?
+    "round": game["round"], //round counter, when = player count game ends.
+    "talkTime": game["talkTime"], // time for players to talk in seconds
+    "voteTime": game["voteTime"], //time for players to vote in seconds
+  };
+  game["players"].forEach(e => { //send each player command to start game and client game state
+    io.to(e).emit("gameStateUpdate", clientGame);
   });
 };
 
@@ -149,13 +200,21 @@ function gameDecidePlayersOrder() {
 };
 
 function gameChoosoImposter() {
+  game["imposters"] = [];
   rndmax = 0 //the player with maximun random value will be the imposter.
   for (key in game["players"]) { // for every player
     num = Math.random();
     if (num > rndmax) {
       rndmax = num
-      game["imposter"] = game["players"][key]; //is imposter if has the largest number
+      game["imposters"].push(game["players"][key]); //is imposter if has the largest number
+      if (game["imposters"].length > game["impostersCount"]) {
+        game["imposters"].shift();
+      }
     };
+  };
+  game[`r${game["round"]}`] = {}; //initialize round imposter voting register object
+  for(imp of game["imposters"]){
+    game[`r${game["round"]}`][imp] = "imposter" //put imposter as the voting result
   }
 };
 
@@ -178,29 +237,57 @@ function gameChooseWordSet() {
   game["imposterIndex"] = impIndex;
 }
 
-function gameVote() {
-  game["canVote"] = true;
-  game["players"].forEach(e => { //send each player command to vote
-    io.to(e).emit("sMsg", `Voting time!`);
-  });
-}
-
 function gameSendWord(client) { //client is the sID to whom the word is sent
-  if (client == game["imposter"]) { // if imposter
+  if (game["imposters"].indexOf(client) != -1) { // if imposter
     game["players"].forEach(e => { // to every player
-      io.to(e).emit("sMsg", `${game["pnames"][client]} is talking:`); //send who is talking
+      if (e != client) { //if not the destinatario of the word
+        io.to(e).emit("gamePlayerTalking", game["pnames"][client])//send who is talking
+      }
     });
-    io.to(client).emit("sMsg", "you are imposter, this is your word: " + words[game["setIndex"]][game["imposterIndex"]]);
+    io.to(client).emit("gameImposterWord", words[game["setIndex"]][game["imposterIndex"]]);
   } else { // if not imposter
     game["players"].forEach(e => { // to every player
-      io.to(e).emit("sMsg", `${game["pnames"][client]} is talking:`); //send who is talking
+      if (e != client) { //if not the destinatario of the word
+        io.to(e).emit("gamePlayerTalking", game["pnames"][client]) //send who is talking
+      }
     });
-    io.to(client).emit("sMsg", "you are normal, this is your word: " + words[game["setIndex"]][Math.abs(game["imposterIndex"] - 1)]);
+    io.to(client).emit("gameNormalWord", words[game["setIndex"]][Math.abs(game["imposterIndex"] - 1)]);
   };
 }
 
-function gameEndOfRound() {
+function gameVoteImposter() {
+  game["canVote"] = true;
+  game["players"].forEach(e => { //send each player command to vote
+    io.to(e).emit("gameVoteImposter", `Voting time!`);
+  });
+}
+
+function gameEndVoteImposter() { //when the voting ends
   game["canVote"] = false; //can't vote anymore
+  game["players"].forEach(e => { //send each player command to vote
+    io.to(e).emit("gameEndVoteImposter", `Voting ends`);
+  });
+};
+
+function gameVoteCorrectnes() {
+  game["canVoteCorrectnes"] = false;
+  game["players"].forEach(e => { //send each player command to vote
+    io.to(e).emit("sMsg", `Voting who done a bad job!`);
+  });
+}
+
+function gameEndVoteCorrectnes() { //when the voting ends
+  game["canVoteCorrectnes"] = false;
+  game["players"].forEach(e => { //send each player command to vote
+    io.to(e).emit("sMsg", `Correctnes voting ends`);
+  });
+}
+
+function gameEvalPoints() {
+  //
+};
+
+function gameEndOfRound() {
   game["players"].forEach(e => { // to every player
     io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
   });
@@ -227,15 +314,17 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
     gameDecidePlayersOrder(); //DECIDE PLAYERS ORDER
     gameChoosoImposter(); //CHOOSE IMPOSTER
     gameChooseWordSet(); //CHOOSE WORD SET
-
     for (const e of game["playersOrder"]) { //SEND EACH PLAYER ITS CORRESPONDING WORD
       gameSendWord(e);
       await new Promise(resolve => setTimeout(resolve, game["talkTime"] * 1000)); //wait 30 seconds (for people to talk)?
     };
-
-    gameVote(); //START THE VOTING
-    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds?
-
+    gameVoteImposter(); //START VOTING WHO IS THE IMPOSTER
+    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds
+    gameEndVoteImposter(); //END IMPOSTER VOTING
+    // gameVoteCorrectnes(); //VOTE WHO HAS DONE A TERRIBLE JOB  //to discuss
+    // await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds
+    // gameEndVoteCorrectnes(); //END CORRECTNES VOTING
+    gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
     gameEndOfRound(); //END OF ROUND
   }
 };

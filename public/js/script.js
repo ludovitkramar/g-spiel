@@ -3,7 +3,7 @@ var sid = ""; //the session id of this player
 var joinedPlayers = {}; //same object as the server
 var readyPlayers = {}; //same object as the server
 var myName = ""; //the players name as returned from the server
-
+let clientGame = {};
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -26,7 +26,7 @@ socket.on("joinPlayersNames", (msg) => {
     updatePlayerLists();
 })
 
-socket.on("joinSuccessful", (msg) => {
+socket.on("joinSuccessful", (msg) => { //server says joined succesfully
     //TODO
     //hide the join screen
     console.log(msg);
@@ -34,22 +34,84 @@ socket.on("joinSuccessful", (msg) => {
     console.log(`my name is: ${myName}`);
 })
 
-socket.on("readyPlayers", (msg) => {
+socket.on("readyPlayers", (msg) => { //server send array of players that are ready
     readyPlayers = msg; //object with id and name of players that are ready.
     console.log(msg);
     updatePlayerLists();
 });
 
-socket.on("startGame", (msg) => {
-    console.log("server says:" + msg);
-    //TODO: add this sID to local storage, to handle disconnects and reconnects
+socket.on("startGame", (msg) => {  //server orders: start game!
+    //TODO: hide ready screen and shit
+    localStorage.setItem("gameID", sid) //add this sID to local storage, to handle disconnects and reconnects
+});
+
+socket.on("gameStateUpdate", (msg) => {
+    clientGame = msg; //game state object
+    console.log(clientGame);
+
+    //show the players on the game screen
+    playerListDiv = document.getElementById('gamePlayersBox');
+    playerListDiv.innerHTML = "Players: <br>";
+    playerListArray = [];
+    for (key in clientGame["pnames"]) {
+        playerListArray.push(clientGame["pnames"][key]);
+    }
+    playerListArray.sort();
+    for (key in playerListArray) {
+        playerListDiv.innerHTML += `<div>${playerListArray[key]}</div>`;
+    }
+})
+
+socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
+    document.getElementById('gameStateTitle').innerHTML = `It's ${msg}'s turn!`;
+    document.getElementById('gameStateSubtitle').innerHTML = "Listen carefully, what is being described?";
+})
+
+socket.on("gameImposterWord", (msg) => { //receives imposter's word
+    document.getElementById('gameStateTitle').innerHTML = `Describe: ${msg}`;
+    document.getElementById('gameStateSubtitle').innerHTML = "You are the imposter, be careful don't make it sound too different!";
+})
+
+socket.on("gameNormalWord", (msg) => { //receives your normal word.
+    document.getElementById('gameStateTitle').innerHTML = `Describe: ${msg}`;
+    document.getElementById('gameStateSubtitle').innerHTML = "You are not the imposter.";
+})
+
+socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters
+    //generate buttons with players names
+    var voteZone = document.getElementById('gameVoteImposterBox');
+    playerListArray = [];
+    for (key in clientGame["pnames"]) {
+        playerListArray.push(clientGame["pnames"][key]);
+    }
+    playerListArray.sort();
+    for (key in playerListArray) {
+        for (s in clientGame["pnames"]) {
+            if (clientGame["pnames"][s] == playerListArray[key]) {
+                voteZone.innerHTML += `<button onclick="voteImposter('${s}')">${playerListArray[key]} is the Imposter</button>`;
+            }
+        }
+    }
+    //change game state title
+    document.getElementById('gameStateTitle').innerHTML = `Vote who is the imposter!`;
+    document.getElementById('gameStateSubtitle').innerHTML = "Imposters can vote and please don't vote yourself";
+})
+
+socket.on("gameEndVoteImposter", (msg) => {
+    var voteZone = document.getElementById('gameVoteImposterBox');
+    voteZone.innerHTML = "";
+    //change game state title
+    document.getElementById('gameStateTitle').innerHTML = ``;
+    document.getElementById('gameStateSubtitle').innerHTML = "";
 });
 
 socket.on("endGame", (msg) => {
+    //TODO: show endscreen and shit
     console.log("server says:" + msg);
+    localStorage.removeItem("gameID"); //game ended, reconnect doesn't matter anymore
 })
 
-socket.on("sMsg", (msg) => {
+socket.on("sMsg", (msg) => { //just logging
     console.log("Mensaje provisional:" + msg);
 })
 
@@ -57,7 +119,7 @@ document.getElementById('startReady').onclick = function () {
     socket.emit("playerReady", sid); //tell the server you are ready
 }
 
-function joinGame() {
+function joinGame() { //tell the server you want to join
     var playerName = document.forms["join"]["name"].value;
     socket.emit("playerJoin", playerName);
 }
@@ -88,4 +150,8 @@ function updatePlayerLists() {
     var readyCount = Object.keys(readyPlayers).length; // players that are ready
     var joinedCount = Object.keys(joinedPlayers).length; //player that have joined
     document.getElementById('startProportion').innerHTML = (readyCount + "/" + joinedCount); //put that proportion info on the page
+}
+
+function voteImposter(s) { //tell the server you want to vote the id "s"
+    socket.emit("voteImposter", s);
 }
