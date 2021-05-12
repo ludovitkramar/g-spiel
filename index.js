@@ -221,7 +221,7 @@ function gameEnds() {
   });
 }
 
-async function startGame() { //THE MAIN GAME FUNCTION
+async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
   gameInit();
   while (gameRunning) { //GAME LOOP
     gameDecidePlayersOrder(); //DECIDE PLAYERS ORDER
