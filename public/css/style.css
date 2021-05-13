@@ -1,18 +1,78 @@
 * {
     padding: 0;
     margin: 0;
+    font-size: 20px;
 }
 
 body {
-    overflow: hidden;
+    height: 100vh;
+    overflow-x: hidden;
 }
 
 div.page {
     width: 100vw;
-    height: 100vh;
     background-color: rgb(240, 240, 240);
+    overflow-x: hidden;
 }
 
+.hidden {
+    display: none;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+input {
+    line-height: 2.4em;
+    border-radius: 0;
+}
+
+button {
+    padding: 1.5em;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(200, 200, 200);
+}
+
+#joinScr {
+    background-color: rgb(171, 196, 241);
+}
+
+#joinFormBox{
+    background-color: rgb(76, 114, 185);
+    color: white;
+    height: 75vh;
+    display: grid;
+    justify-content: center;
+}
+
+#joinGameForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#joinFormButton {
+    margin: 2em;
+    padding-left: 4em;
+    padding-right: 4em;
+}
+
+#joinFormName {
+    max-width: 98vw;
+    width: 20em;
+}
+
+#startScr {
+    background-color: rgb(251, 250, 191);
+}
 
 .startReadyPlayer > div {
     height: 1em;
@@ -28,4 +88,25 @@ div.page {
     display: inline-block;
     border-radius: 100%;
     background-color: red;
+}
+
+#gameScr {
+    background-color: rgb(194, 168, 223);
+}
+
+#gameInfoBox {
+    background-color: rgb(71, 27, 122);
+    color: white;
+}
+
+#gameStateDisplay {
+    text-align: center;
+}
+
+#gameStateTitle {
+    font-size: 3em;
+}
+
+#gameStateSubtitle {
+    font-size: 2em;
 }

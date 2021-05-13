@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta name="google-site-verification" content="AGs4m-1A4pyMsQJgdfGm3aaYU6Hga2zpioFeMtN-KFU" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <meta name="author" content="Ludovit Kramar" />
-  <meta name="robots" content="index, follow"/>
-  <meta name="description" content="Ein tolles Grammatikspiel">
-  <title>Grammatikspiel</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta name="google-site-verification" content="AGs4m-1A4pyMsQJgdfGm3aaYU6Hga2zpioFeMtN-KFU" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="author" content="Ludovit Kramar" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Ein tolles Grammatikspiel">
+    <title>Grammatikspiel</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-<div class="page">
+    <div class="page">
 
-    <div id="joinScr">
-        <div id="joinScrBox">
-            <div id="joinFormBox">
-                <form action="#" onsubmit="joinGame(); return false" name="join">
-                    <label>
-                        Name: 
-                        <input type="text" name="name" id="joinFormName" required>
-                    </label>
-                    <button type="submit" id="joinFormButton">Join!</button>
-                </form>
-            </div>
-            <div id="joinPlayersList">
-                <span class="joinPlayerName">${msg[key]}</span><br />
-            </div>
-        </div>
-    </div>
-
-    <hr>
-
-    <div id="startScr">
-        <div id="startScrBox">
-            <button id="startReady">Ready!</button>
-            <span id="startProportion">999/999</span>
-            <div id="startReadyPlayers">
-                <div class="startReadyPlayer">
-                    <div></div>
-                    <span>Player 1</span>
+        <div id="joinScr" class="screen">
+            <div id="joinScrBox">
+                <div id="joinFormBox">
+                    <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
+                        <label>
+                            <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!">
+                        </label>
+                        <button type="submit" id="joinFormButton">Join!</button>
+                    </form>
                 </div>
-            </div>
-            <div id="startNotReadyPlayers">
-                <div class="startNotReadyPlayer">
-                    <div></div>
-                    <span>Player 2</span>
+                <div id="joinPlayersList">
+                    <span class="joinPlayerName">${msg[key]}</span><br />
                 </div>
             </div>
         </div>
-    </div>
-    
-    <hr>
 
-    <div id="gameScr">
-        <div id="gameInfoBox">
-            <div id="gameTopBar">
-                <span id="gameYourPoints">You have [0] points</span>
-            </div>
-            <div id="gameStateDisplay">
-                <span id="gameStateTitle">Waiting to start</span>
-                <br>
-                <span id="gameStateSubtitle">Hey!</span>
+        <hr>
+
+        <div id="startScr" class="screen hidden">
+            <div id="startScrBox">
+                <button id="startReady">Ready!</button>
+                <span id="startProportion">999/999</span>
+                <div id="startReadyPlayers">
+                    <div class="startReadyPlayer">
+                        <div></div>
+                        <span>Player 1</span>
+                    </div>
+                </div>
+                <div id="startNotReadyPlayers">
+                    <div class="startNotReadyPlayer">
+                        <div></div>
+                        <span>Player 2</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="gamePlayersBox">List of players...</div>
-        <div id="gameVoteImposterBox">Buttons to vote imposter...</div>
-        <div id="gameVoteCorrectnesBox">Buttons to vote performance...</div>
+
+        <hr>
+
+        <div id="gameScr" class="hidden screen">
+            <div id="gameInfoBox">
+                <div id="gameTopBar">
+                    <span id="gameYourPoints">You have [0] points</span>
+                </div>
+                <div id="gameStateDisplay">
+                    <span id="gameStateTitle">Waiting to start</span>
+                    <br>
+                    <span id="gameStateSubtitle">Hey!</span>
+                </div>
+            </div>
+            <div id="gamePlayersBox">List of players...</div>
+            <div id="gameVoteImposterBox">Buttons to vote imposter...</div>
+            <div id="gameVoteCorrectnesBox">Buttons to vote performance...</div>
+        </div>
+
+        <hr>
+
+        <div id="endScr" class="hidden screen">
+
+        </div>
+
+        <hr>
+
+        <div id="reconnectBox" class="hidden">
+
+        </div>
     </div>
 
-    <hr>
-
-    <div id="endScr">
-
-    </div>
-
-    <hr>
-
-    <div id="reconnectBox">
-        
-    </div>
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/script.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
 </body>
+
 </html>

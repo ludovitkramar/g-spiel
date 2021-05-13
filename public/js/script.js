@@ -35,8 +35,8 @@ socket.on("joinPlayersNames", (msg) => {
 })
 
 socket.on("joinSuccessful", (msg) => { //server says joined succesfully
-    //TODO
-    //hide the join screen
+    hideAllScreens();
+    document.getElementById('startScr').classList.remove("hidden"); //show the start screen
     console.log(msg);
     myName = joinedPlayers[sid];
     console.log(`my name is: ${myName}`);
@@ -49,7 +49,8 @@ socket.on("readyPlayers", (msg) => { //server send array of players that are rea
 });
 
 socket.on("startGame", (msg) => {  //server orders: start game!
-    //TODO: hide ready screen and shit
+    hideAllScreens();
+    document.getElementById('gameScr').classList.remove("hidden"); //show the game screen
     localStorage.setItem("gameID", sid) //add this sID to local storage, to handle disconnects and reconnects
 });
 
@@ -210,4 +211,11 @@ function voteImposter(s) { //tell the server you want to vote the id "s"
 
 function evaluateImposter(s) { //data format is : ["imposter's id", number]
     socket.emit("voteCorrectnes", s);
+}
+
+function hideAllScreens() {
+    document.getElementById('joinScr').classList.add("hidden"); //hide the join screen
+    document.getElementById('startScr').classList.add("hidden"); //hide the start screen
+    document.getElementById('gameScr').classList.add("hidden"); //hide the game screen
+    document.getElementById('endScr').classList.add("hidden"); //hide the end screen
 }
