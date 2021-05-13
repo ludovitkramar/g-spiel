@@ -4,6 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static('public')); // Serve Static Assets
 
@@ -341,6 +342,6 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
   }
 };
 
-server.listen(8282, () => {
-  console.log('listening on *:8282');
+server.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
