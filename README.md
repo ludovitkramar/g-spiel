@@ -1,11 +1,35 @@
-# Running the server
+# Running the server behind a proxy
 
-It is designed to run behind a proxy and the client will try to connect to 
+To use an address like the one below, some modifications are necessary.
 ```
 http://example.com/gSpiel/
 ```
 
-## Apache demo config
+## Modifications
+
+### /public/index.html
+
+- Change the source of /css/style.css
+- Change the source of /socket.io/socket.io.js
+- Change the source of /js/script.js
+
+### /public/js/script.js
+
+Change the first line to
+
+```js
+let socket = io.connect("/", { path: "/EXAMPLE/socket.io" });
+```
+
+### /index.js
+
+Change the line below to match with the port you want to use for the proxy.
+
+```js
+const PORT = process.env.PORT || 3000;
+```
+
+## Proxy with apache
 
 ### Modules 
 
