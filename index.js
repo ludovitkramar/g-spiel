@@ -32,20 +32,14 @@ let game = { //this object here is never used directly, it this changed in gameI
   "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
   "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   "r1": { //imposter voting results of each round are stored like this
-    "ID1": "ID3", //id from players array, id1 voted id3
-    "ID2": "ID1",
+    "ID1": ["ID3", "Id2"], //id from players array, id1 voted id3 and id2
     "ID3": "imposter", //id3 was imposter, couldn't vote.
   },
-  "r2": { //sample round 2
-    "ID1": "imposter",
-    "ID2": "ID3",
-    "ID3": "ID1",
-  },
   "c1": { //correctnes voting results are stored like this
-    "ID1": [9, 3, 5, 7], //ID1 got voted by four people
-    "ID2": [2, 1, 5, 0],
-    "ID3": [1, 7, 8], //shoul also handle incomplete votings
-    "ID4": [8, 7, 9, 8],
+    "ID1": {
+      "imp1": 5,
+      "imp2": 3
+    }, //ID1 voted a 5 to imp1 and a 3 to imp2
   },
 };
 
@@ -106,8 +100,8 @@ io.on('connection', (socket) => {
     //console.log(readyPlayers);
   });
   //player votes an imposter
-  socket.on("voteImposter", msg => {
-    if (gameRunning && game["canVote"] && game["imposters"].indexOf(sID) == -1 && msg != sID) {
+  socket.on("voteImposter", msg => { //msg is the id of who is being voted
+    if (gameRunning && game["canVote"] && game["imposters"].indexOf(sID) == -1 && msg != sID && game["players"].indexOf(msg) != -1) {
       console.log(`${sID} voted ${msg}`);
       if (game[`r${game["round"]}`][sID] == undefined) { //if the votes array in round object have not yet been created
         game[`r${game["round"]}`][sID] = [];
@@ -123,13 +117,10 @@ io.on('connection', (socket) => {
     }
   });
   //player evaluates an imposter
-  socket.on("voteCorrectnes", msg => {  //msg is a number(score) , (or an array/object for multiple imposters?)
-    if (gameRunning && game["canVoteCorrectnes"] && game["imposters"].indexOf(sID) == -1) {
-      console.log(`${sID} gave a score of ${msg} to the imposter`);
-      if (game[`c${game["round"]}`] == undefined) { //if the round object in game have not yet been created
-        game[`c${game["round"]}`] = {};
-      };
-      game[`c${game["round"]}`][sID] = msg; // register the vote in the game object
+  socket.on("voteCorrectnes", msg => {  //data format is : ["imposter's id", number]
+    if (gameRunning && game["canVoteCorrectnes"] && game["imposters"].indexOf(sID) == -1 && game["imposters"].indexOf(msg[0]) != -1) {
+      console.log(`${sID} gave a score of ${msg[1]} to the imposter ${msg[0]}`);
+      game[`c${game["round"]}`][sID][msg[0]] = msg[1]; // register the vote in the game object
     } else {
       console.log("invalid correctnes vote by " + sID)
     }
@@ -138,7 +129,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', (socket) => {
     connectionCounter -= 1;
     connectionsIDs = connectionIDs.splice(connectionIDs.indexOf(sID), 1); //remove the id from the array of connected users
-    if (gameRunning) { //TODO: add ability to know if the client is in the game, and also return its name
+    if (gameRunning && game["players"].indexOf(sID) != -1) { //if the game is running and this id is a player
       console.log('player disconnected while in game')
       io.sockets.emit("gameRunningError", `Player "${sID}" disconnected mid game`)
     } else {
@@ -219,17 +210,18 @@ function gameDecidePlayersOrder() {
 
 function gameChoosoImposter() {
   game["imposters"] = [];
-  rndmax = 0 //the player with maximun random value will be the imposter.
-  for (key in game["players"]) { // for every player
-    num = Math.random();
-    if (num > rndmax) {
-      rndmax = num
-      game["imposters"].push(game["players"][key]); //is imposter if has the largest number
-      if (game["imposters"].length > game["impostersCount"]) {
-        game["imposters"].shift();
-      }
-    };
-  };
+  var impCandidates = [];
+  for (key in game["players"]) { //copy the array
+    impCandidates[key] = game["players"][key];
+  }
+  for (key in impCandidates) { //shuffle the array
+    index = Math.floor(Math.random() * impCandidates.length);
+    temp = impCandidates[index];
+    impCandidates[index] = impCandidates[key];
+    impCandidates[key] = temp;
+  }
+  impCandidates.splice(game["impostersCount"]); //take the amount needed as imposters
+  game["imposters"] = impCandidates; //store the result in the game object
   game[`r${game["round"]}`] = {}; //initialize round imposter voting register object
   for (imp of game["imposters"]) {
     game[`r${game["round"]}`][imp] = "imposter" //put imposter as the voting result
@@ -289,6 +281,12 @@ function gameEndVoteImposter() { //when the voting ends
 
 function gameVoteCorrectnes() {
   game["canVoteCorrectnes"] = true;
+  game[`c${game["round"]}`] = {} //initialize correctnes object
+  for (key in game['players']) {
+    if (game["imposters"].indexOf(game['players'][key]) == -1) { //if not imposter
+      game[`c${game["round"]}`][game['players'][key]] = {};  //initiaize player's voting object
+    }
+  }
   game["players"].forEach(e => { //send each player command to vote
     io.to(e).emit("gameVoteCorrectnes", [game["imposters"], words[game["setIndex"]][game["imposterIndex"]]]);
   });

@@ -80,7 +80,7 @@ socket.on("gameNormalWord", (msg) => { //receives your normal word.
 socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, msg is array of imposters
     //generate buttons with players names
     var voteZone = document.getElementById('gameVoteImposterBox');
-
+    voteZone.innerHTML = "";
     if (msg.indexOf(sid) == -1) { //if you are not the imposter
         playerListArray = [];
         for (key in clientGame["pnames"]) {
@@ -117,19 +117,25 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
 
     if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
         if (msg[0].length > 1) {  //multiple imposters
-            document.getElementById('gameStateTitle').innerHTML = `Multiple imposters`;
-            document.getElementById('gameStateSubtitle').innerHTML = "This sadly doesn't work yet";
-            console.log("cant vote more than one imposter, unsupported yet :(")
+            document.getElementById('gameStateTitle').innerHTML = `Evaluate how well the imposters! `;
+            document.getElementById('gameStateSubtitle').innerHTML = "How did each of them described: ${msg[1]}";
+            for(key in msg[0]) { //for each imposter
+                voteZone.innerHTML += `<span>Evaluate ${clientGame["pnames"][msg[0][key]]}'s description:</span>`
+                for (i = 0; i < 5; i++) {
+                    voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][key]}',${i + 1}])">${i + 1}</button>`;
+                };
+                voteZone.innerHTML += `<br>`
+            }
         } else { //one imposter
             document.getElementById('gameStateTitle').innerHTML = `${clientGame["pnames"][msg[0][0]]} was the imposter, ${msg[1]} was the fake word`;
             document.getElementById('gameStateSubtitle').innerHTML = `How well was "${msg[1]}" described? Vote below`;
             for (i = 0; i < 5; i++) {
-                voteZone.innerHTML += `<button onclick="evaluateImposter(${i + 1})">${i + 1}</button>`;
+                voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][0]}',${i + 1}])">${i + 1}</button>`;
             };
         }
     } else { //if you are imposter
         document.getElementById('gameStateTitle').innerHTML = `You were the imposter...`;
-        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't evaluate themselves.";
+        document.getElementById('gameStateSubtitle').innerHTML = "The other players are voting how well you described the word.";
     }
 });
 
@@ -191,6 +197,6 @@ function voteImposter(s) { //tell the server you want to vote the id "s"
     socket.emit("voteImposter", s);
 }
 
-function evaluateImposter(s) { //s is the score as a number
+function evaluateImposter(s) { //data format is : ["imposter's id", number]
     socket.emit("voteCorrectnes", s);
 }
