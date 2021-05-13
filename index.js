@@ -4,7 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8282;
 
 app.use(express.static('public')); // Serve Static Assets
 
@@ -109,10 +109,15 @@ io.on('connection', (socket) => {
   socket.on("voteImposter", msg => {
     if (gameRunning && game["canVote"] && game["imposters"].indexOf(sID) == -1 && msg != sID) {
       console.log(`${sID} voted ${msg}`);
-      if (game[`r${game["round"]}`] == undefined) { //if the round object in game have not yet been created
-        game[`r${game["round"]}`] = {};
+      if (game[`r${game["round"]}`][sID] == undefined) { //if the votes array in round object have not yet been created
+        game[`r${game["round"]}`][sID] = [];
       };
-      game[`r${game["round"]}`][sID] = msg; // register the vote in the game object
+      if (game[`r${game["round"]}`][sID].length >= game["impostersCount"]) { //if the player voted more times than amount of imposters
+        game[`r${game["round"]}`][sID].push(msg); // register the vote in the game object
+        game[`r${game["round"]}`][sID].shift(); //remove the earliest vote
+      } else {
+        game[`r${game["round"]}`][sID].push(msg); // register the vote in the game object
+      }
     } else {
       console.log("invalid vote by " + sID)
     }
