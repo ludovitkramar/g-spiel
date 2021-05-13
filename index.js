@@ -170,6 +170,7 @@ function gameInit() { //initialize the game
   for (key in readyPlayers) { // for every player that is ready
     game["players"].push(key); //everybody is added to the players array
     game["pnames"][key] = readyPlayers[key]; //add player's name to the pnames object in game object
+    game["ppoints"][key] = 0; //give everybody 0 points
   };
   joinedPlayers = {}; //clear joined players for potential next game
   readyPlayers = {}; //clear ready players for potential next game
@@ -300,13 +301,69 @@ function gameEndVoteCorrectnes() { //when the voting ends
 }
 
 function gameEvalPoints() {
-  //
+  //create array of nonimposters
+  var nonimposters = [...game["players"]];
+  for (key in game["imposters"]) {
+    nonimposters.splice(nonimposters.indexOf(game["imposters"][key]), 1)
+  }
+
+  //if guessed the imposter +100 points
+  let points = 100;
+  for (key in nonimposters) { //for every nonimposter
+    try {
+      for (vote in game[`r${game["round"]}`][nonimposters[key]]) { //for every id whom this player voted
+        // game[`r${game["round"]}`][nonimposters[key]][vote] <- that is who was voted
+        if (game["imposters"].indexOf(game[`r${game["round"]}`][nonimposters[key]][vote]) != -1) { //if was indeed imposter
+          game["ppoints"][nonimposters[key]] += points;
+        }
+      }
+    } catch (error) {
+      console.log('something went wrong with player: ' + nonimposters[key])
+    }
+  };
+
+  //calculate imposters' evaluation score
+  var impScores = {};
+  for (key in game["imposters"]) { //for every imposter
+    var score = 0;
+    var sum = 0;
+    var votes = 0;
+    for (player in game[`c${game["round"]}`]) { //for every player that voted
+      for (imp in game[`c${game["round"]}`][player]) { //for every imposter said player voted
+        if (game["imposters"][key] == imp) { //if this is the imposter we are looking at
+          sum += game[`c${game["round"]}`][player][imp];
+          votes += 1;
+        }
+      }
+    }
+    score = sum / votes;
+    if (isNaN(score)) { //if nobody voted give the best score
+      score = 1;
+    };
+    impScores[game["imposters"][key]] = score;
+    game[`impScore${game["round"]}`] = { ...impScores }; //store it to game object
+  };
+
+  //calculate imposters' points
+  for (ik in game["imposters"]) { //for every imposter
+    for (id in game[`r${game["round"]}`]) { //for everyone that voted
+      if (game["imposters"].indexOf(id) == -1) { //if wasn't imposter
+        for (key in game[`r${game["round"]}`][id]) { //for every vote
+          if (game["imposters"].indexOf(game[`r${game["round"]}`][id][key]) == -1 && game[`r${game["round"]}`][id].indexOf(game["imposters"][ik]) == -1) {//if the vote isn't imposter and didn't vote this imposter
+            game["ppoints"][game["imposters"][ik]] += Math.round(points / game[`impScore${game["round"]}`][game["imposters"][ik]]); //give the points
+          }
+        }
+      }
+    }
+  };
+
 };
 
 function gameEndOfRound() {
   game["players"].forEach(e => { // to every player
     io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
   });
+  gameSendGameState();
   console.log("end of round:" + game["round"] + " , game state below:");
   console.log(game);
   if (game["round"] == game["players"].length) { //if the round is the same number as number of players
@@ -342,6 +399,7 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
     gameEndVoteCorrectnes(); //END CORRECTNES VOTING
     gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
     gameEndOfRound(); //END OF ROUND
+    await new Promise(resolve => setTimeout(resolve, 5 * 1000)); //wait 5 seconds
   }
 };
 

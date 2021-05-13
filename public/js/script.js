@@ -3,7 +3,15 @@ var sid = ""; //the session id of this player
 var joinedPlayers = {}; //same object as the server
 var readyPlayers = {}; //same object as the server
 var myName = ""; //the players name as returned from the server
-let clientGame = {};
+let clientGame = { //this object will be sent to the client to sync game state
+    "players": [""], //array with ids of players
+    "pnames": {}, //copy of readyplayers when startting game
+    "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
+    "impostersCount": 0, //how many imposters are in this game?
+    "round": 0, //round counter, when = player count game ends.
+    "talkTime": 0, // time for players to talk in seconds
+    "voteTime": 0, //time for players to vote in seconds
+  };
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -60,6 +68,9 @@ socket.on("gameStateUpdate", (msg) => {
     for (key in playerListArray) {
         playerListDiv.innerHTML += `<div>${playerListArray[key]}</div>`;
     }
+
+    //show the points
+    document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
 })
 
 socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
