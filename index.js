@@ -307,14 +307,14 @@ function gameEvalPoints() {
     nonimposters.splice(nonimposters.indexOf(game["imposters"][key]), 1)
   }
 
-  //if guessed the imposter +100 points
+  //if guessed the imposter points/2
   let points = 100;
   for (key in nonimposters) { //for every nonimposter
     try {
       for (vote in game[`r${game["round"]}`][nonimposters[key]]) { //for every id whom this player voted
         // game[`r${game["round"]}`][nonimposters[key]][vote] <- that is who was voted
         if (game["imposters"].indexOf(game[`r${game["round"]}`][nonimposters[key]][vote]) != -1) { //if was indeed imposter
-          game["ppoints"][nonimposters[key]] += points;
+          game["ppoints"][nonimposters[key]] += points/2;
         }
       }
     } catch (error) {
