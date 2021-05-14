@@ -16,37 +16,38 @@
     <div class="page">
 
         <div id="joinScr" class="screen">
-            <div id="joinScrBox">
-                <div id="joinFormBox">
+            <div id="joinScrTopBox">
+                <div id="joinGameFormBox">
                     <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
                         <label>
-                            <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!">
+                            <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!"
+                                autofocus maxlength="25">
                         </label>
                         <button type="submit" id="joinFormButton">Join!</button>
                     </form>
                 </div>
-                <div id="joinPlayersList">
-                    <span class="joinPlayerName">${msg[key]}</span><br />
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div id="startScr" class="screen hidden">
-            <div id="startScrBox">
-                <button id="startReady">Ready!</button>
-                <span id="startProportion">999/999</span>
-                <div id="startReadyPlayers">
-                    <div class="startReadyPlayer">
-                        <div></div>
-                        <span>Player 1</span>
+                <div id="startGameTopBox" class="hidden">
+                    <div>
+                        <button id="startReady">Start!</button>
+                        <span id="startProportion">999/999</span>
                     </div>
                 </div>
-                <div id="startNotReadyPlayers">
-                    <div class="startNotReadyPlayer">
-                        <div></div>
-                        <span>Player 2</span>
+            </div>
+            <div id="joinScrBottomBox">
+                <div id="startPlayersList" class="hidden">
+                    <div>
+                        <div id="startReadyPlayers">
+                            <div class="startReadyPlayer">
+                                <div></div>
+                                <span>Player 1</span>
+                            </div>
+                        </div>
+                        <div id="startNotReadyPlayers">
+                            <div class="startNotReadyPlayer">
+                                <div></div>
+                                <span>Player 2</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

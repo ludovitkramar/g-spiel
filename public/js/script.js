@@ -35,8 +35,14 @@ socket.on("joinPlayersNames", (msg) => {
 })
 
 socket.on("joinSuccessful", (msg) => { //server says joined succesfully
-    hideAllScreens();
-    document.getElementById('startScr').classList.remove("hidden"); //show the start screen
+    //show start stuff
+    document.getElementById('startGameTopBox').classList.remove("hidden");
+    document.getElementById('startPlayersList').classList.remove("hidden");
+    //hide join stuff
+    document.getElementById('joinGameFormBox').classList.add("hidden");
+    //change the thing's size
+    document.getElementById('joinScrTopBox').style.height = '40vh';
+    //other things
     console.log(msg);
     myName = joinedPlayers[sid];
     console.log(`my name is: ${myName}`);
@@ -178,12 +184,6 @@ function joinGame() { //tell the server you want to join
 }
 
 function updatePlayerLists() {
-    //join Screen
-    const jpl = document.getElementById("joinPlayersList"); //div where players that have joined are shown
-    jpl.innerHTML = "";
-    for (let key in joinedPlayers) {
-        jpl.innerHTML += `<span class="joinPlayerName">${joinedPlayers[key]}</span><br />`;
-    }
     //start Screen 
     const rr = document.getElementById('startReadyPlayers'); //div element in which ready players are shown 
     const nr = document.getElementById('startNotReadyPlayers'); //same but for not ready
@@ -202,6 +202,9 @@ function updatePlayerLists() {
     }
     var readyCount = Object.keys(readyPlayers).length; // players that are ready
     var joinedCount = Object.keys(joinedPlayers).length; //player that have joined
+    if (joinedCount < 3) { //if less than 3 people or connected, show that without 3 people you cannot play
+        joinedCount = 3;
+    }
     document.getElementById('startProportion').innerHTML = (readyCount + "/" + joinedCount); //put that proportion info on the page
 }
 
@@ -215,7 +218,6 @@ function evaluateImposter(s) { //data format is : ["imposter's id", number]
 
 function hideAllScreens() {
     document.getElementById('joinScr').classList.add("hidden"); //hide the join screen
-    document.getElementById('startScr').classList.add("hidden"); //hide the start screen
     document.getElementById('gameScr').classList.add("hidden"); //hide the game screen
     document.getElementById('endScr').classList.add("hidden"); //hide the end screen
 }

@@ -44,15 +44,18 @@ button {
     background-color: rgb(171, 196, 241);
 }
 
-#joinFormBox{
+#joinScrTopBox{
     background-color: rgb(76, 114, 185);
     color: white;
-    height: 75vh;
+    height: 98vh;
+    min-height: 250;
     display: grid;
     justify-content: center;
+    transition: .5s;
 }
 
 #joinGameForm {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,11 +70,34 @@ button {
 
 #joinFormName {
     max-width: 98vw;
-    width: 20em;
+    width: 25em;
 }
 
-#startScr {
-    background-color: rgb(251, 250, 191);
+#startGameTopBox > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#startPlayersList > div{
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#startPlayersList > div > *{
+    max-width: 20em;
+    width: 98vw;
+}
+
+.startReadyPlayer {
+    border: 1px solid green;
+    padding: .2em;
+    margin-bottom: .4em;
 }
 
 .startReadyPlayer > div {
@@ -80,6 +106,12 @@ button {
     display: inline-block;
     border-radius: 100%;
     background-color: green;
+}
+
+.startNotReadyPlayer {
+    border: 1px solid red;
+    padding: .2em;
+    margin-bottom: .4em;
 }
 
 .startNotReadyPlayer > div {
