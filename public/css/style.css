@@ -1,18 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+
 * {
     padding: 0;
     margin: 0;
-    font-size: 20px;
+    font-family: 'Dosis', sans-serif;
+    font-size: 1.05em;
+    user-select: none;
+}
+
+*:focus {
+    outline: .1em solid rgb(30, 105, 151);
+    outline-offset: .1em;
 }
 
 body {
     height: 100vh;
-    overflow-x: hidden;
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
 }
 
 div.page {
     width: 100vw;
-    background-color: rgb(240, 240, 240);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .hidden {
@@ -32,26 +42,23 @@ input {
     border-radius: 0;
 }
 
-button {
-    padding: 1.5em;
-    border-radius: 0;
-    border-width: 1px;
-    border-color: rgb(0, 0, 0);
-    background-color: rgb(200, 200, 200);
-}
-
 #joinScr {
-    background-color: rgb(171, 196, 241);
+    background-color: rgb(246, 249, 255);
 }
 
 #joinScrTopBox{
-    background-color: rgb(76, 114, 185);
-    color: white;
-    height: 98vh;
-    min-height: 250;
+    background-color: #4aace9ff;
+    color: rgb(0, 0, 0);
+    height: 100vh;
     display: grid;
     justify-content: center;
     transition: .5s;
+}
+
+#joinScrBottomBox {
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #joinGameForm {
@@ -63,14 +70,32 @@ button {
 }
 
 #joinFormButton {
+    padding: 1.5em;
     margin: 2em;
     padding-left: 4em;
     padding-right: 4em;
+    background-color: #065e99ff;
+    color: #daeeffff;
+    cursor: pointer;
+    border: 1px solid rgb(4, 28, 43);
+    border-radius: 0;
+}
+
+#joinFormButton:hover {
+    background-color: rgb(33, 112, 165);
+}
+
+#joinFormButton:active {
+    background-color: rgb(16, 56, 83);
+    padding-top: 1.6em;
+    padding-bottom: 1.4em;
 }
 
 #joinFormName {
-    max-width: 98vw;
+    max-width: 94vw;
     width: 25em;
+    border: 1px solid rgb(4, 28, 43);
+    user-select: auto;
 }
 
 #startGameTopBox > div {
@@ -79,6 +104,30 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#startReady {
+    padding: 1.5em;
+    background-color: #065e99ff;
+    color: #daeeffff;
+    cursor: pointer;
+    border: 1px solid rgb(4, 28, 43);
+    border-radius: 0;
+}
+
+#startReady:hover {
+    background-color: rgb(33, 112, 165);
+}
+
+#startReady:active {
+    background-color: rgb(16, 56, 83);
+    padding-top: 1.6em;
+    padding-bottom: 1.4em;
+}
+
+#startProportion {
+    color: white;
+    margin-top: .2em;
 }
 
 #startPlayersList > div{
@@ -91,43 +140,57 @@ button {
 
 #startPlayersList > div > *{
     max-width: 20em;
-    width: 98vw;
+    width: 95vw;
+}
+
+.startReadyCaption {
+    font-size: 1em;
+    color: #555;
+    border-bottom: 1px solid #aaa;
+    max-width: 20em;
+    width: 95vw;
 }
 
 .startReadyPlayer {
-    border: 1px solid green;
+    /*border: 1px solid rgb(49, 161, 49);*/
     padding: .2em;
     margin-bottom: .4em;
+    display: flex;
+    align-items: center;
 }
 
 .startReadyPlayer > div {
-    height: 1em;
-    width: 1em;
+    height: .6em;
+    width: .6em;
     display: inline-block;
-    border-radius: 100%;
+    border-radius: .3em;
     background-color: green;
+    margin: .3em;
 }
 
 .startNotReadyPlayer {
-    border: 1px solid red;
+    /*border: 1px solid rgb(199, 187, 187);*/
     padding: .2em;
     margin-bottom: .4em;
+    display: flex;
+    align-items: center;
 }
 
 .startNotReadyPlayer > div {
-    height: 1em;
-    width: 1em;
+    height: .6em;
+    width: .6em;
     display: inline-block;
-    border-radius: 100%;
+    border-radius: .3em;
     background-color: red;
+    margin: .3em;
 }
 
 #gameScr {
-    background-color: rgb(194, 168, 223);
+    background-color: #daeeffff;
 }
 
 #gameInfoBox {
-    background-color: rgb(71, 27, 122);
+    background-color: #1f4e7aff;
     color: white;
 }
 

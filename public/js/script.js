@@ -41,7 +41,7 @@ socket.on("joinSuccessful", (msg) => { //server says joined succesfully
     //hide join stuff
     document.getElementById('joinGameFormBox').classList.add("hidden");
     //change the thing's size
-    document.getElementById('joinScrTopBox').style.height = '40vh';
+    document.getElementById('joinScrTopBox').style.height = '200px';
     //other things
     console.log(msg);
     myName = joinedPlayers[sid];
@@ -119,6 +119,11 @@ socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, 
         document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote";
     }
     //change game state title
+    //hide players list
+    document.getElementById('gamePlayersBox').classList.add('hidden');
+    //change colros
+    document.getElementById('gameInfoBox').style.backgroundColor = '#6c41a3ff';
+    document.getElementById('gameScr').style.backgroundColor = '#d8c6f0ff';
 });
 
 socket.on("gameEndVoteImposter", (msg) => {
@@ -145,7 +150,7 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
                 voteZone.innerHTML += `<br>`
             }
         } else { //one imposter
-            document.getElementById('gameStateTitle').innerHTML = `${clientGame["pnames"][msg[0][0]]} was the imposter, ${msg[1]} was the fake word`;
+            document.getElementById('gameStateTitle').innerHTML = `${clientGame["pnames"][msg[0][0]]} was the imposter`;
             document.getElementById('gameStateSubtitle').innerHTML = `How well was "${msg[1]}" described? Vote below`;
             for (i = 0; i < 5; i++) {
                 voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][0]}',${i + 1}])">${i + 1}</button>`;
@@ -155,6 +160,9 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
         document.getElementById('gameStateTitle').innerHTML = `You were the imposter...`;
         document.getElementById('gameStateSubtitle').innerHTML = "The other players are voting how well you described the word.";
     }
+    //change colros
+    document.getElementById('gameInfoBox').style.backgroundColor = '#2d5020ff';
+    document.getElementById('gameScr').style.backgroundColor = '#dbe1a0ff';
 });
 
 socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
@@ -162,6 +170,11 @@ socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
     voteZone.innerHTML = "";
     document.getElementById('gameStateTitle').innerHTML = ``;
     document.getElementById('gameStateSubtitle').innerHTML = "";
+    //show players list
+    document.getElementById('gamePlayersBox').classList.remove('hidden');
+    //change colros
+    document.getElementById('gameInfoBox').style.backgroundColor = '#1f4e7aff';
+    document.getElementById('gameScr').style.backgroundColor = '#daeeffff';
 });
 
 socket.on("endGame", (msg) => {
