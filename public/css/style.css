@@ -4,7 +4,7 @@
     padding: 0;
     margin: 0;
     font-family: 'Dosis', sans-serif;
-    font-size: 1.05em;
+    font-size: 105%;
     user-select: none;
 }
 
@@ -204,4 +204,11 @@ input {
 
 #gameStateSubtitle {
     font-size: 2em;
+}
+
+#endScr {
+    background-color: #bb472a;
+    color: white;
+    overflow-y: auto;
+    overflow-x: none;
 }

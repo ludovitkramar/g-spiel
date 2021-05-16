@@ -18,6 +18,18 @@ socket.on("connect", () => {
     sid = socket.id;
     console.log(sid);
     //TODO: check if there is something in localstorage, and if game is running try to reconnect
+
+
+    //show joinScr
+    hideAllScreens();
+    document.getElementById('joinScr').classList.remove("hidden"); //show the game screen
+    //hide start stuff
+    document.getElementById('startGameTopBox').classList.add("hidden");
+    document.getElementById('startPlayersList').classList.add("hidden");
+    //show join stuff
+    document.getElementById('joinGameFormBox').classList.remove("hidden");
+    //change the thing's size
+    document.getElementById('joinScrTopBox').style.height = '100vh';
 });
 
 socket.on("connectionIDs", (msg) => { //when the server sends the updated list of users
@@ -179,8 +191,20 @@ socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
 
 socket.on("endGame", (msg) => {
     //TODO: show endscreen and shit
-    console.log("server says:" + msg);
+    hideAllScreens();
+    document.getElementById('endScr').classList.remove('hidden')
     localStorage.removeItem("gameID"); //game ended, reconnect doesn't matter anymore
+    //show game result
+    document.getElementById('endScr').innerHTML = `
+    <span>Game ended.</span>
+    <br>
+    <span>Reload the page to start again.</span>
+    <br>
+    <span>Game:</span>
+    <hr>
+    ${JSON.stringify(msg)}`;
+    console.log("game result:");
+    console.log(msg);
 })
 
 socket.on("sMsg", (msg) => { //just logging

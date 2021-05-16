@@ -377,7 +377,7 @@ function gameEnds() {
   gameRunning = false; //game finished
   console.log('game ended')
   game["players"].forEach(e => { //send each player command to end game
-    io.to(e).emit("endGame", "game end"); //TODO: the client doesn't do anything yet.
+    io.to(e).emit("endGame", game); //TODO: the client doesn't do anything yet.
   });
 }
 
