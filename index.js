@@ -160,8 +160,8 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 5, // time for players to talk in seconds
-    "voteTime": 16, //time for players to vote in seconds
+    "talkTime": 15, // time for players to talk in seconds
+    "voteTime": 10, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   };

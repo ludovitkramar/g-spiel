@@ -202,7 +202,7 @@ socket.on("endGame", (msg) => {
     <br>
     <span>Game:</span>
     <hr>
-    ${JSON.stringify(msg)}`;
+    ${JSON.stringify(msg, null, 2)}`;
     console.log("game result:");
     console.log(msg);
 })
