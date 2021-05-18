@@ -15,7 +15,7 @@ var joinedPlayers = {};  //players that have joined with a name, key is  sID, wi
 var readyPlayers = {}; //players that have joined and are ready to start, same format as above
 //game related variables:
 var gameRunning = false;
-const words = [["Stuhl", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"]];
+const words = [["Stuhl", "Sofa"], ["Computer", "Laptop"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"], ["Hund", "Katze"]];
 let game = {};
 
 let clientGame = { //this object will be sent to the client to sync game state
