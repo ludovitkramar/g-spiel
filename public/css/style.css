@@ -174,7 +174,7 @@ input {
 #gameInfoBox {
     background-color: #1f4e7aff;
     color: white;
-    min-height: 10em;
+    min-height: 12em;
 }
 
 #gameRoundCounter {

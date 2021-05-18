@@ -12,6 +12,15 @@ let clientGame = { //this object will be sent to the client to sync game state
     "talkTime": 0, // time for players to talk in seconds
     "voteTime": 0, //time for players to vote in seconds
 };
+//colors
+let talkingColor = '#1f4e7aff';
+let talkingColor2 = '#f9fdff'
+let voteImpColor = '#6c41a3ff';
+let voteImpColor2 = '#fbf7fe';
+let voteCorrectColor = '#2d5020ff';
+let voteCorrectColor2 = '#f7f8ed';
+let roundStatsColor = '#000000';
+let roundStatsColor2 = '#cccccc';
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -72,8 +81,8 @@ socket.on("startGame", (msg) => {  //server orders: start game!
     hideAllScreens();
     document.getElementById('gameScr').classList.remove("hidden"); //show the game screen
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor = '#1f4e7aff';
-    document.getElementById('gameScr').style.backgroundColor = '#daeeffff';
+    document.getElementById('gameInfoBox').style.backgroundColor =  talkingColor;
+    document.getElementById('gameScr').style.backgroundColor = talkingColor2;
     localStorage.setItem("gameID", sid) //add this sID to local storage, to handle disconnects and reconnects
 });
 
@@ -131,15 +140,23 @@ socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, 
             playerListArray.push(clientGame["pnames"][key]);
         }
         playerListArray.sort();
-        for (key in playerListArray) {
-            for (s in clientGame["pnames"]) {
-                if (clientGame["pnames"][s] == playerListArray[key]) {
-                    voteZone.innerHTML += `<button onclick="voteImposter('${s}')">${playerListArray[key]} is the Imposter</button>`;
+        for (key in playerListArray) { //for every player name
+            for (s in clientGame["pnames"]) { // for every id of pnames
+                if (clientGame["pnames"][s] == playerListArray[key]) { //if found id (s) that matches current player's name
+                    if (playerListArray[key] != myName) { //if s is not you (you can't vote yourself)
+                        voteZone.innerHTML += `<button onclick="voteImposter('${s}')">${playerListArray[key]} is the Imposter</button>`;
+                    }
                 }
             }
         }
         document.getElementById('gameStateTitle').innerHTML = `Who was the imposter?`;
-        document.getElementById('gameStateSubtitle').innerHTML = "You can't vote yourself.";
+        var text = ""
+        if (clientGame["impostersCount"] > 1) {
+            text = `There are ${clientGame["impostersCount"]} imposters`
+        } else {
+            text = `There is ${clientGame["impostersCount"]} imposter`
+        }
+        document.getElementById('gameStateSubtitle').innerHTML = text;
     } else {
         document.getElementById('gameStateTitle').innerHTML = `You were the imposter`;
         document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote.";
@@ -148,8 +165,8 @@ socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, 
     //hide players list
     document.getElementById('gamePlayersBox').classList.add('hidden');
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor = '#6c41a3ff';
-    document.getElementById('gameScr').style.backgroundColor = '#d8c6f0ff';
+    document.getElementById('gameInfoBox').style.backgroundColor = voteImpColor;
+    document.getElementById('gameScr').style.backgroundColor = voteImpColor2;
 });
 
 socket.on("gameEndVoteImposter", (msg) => {
@@ -187,8 +204,8 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
         document.getElementById('gameStateSubtitle').innerHTML = "The other players are voting how well you described the word.";
     }
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor = '#2d5020ff';
-    document.getElementById('gameScr').style.backgroundColor = '#dbe1a0ff';
+    document.getElementById('gameInfoBox').style.backgroundColor = voteCorrectColor;
+    document.getElementById('gameScr').style.backgroundColor = voteCorrectColor2;
 });
 
 socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
@@ -246,8 +263,8 @@ socket.on("gameRoundStats", (msg) => {
     div.innerHTML = txt;
 
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor = '#000000';
-    document.getElementById('gameScr').style.backgroundColor = '#cccccc';
+    document.getElementById('gameInfoBox').style.backgroundColor = roundStatsColor;
+    document.getElementById('gameScr').style.backgroundColor = roundStatsColor2;
 })
 
 socket.on("gameRoundStatsEnd", (msg) => {
@@ -256,8 +273,8 @@ socket.on("gameRoundStatsEnd", (msg) => {
     //show players list
     document.getElementById('gamePlayersBox').classList.remove('hidden');
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor = '#1f4e7aff';
-    document.getElementById('gameScr').style.backgroundColor = '#daeeffff';
+    document.getElementById('gameInfoBox').style.backgroundColor = talkingColor;
+    document.getElementById('gameScr').style.backgroundColor = talkingColor2;
 })
 
 socket.on("endGame", (msg) => {
