@@ -14,15 +14,7 @@
 }
 
 body {
-    height: 100vh;
-    max-height: 100vh;
-    max-width: 100vw;
-    overflow: hidden;
-}
-
-div.page {
-    width: 100vw;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
 .hidden {
@@ -30,11 +22,7 @@ div.page {
 }
 
 .screen {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    min-height: 100vh;
 }
 
 input {
@@ -53,12 +41,6 @@ input {
     display: grid;
     justify-content: center;
     transition: .5s;
-}
-
-#joinScrBottomBox {
-    height: calc(100vh - 200px);
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 #joinGameForm {
@@ -192,6 +174,11 @@ input {
 #gameInfoBox {
     background-color: #1f4e7aff;
     color: white;
+    min-height: 10em;
+}
+
+#gameRoundCounter {
+    float: right;
 }
 
 #gameStateDisplay {
@@ -206,9 +193,113 @@ input {
     font-size: 2em;
 }
 
+#gamePlayersBox > div.gamePlayerBoxTitle {
+    border-bottom: 1px solid black;
+    max-width: 30em;
+    margin: 0 auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#gamePlayersBox > div {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .2em;
+    max-width: 30em;
+    margin: 0 auto;
+}
+
+#gamePlayersBox > div > div {
+    padding: .5em;
+    border: 1px solid black;
+}
+
+#gamePlayersBox > div > div.gamePlayerActive {
+    padding: .5em;
+    border: 1px solid red;
+    background-color: #be948a;
+}
+
+#gameRoundStatsBox > div {
+    display: grid;
+    gap: .2em;
+    grid-template-columns: auto auto;
+    max-width: 30em;
+    margin: 0 auto;
+}
+
+.gameRoundStatsPlayer{
+    border: 1px solid black;
+    border-radius: .3em;
+    padding: .2em;
+    background-color: #fff;
+}
+
+.grspTop{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.grspName {
+    font-size: 1.5em;
+    background-image: linear-gradient(90deg, #9e80ff, #d880ff);
+    border-radius: .5em;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grspNameImp {
+    font-size: 1.5em;
+    background-image: linear-gradient(90deg, #ec8e58, #c04362);
+    border-radius: .5em;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grspPoints {
+    font-size: 1.25em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grspTitle {
+    font-size: 1.3em;
+}
+
+ul.grspPlayersList {
+    margin-left: 1em;
+    list-style-type: none;
+}
+
+ul.grspScoreboard {
+    margin-left: 1em;
+    list-style-type: none;
+}
+
+span.grspPoint {
+    background-color: #f7ff80;
+    border-radius: .5em;
+    padding-left: .5em;
+    padding-right: .5em;
+    border: 1px solid black;
+}
+
 #endScr {
     background-color: #bb472a;
     color: white;
-    overflow-y: auto;
-    overflow-x: none;
+}
+
+@media (max-width: 30em) {
+    #gamePlayersBox > div {
+        grid-template-columns: auto;
+    }
+
+    #gameRoundStatsBox > div {
+        grid-template-columns: auto;
+    }
 }

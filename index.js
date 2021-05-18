@@ -16,32 +16,7 @@ var readyPlayers = {}; //players that have joined and are ready to start, same f
 //game related variables:
 var gameRunning = false;
 const words = [["Stuhl", "Sofa"], ["Computer", "Notebook"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"]];
-let game = { //this object here is never used directly, it this changed in gameInit(), this is just to help us orientate
-  "players": ["ID1", "ID2", "ID3", "ID4"], //array with ids of players
-  "pnames": {}, //copy of readyplayers when startting game
-  "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
-  "imposters": [], //array of ids of imposters
-  "impostersCount": 1, //how many imposters are in this game?
-  "round": 1, //round counter, when = player count game ends.
-  "playersOrder": [], //players that stil haven't said anything.
-  "usedWordSets": [], //keys of sets used
-  "setIndex": 0, //current set
-  "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-  "talkTime": 20, // time for players to talk in seconds
-  "voteTime": 10, //time for players to vote in seconds
-  "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
-  "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
-  "r1": { //imposter voting results of each round are stored like this
-    "ID1": ["ID3", "Id2"], //id from players array, id1 voted id3 and id2
-    "ID3": "imposter", //id3 was imposter, couldn't vote.
-  },
-  "c1": { //correctnes voting results are stored like this
-    "ID1": {
-      "imp1": 5,
-      "imp2": 3
-    }, //ID1 voted a 5 to imp1 and a 3 to imp2
-  },
-};
+let game = {};
 
 let clientGame = { //this object will be sent to the client to sync game state
   "players": ["ID1", "ID2", "ID3", "ID4"], //array with ids of players
@@ -69,11 +44,22 @@ io.on('connection', (socket) => {
   //player joins game
   socket.on("playerJoin", (pname) => {
     if (!gameRunning) {
-      //add player name the joinedPlayers object
-      joinedPlayers[sID] = pname; //add the name of the player to the joinedPlayers object with sID as the key
-      console.log(`${sID} joined the game as: ${joinedPlayers[sID]}`);
-      io.sockets.emit("joinPlayersNames", joinedPlayers); //send joinedPlayers to clients
-      io.to(sID).emit("joinSuccessful", "server: join succesful"); //this triggers the client to show start screen.
+      //check if someone has the same name
+      var canJoin = true;
+      for (key in joinedPlayers) {
+        if (joinedPlayers[key] == pname) {
+          canJoin = false;
+        }
+      }
+      if (canJoin) { //if there isn't a player with the same name already
+        //add player name the joinedPlayers object
+        joinedPlayers[sID] = pname; //add the name of the player to the joinedPlayers object with sID as the key
+        console.log(`${sID} joined the game as: ${joinedPlayers[sID]}`);
+        io.sockets.emit("joinPlayersNames", joinedPlayers); //send joinedPlayers to clients
+        io.to(sID).emit("joinSuccessful", "server: join succesful"); //this triggers the client to show start screen.
+      } else {
+        io.to(sID).emit("gameRunningError", "Someone already has that name") //gameRunningError will trigger an alert on the client
+      };
     } else {
       io.to(sID).emit("gameRunningError", "Game running, can't join.") //gameRunningError will trigger an alert on the client
     }
@@ -160,8 +146,8 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 15, // time for players to talk in seconds
-    "voteTime": 10, //time for players to vote in seconds
+    "talkTime": 3, // time for players to talk in seconds
+    "voteTime": 7, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   };
@@ -314,7 +300,7 @@ function gameEvalPoints() {
       for (vote in game[`r${game["round"]}`][nonimposters[key]]) { //for every id whom this player voted
         // game[`r${game["round"]}`][nonimposters[key]][vote] <- that is who was voted
         if (game["imposters"].indexOf(game[`r${game["round"]}`][nonimposters[key]][vote]) != -1) { //if was indeed imposter
-          game["ppoints"][nonimposters[key]] += points/2;
+          game["ppoints"][nonimposters[key]] += points / 2;
         }
       }
     } catch (error) {
@@ -344,31 +330,69 @@ function gameEvalPoints() {
     game[`impScore${game["round"]}`] = { ...impScores }; //store it to game object
   };
 
-  //calculate imposters' points
+  //calculate imposter's points
+  game[`wronGuesses${game["round"]}`] = {}; //initialize object to count wrong guesses each imposter achieved
+  game[`noGuesses${game["round"]}`] = {}; //initialize object to count wrong guesses each imposter achieved
   for (ik in game["imposters"]) { //for every imposter
+    var wrongGuesses = 0;
+    //calculate all the times a normal player guessed incorrectly
     for (id in game[`r${game["round"]}`]) { //for everyone that voted
       if (game["imposters"].indexOf(id) == -1) { //if wasn't imposter
         for (key in game[`r${game["round"]}`][id]) { //for every vote
-          if (game["imposters"].indexOf(game[`r${game["round"]}`][id][key]) == -1 && game[`r${game["round"]}`][id].indexOf(game["imposters"][ik]) == -1) {//if the vote isn't imposter and didn't vote this imposter
-            game["ppoints"][game["imposters"][ik]] += Math.round(points / game[`impScore${game["round"]}`][game["imposters"][ik]]); //give the points
+          if (game["imposters"].indexOf(game[`r${game["round"]}`][id][key]) == -1 && game[`r${game["round"]}`][id].indexOf(game["imposters"][ik]) == -1) {//if the vote isn't any imposter and didn't vote this imposter
+            wrongGuesses += 1;
           }
         }
       }
     }
+    game[`wronGuesses${game["round"]}`][game["imposters"][ik]] = wrongGuesses; //store wrong guesses
+    var noVote = 0;
+    //add all the empty votes, player that did not vote count as voting incorrectly
+    for (key in game["players"]) { //for every player
+      if (game["imposters"].indexOf(game["players"][key]) == -1) { //if wasn't imposter
+        if (game[`r${game["round"]}`][game["players"][key]] == undefined) { //if haven't voted at all
+          noVote += game["imposters"].length;
+        } else { //if have voted somebody already
+          if (game[`r${game["round"]}`][game["players"][key]].indexOf(game["imposters"][ik]) == -1) { //if haven't voted this imposter
+            noVote += (game["imposters"].length - game[`r${game["round"]}`][game["players"][key]].length);
+          }
+        }
+      }
+    }
+    game[`noGuesses${game["round"]}`][game["imposters"][ik]] = noVote; //store empty guesses
+    game["ppoints"][game["imposters"][ik]] += Math.round(points * (wrongGuesses + noVote) / game[`impScore${game["round"]}`][game["imposters"][ik]]); //give the points
   };
-
 };
 
-function gameEndOfRound() {
+function gameSendRoundStats() {  //SEND r* c* impScore* wronGuesses* noGuesses* from game to client
+  const roundStats = {
+    'r': game[`r${game["round"]}`],
+    'c': game[`c${game["round"]}`],
+    'impScore': game[`impScore${game["round"]}`],
+    'wronGuesses': game[`wronGuesses${game["round"]}`],
+    'noGuesses': game[`noGuesses${game["round"]}`],
+    'imposters': game["imposters"]
+  };
   game["players"].forEach(e => { // to every player
-    io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
+    io.to(e).emit("gameRoundStats", roundStats); //round stats
   });
-  gameSendGameState();
+}
+
+function gameSendRoundStatsEnd() { //send command to remove round stats from screen
+  game["players"].forEach(e => { // to every player
+    io.to(e).emit("gameRoundStatsEnd", 'end'); //round stats
+  });
+}
+
+function gameEndOfRound() {
   console.log("end of round:" + game["round"] + " , game state below:");
   console.log(game);
   if (game["round"] == game["players"].length) { //if the round is the same number as number of players
     gameEnds();
   } else {
+    game["players"].forEach(e => { // to every player
+      io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
+    });
     game["round"] += 1; //move on to next round
   }
 }
@@ -387,19 +411,23 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
     gameDecidePlayersOrder(); //DECIDE PLAYERS ORDER
     gameChoosoImposter(); //CHOOSE IMPOSTER
     gameChooseWordSet(); //CHOOSE WORD SET
+    gameSendGameState(); //LET CLIENT UPDATE THE ROUNDS AND THINGS
     for (const e of game["playersOrder"]) { //SEND EACH PLAYER ITS CORRESPONDING WORD
       gameSendWord(e);
-      await new Promise(resolve => setTimeout(resolve, game["talkTime"] * 1000)); //wait 30 seconds (for people to talk)?
+      await new Promise(resolve => setTimeout(resolve, game["talkTime"] * 1000)); //wait taktime seconds (for people to talk)
     };
     gameVoteImposter(); //START VOTING WHO IS THE IMPOSTER
-    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds
+    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait votetime seconds
     gameEndVoteImposter(); //END IMPOSTER VOTING
     gameVoteCorrectnes(); //VOTE WHO HAS DONE A TERRIBLE JOB  //to discuss
-    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait ten seconds
+    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait votetime seconds
     gameEndVoteCorrectnes(); //END CORRECTNES VOTING
     gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
+    gameSendGameState(); //LET CLIENT UPDATE THE POINTS AND THINGS
+    gameSendRoundStats(); //SEND r* c* impScore* wronGuesses* noGuesses* from game to client
+    await new Promise(resolve => setTimeout(resolve, 15 * 1000)); //wait 15 seconds
+    gameSendRoundStatsEnd(); //TELL CLIENT TO STOP SHOWING THE STATS
     gameEndOfRound(); //END OF ROUND
-    await new Promise(resolve => setTimeout(resolve, 5 * 1000)); //wait 5 seconds
   }
 };
 

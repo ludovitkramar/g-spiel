@@ -13,69 +13,111 @@
 </head>
 
 <body>
-    <div class="page">
 
-        <div id="joinScr" class="screen">
-            <div id="joinScrTopBox">
-                <div id="joinGameFormBox">
-                    <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
-                        <label>
-                            <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!"
-                                autofocus maxlength="25">
-                        </label>
-                        <button type="submit" id="joinFormButton">Join!</button>
-                    </form>
-                </div>
-                <div id="startGameTopBox" class="hidden">
-                    <div>
-                        <button id="startReady">Ready to start</button>
-                        <span id="startProportion">999/999</span>
-                    </div>
+    <div id="joinScr" class="screen">
+        <div id="joinScrTopBox">
+            <div id="joinGameFormBox">
+                <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
+                    <label>
+                        <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!"
+                            autofocus maxlength="25">
+                    </label>
+                    <button type="submit" id="joinFormButton">Join!</button>
+                </form>
+            </div>
+            <div id="startGameTopBox" class="hidden">
+                <div>
+                    <button id="startReady">Ready to start</button>
+                    <span id="startProportion">999/999</span>
                 </div>
             </div>
-            <div id="joinScrBottomBox">
-                <div id="startPlayersList" class="hidden">
-                    <div>
-                        <span class="startReadyCaption">Ready to start</span>
-                        <div id="startReadyPlayers">
-                            <div class="startReadyPlayer">
-                                <div></div>
-                                <span>Player 1</span>
-                            </div>
+        </div>
+        <div id="joinScrBottomBox">
+            <div id="startPlayersList" class="hidden">
+                <div>
+                    <span class="startReadyCaption">Ready to start</span>
+                    <div id="startReadyPlayers">
+                        <div class="startReadyPlayer">
+                            <div></div>
+                            <span>Player 1</span>
                         </div>
-                        <span class="startReadyCaption">Waiting to start</span>
-                        <div id="startNotReadyPlayers">
-                            <div class="startNotReadyPlayer">
-                                <div></div>
-                                <span>Player 2</span>
-                            </div>
+                    </div>
+                    <span class="startReadyCaption">Waiting to start</span>
+                    <div id="startNotReadyPlayers">
+                        <div class="startNotReadyPlayer">
+                            <div></div>
+                            <span>Player 2</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="gameScr" class="hidden screen">
-            <div id="gameInfoBox">
-                <div id="gameTopBar">
-                    <span id="gameYourPoints">You have [0] points</span>
+    <div id="gameScr" class="screen hidden">
+        <div id="gameInfoBox">
+            <div id="gameTopBar">
+                <span id="gameYourPoints">You have [0] points</span>
+                <span id="gameRoundCounter">Round: 0 / 999</span>
+            </div>
+            <div id="gameStateDisplay">
+                <span id="gameStateTitle">Waiting to start</span>
+                <br>
+                <span id="gameStateSubtitle">Hey!</span>
+            </div>
+        </div>
+        <div id="gamePlayersBox">
+            <div class="gamePlayerBoxTitle">Players: </div>
+            <div>
+                <div class="gamePlayersBoxPlayer">P1</div>
+                <div class="gamePlayersBoxPlayer">LOOOOOOOOOOONG NAME</div>
+                <div class="gamePlayersBoxPlayer gamePlayerActive">Plazer 3</div>
+                <div class="gamePlayersBoxPlayer">Carlitos</div>
+                <div class="gamePlayersBoxPlayer">ALSDJLASDJ</div>
+            </div>
+        </div>
+        <div id="gameVoteImposterBox"></div>
+        <div id="gameVoteCorrectnesBox"></div>
+        <div id="gameRoundStatsBox" class="hidden">
+            <div>
+                <div class="gameRoundStatsPlayer">
+                    <div class="grspTop">
+                        <div class="grspName"><span>Pname</span></div>
+                        <div class="grspPoints"><span>90 points</span></div>
+                    </div>
+                    <div class="grspTitle">Last round voted:</div>
+                    <ul class="grspPlayersList">
+                        <li>Player X</li>
+                        <li>Player Y</li>
+                    </ul>
+                    <div class="grspTitle">Last round judged:</div>
+                    <ul class="grspScoreboard">
+                        <li class="grspValue">Player X
+                            <span class="grspPoint">2.3</span>
+                        </li>
+                        <li class="grspValue">Player Y
+                            <span class="grspPoint">3.5</span>
+                        </li>
+                    </ul>
                 </div>
-                <div id="gameStateDisplay">
-                    <span id="gameStateTitle">Waiting to start</span>
-                    <br>
-                    <span id="gameStateSubtitle">Hey!</span>
+                <div class="gameRoundStatsPlayer">
+                    <div class="grspTop">
+                        <div class="grspNameImp"><span>Imposter</span></div>
+                        <div class="grspPoints"><span>90 points</span></div>
+                    </div>
+                    <div class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></div>
+                            
+                    <div class="grspTitle">Players fooled: 1</div>
+                    <div class="grspTitle">0 invalid votes</div>
                 </div>
             </div>
-            <div id="gamePlayersBox">List of players...</div>
-            <div id="gameVoteImposterBox"></div>
-            <div id="gameVoteCorrectnesBox"></div>
         </div>
+    </div>
 
-        <div id="endScr" class="hidden screen">
-        </div>
+    <div id="endScr" class="hidden screen">
+    </div>
 
-        <div id="reconnectBox" class="hidden">
-        </div>
+    <div id="reconnectBox" class="hidden">
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

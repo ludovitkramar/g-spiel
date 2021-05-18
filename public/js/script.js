@@ -11,7 +11,7 @@ let clientGame = { //this object will be sent to the client to sync game state
     "round": 0, //round counter, when = player count game ends.
     "talkTime": 0, // time for players to talk in seconds
     "voteTime": 0, //time for players to vote in seconds
-  };
+};
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -49,7 +49,9 @@ socket.on("joinPlayersNames", (msg) => {
 socket.on("joinSuccessful", (msg) => { //server says joined succesfully
     //show start stuff
     document.getElementById('startGameTopBox').classList.remove("hidden");
-    document.getElementById('startPlayersList').classList.remove("hidden");
+    setTimeout(() => {
+        document.getElementById('startPlayersList').classList.remove("hidden");
+    }, 500);
     //hide join stuff
     document.getElementById('joinGameFormBox').classList.add("hidden");
     //change the thing's size
@@ -69,6 +71,9 @@ socket.on("readyPlayers", (msg) => { //server send array of players that are rea
 socket.on("startGame", (msg) => {  //server orders: start game!
     hideAllScreens();
     document.getElementById('gameScr').classList.remove("hidden"); //show the game screen
+    //change colros
+    document.getElementById('gameInfoBox').style.backgroundColor = '#1f4e7aff';
+    document.getElementById('gameScr').style.backgroundColor = '#daeeffff';
     localStorage.setItem("gameID", sid) //add this sID to local storage, to handle disconnects and reconnects
 });
 
@@ -78,33 +83,42 @@ socket.on("gameStateUpdate", (msg) => {
 
     //show the players on the game screen
     playerListDiv = document.getElementById('gamePlayersBox');
-    playerListDiv.innerHTML = "Players: <br>";
+    var txt = `<div class="gamePlayerBoxTitle">Players: </div><div>`;
     playerListArray = [];
     for (key in clientGame["pnames"]) {
         playerListArray.push(clientGame["pnames"][key]);
     }
     playerListArray.sort();
     for (key in playerListArray) {
-        playerListDiv.innerHTML += `<div>${playerListArray[key]}</div>`;
+        txt += `<div class="gamePlayersBoxPlayer">${playerListArray[key]}</div>`;
     }
-
+    txt += `</div>`;
+    playerListDiv.innerHTML = txt;
     //show the points
     document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
+    //show the round
+    document.getElementById('gameRoundCounter').innerHTML = `Round: ${clientGame["round"]} / ${clientGame["players"].length}`;
 })
 
 socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
     document.getElementById('gameStateTitle').innerHTML = `It's ${msg}'s turn!`;
     document.getElementById('gameStateSubtitle').innerHTML = "Listen carefully, what is being described?";
+    //select the active player in the player list
+    gameHighlightActivePlayer(msg); //send name to highlight;
 })
 
 socket.on("gameImposterWord", (msg) => { //receives imposter's word
     document.getElementById('gameStateTitle').innerHTML = `Describe: ${msg}`;
     document.getElementById('gameStateSubtitle').innerHTML = "You are the imposter, be careful don't make it sound too different!";
+    //highlight your name
+    gameHighlightActivePlayer(myName);
 })
 
 socket.on("gameNormalWord", (msg) => { //receives your normal word.
     document.getElementById('gameStateTitle').innerHTML = `Describe: ${msg}`;
     document.getElementById('gameStateSubtitle').innerHTML = "You are not the imposter.";
+    //highlight your name
+    gameHighlightActivePlayer(myName);
 })
 
 socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, msg is array of imposters
@@ -124,11 +138,11 @@ socket.on("gameVoteImposter", (msg) => { //when server says vote the imposters, 
                 }
             }
         }
-        document.getElementById('gameStateTitle').innerHTML = `Vote who is the imposter!`;
-        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote and please don't vote yourself";
+        document.getElementById('gameStateTitle').innerHTML = `Who was the imposter?`;
+        document.getElementById('gameStateSubtitle').innerHTML = "You can't vote yourself.";
     } else {
         document.getElementById('gameStateTitle').innerHTML = `You were the imposter`;
-        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote";
+        document.getElementById('gameStateSubtitle').innerHTML = "Imposters can't vote.";
     }
     //change game state title
     //hide players list
@@ -152,9 +166,9 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
 
     if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
         if (msg[0].length > 1) {  //multiple imposters
-            document.getElementById('gameStateTitle').innerHTML = `Evaluate how well the imposters! `;
-            document.getElementById('gameStateSubtitle').innerHTML = "How did each of them described: ${msg[1]}";
-            for(key in msg[0]) { //for each imposter
+            document.getElementById('gameStateTitle').innerHTML = `Evaluate the imposters! `;
+            document.getElementById('gameStateSubtitle').innerHTML = `How well did they described: ${msg[1]}`;
+            for (key in msg[0]) { //for each imposter
                 voteZone.innerHTML += `<span>Evaluate ${clientGame["pnames"][msg[0][key]]}'s description:</span>`
                 for (i = 0; i < 5; i++) {
                     voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][key]}',${i + 1}])">${i + 1}</button>`;
@@ -163,13 +177,13 @@ socket.on('gameVoteCorrectnes', (msg) => { //receives data in this format [ ["im
             }
         } else { //one imposter
             document.getElementById('gameStateTitle').innerHTML = `${clientGame["pnames"][msg[0][0]]} was the imposter`;
-            document.getElementById('gameStateSubtitle').innerHTML = `How well was "${msg[1]}" described? Vote below`;
+            document.getElementById('gameStateSubtitle').innerHTML = `How well was "${msg[1]}" described?`;
             for (i = 0; i < 5; i++) {
                 voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][0]}',${i + 1}])">${i + 1}</button>`;
             };
         }
     } else { //if you are imposter
-        document.getElementById('gameStateTitle').innerHTML = `You were the imposter...`;
+        document.getElementById('gameStateTitle').innerHTML = `You were the imposter`;
         document.getElementById('gameStateSubtitle').innerHTML = "The other players are voting how well you described the word.";
     }
     //change colros
@@ -182,12 +196,69 @@ socket.on('gameEndVoteCorrectnes', (msg) => { //end vote correctnes
     voteZone.innerHTML = "";
     document.getElementById('gameStateTitle').innerHTML = ``;
     document.getElementById('gameStateSubtitle').innerHTML = "";
+});
+
+socket.on("gameRoundStats", (msg) => {
+    console.log(msg);
+    const div = document.getElementById('gameRoundStatsBox');
+    document.getElementById('gameStateTitle').innerHTML = `Round ${clientGame["round"]} ended`; ///change title
+    document.getElementById('gameStateSubtitle').innerHTML = "Round statistics"; //and subtitle
+    div.classList.remove('hidden'); //show the div
+    //generate the table
+    txt = "<div>";
+    for (key in clientGame['players']) {
+        var thisID = clientGame['players'][key];
+        if (msg["imposters"].indexOf(thisID) != -1) { //if imposter
+            txt += `
+                <div class="gameRoundStatsPlayer">
+                    <div class="grspTop">
+                        <div class="grspNameImp"><span>${clientGame['pnames'][thisID]}</span></div>
+                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
+                    </div>
+                    <div class="grspTitle">Imposter Score: <span class="grspPoint">${msg["impScore"][thisID]}</span></div>
+                            
+                    <div class="grspTitle">Players fooled: ${msg["wronGuesses"][thisID]}</div>
+                    <div class="grspTitle">${msg["noGuesses"][thisID]} invalid votes</div>
+                </div>
+            `;
+        } else { //if normal player
+            txt += `
+                <div class="gameRoundStatsPlayer">
+                    <div class="grspTop">
+                        <div class="grspName"><span>${clientGame['pnames'][thisID]}</span></div>
+                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
+                    </div>
+                    <div class="grspTitle">Last round voted:</div>
+                    <ul class="grspPlayersList">`;
+            var impvotes = msg["r"][thisID]
+            for (id in impvotes) {
+                txt += `<li>${clientGame["pnames"][impvotes[id]]}</li>`
+            }
+            txt += `</ul><div class="grspTitle">Last round judged:</div><ul class="grspScoreboard">`;
+            var cvotes = msg["c"][thisID]
+            for (id in cvotes) {
+                txt += `<li class="grspValue">${clientGame["pnames"][id]}<span class="grspPoint">${cvotes[id]}</span></li>`
+            }
+            txt += `</ul></div>`;
+        }
+    }
+    txt += "</div>";
+    div.innerHTML = txt;
+
+    //change colros
+    document.getElementById('gameInfoBox').style.backgroundColor = '#000000';
+    document.getElementById('gameScr').style.backgroundColor = '#cccccc';
+})
+
+socket.on("gameRoundStatsEnd", (msg) => {
+    document.getElementById('gameRoundStatsBox').classList.add('hidden');
+
     //show players list
     document.getElementById('gamePlayersBox').classList.remove('hidden');
     //change colros
     document.getElementById('gameInfoBox').style.backgroundColor = '#1f4e7aff';
     document.getElementById('gameScr').style.backgroundColor = '#daeeffff';
-});
+})
 
 socket.on("endGame", (msg) => {
     //TODO: show endscreen and shit
@@ -196,13 +267,13 @@ socket.on("endGame", (msg) => {
     localStorage.removeItem("gameID"); //game ended, reconnect doesn't matter anymore
     //show game result
     document.getElementById('endScr').innerHTML = `
-    <span>Game ended.</span>
-    <br>
-    <span>Reload the page to start again.</span>
-    <br>
-    <span>Game:</span>
-    <hr>
-    ${JSON.stringify(msg, null, 2)}`;
+                <span> Game ended.</span >
+                    <br>
+                        <span>Reload the page to start again.</span>
+                        <br>
+                            <span>Game:</span>
+                            <hr>
+                                ${JSON.stringify(msg, null, 2)}`;
     console.log("game result:");
     console.log(msg);
 })
@@ -221,8 +292,8 @@ function joinGame() { //tell the server you want to join
 }
 
 function updatePlayerLists() {
-    //start Screen 
-    const rr = document.getElementById('startReadyPlayers'); //div element in which ready players are shown 
+    //start Screen
+    const rr = document.getElementById('startReadyPlayers'); //div element in which ready players are shown
     const nr = document.getElementById('startNotReadyPlayers'); //same but for not ready
     notReadyPlayers = {};
     for (key in joinedPlayers) { //create a copy of "joined players" named "not ready players".
@@ -257,4 +328,24 @@ function hideAllScreens() {
     document.getElementById('joinScr').classList.add("hidden"); //hide the join screen
     document.getElementById('gameScr').classList.add("hidden"); //hide the game screen
     document.getElementById('endScr').classList.add("hidden"); //hide the end screen
+    //things that are not screens
+    document.getElementById('gameRoundStatsBox').classList.add('hidden');
+    document.getElementById('gamePlayersBox').classList.add('hidden');
+}
+
+function gameHighlightActivePlayer(msg) {
+    var elements = document.getElementsByClassName('gamePlayersBoxPlayer');
+    document.getElementById('gamePlayersBox').classList.remove('hidden');
+    for (key in elements) {
+        if (elements[key].innerHTML == msg) { //if it is the object with the current player's name
+            elements[key].classList.add("gamePlayerActive");
+        } else { //if any other player
+            try {
+                elements[key].classList.remove("gamePlayerActive");
+            } catch (error) {
+                console.log(`couldn't remove active class`)
+            }
+
+        };
+    }
 }
