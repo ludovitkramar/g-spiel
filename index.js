@@ -146,8 +146,8 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 30, // time for players to talk in seconds
-    "voteTime": 10, //time for players to vote in seconds
+    "talkTime": 40, // time for players to talk in seconds
+    "voteTime": 20, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   };
@@ -425,7 +425,7 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
     gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
     gameSendGameState(); //LET CLIENT UPDATE THE POINTS AND THINGS
     gameSendRoundStats(); //SEND r* c* impScore* wronGuesses* noGuesses* from game to client
-    await new Promise(resolve => setTimeout(resolve, 15 * 1000)); //wait 15 seconds
+    await new Promise(resolve => setTimeout(resolve, 25 * 1000)); //wait 15 seconds
     gameSendRoundStatsEnd(); //TELL CLIENT TO STOP SHOWING THE STATS
     gameEndOfRound(); //END OF ROUND
   }
