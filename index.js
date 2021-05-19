@@ -24,7 +24,7 @@ let clientGame = { //this object will be sent to the client to sync game state
   "ppoints": {}, //object with sIds as keys and numbers representing the points of the player
   "impostersCount": 1, //how many imposters are in this game?
   "round": 1, //round counter, when = player count game ends.
-  "talkTime": 20, // time for players to talk in seconds
+  "talkTime": 5, // time for players to talk in seconds
   "voteTime": 10, //time for players to vote in seconds
 };
 
@@ -146,8 +146,8 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 40, // time for players to talk in seconds
-    "voteTime": 20, //time for players to vote in seconds
+    "talkTime": 5, // time for players to talk in seconds
+    "voteTime": 10, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
   };
@@ -162,6 +162,7 @@ function gameInit() { //initialize the game
   readyPlayers = {}; //clear ready players for potential next game
   io.sockets.emit("joinPlayersNames", joinedPlayers); //send empty joinedPlayers to clients
   io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
+  game["totalRounds"] = game["players"].length;
   game["impostersCount"] = Math.floor((game["players"].length + 4) / 5); //calculate number of imposters
   console.log(game)
   gameSendGameState();
@@ -387,7 +388,7 @@ function gameSendRoundStatsEnd() { //send command to remove round stats from scr
 function gameEndOfRound() {
   console.log("end of round:" + game["round"] + " , game state below:");
   console.log(game);
-  if (game["round"] == game["players"].length) { //if the round is the same number as number of players
+  if (game["round"] == game["totalRounds"]) { //if is the last round
     gameEnds();
   } else {
     game["players"].forEach(e => { // to every player
@@ -395,6 +396,18 @@ function gameEndOfRound() {
     });
     game["round"] += 1; //move on to next round
   }
+}
+
+function gameSendRemainingSecs(s) {
+  game["players"].forEach(e => { //send each player
+    io.to(e).emit("gameRemainingSecs", s); //how many secons remain
+  });
+};
+
+function gameSendNewPhaseNotice(phaseCode) { //phaseCode should be a single letter: 'j' join, 's' start, 't' talk, 'v' vote, 'e' evaluate, 'r' round stats, 'f' finished game (endScr)
+  game["players"].forEach(e => { //send each player
+    io.to(e).emit("gameNewPhase", phaseCode); 
+  });
 }
 
 function gameEnds() {
@@ -412,20 +425,40 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
     gameChoosoImposter(); //CHOOSE IMPOSTER
     gameChooseWordSet(); //CHOOSE WORD SET
     gameSendGameState(); //LET CLIENT UPDATE THE ROUNDS AND THINGS
+    gameSendNewPhaseNotice('t') //Tell player next phase is the talking phase
+    await new Promise(resolve => setTimeout(resolve, 3000)); //wait three seconds
     for (const e of game["playersOrder"]) { //SEND EACH PLAYER ITS CORRESPONDING WORD
       gameSendWord(e);
-      await new Promise(resolve => setTimeout(resolve, game["talkTime"] * 1000)); //wait taktime seconds (for people to talk)
+      for (i = game["talkTime"]; i > 0; i--) { //wait talktime and notify clients
+        gameSendRemainingSecs(i); //send every player how many seconds remain
+        await new Promise(resolve => setTimeout(resolve, 1000)); //wait taktime seconds (for people to talk)
+      }
     };
+    gameSendNewPhaseNotice('v') //Tell player next phase is the voting phase
+    await new Promise(resolve => setTimeout(resolve, 3000)); //wait three seconds
     gameVoteImposter(); //START VOTING WHO IS THE IMPOSTER
-    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait votetime seconds
+    for (i = game["voteTime"]; i > 0; i--) { //wait votetime and notify clients
+      gameSendRemainingSecs(i); //send every player how many seconds remain
+      await new Promise(resolve => setTimeout(resolve, 1000)); //wait taktime seconds (for people to talk)
+    }
     gameEndVoteImposter(); //END IMPOSTER VOTING
+    gameSendNewPhaseNotice('e') //Tell player next phase is the evaluation phase
+    await new Promise(resolve => setTimeout(resolve, 3000)); //wait three seconds
     gameVoteCorrectnes(); //VOTE WHO HAS DONE A TERRIBLE JOB  //to discuss
-    await new Promise(resolve => setTimeout(resolve, game["voteTime"] * 1000)); //wait votetime seconds
+    for (i = game["voteTime"]; i > 0; i--) { //wait votetime and notify clients
+      gameSendRemainingSecs(i); //send every player how many seconds remain
+      await new Promise(resolve => setTimeout(resolve, 1000)); //wait taktime seconds (for people to talk)
+    }
     gameEndVoteCorrectnes(); //END CORRECTNES VOTING
     gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
     gameSendGameState(); //LET CLIENT UPDATE THE POINTS AND THINGS
+    gameSendNewPhaseNotice('r') //Tell player next phase is the round stats phase
+    await new Promise(resolve => setTimeout(resolve, 3000)); //wait three seconds
     gameSendRoundStats(); //SEND r* c* impScore* wronGuesses* noGuesses* from game to client
-    await new Promise(resolve => setTimeout(resolve, 25 * 1000)); //wait 15 seconds
+    for (i = 15; i > 0; i--) { //wait 15s and notify clients
+      gameSendRemainingSecs(i); //send every player how many seconds remain
+      await new Promise(resolve => setTimeout(resolve, 1000)); //wait taktime seconds (for people to talk)
+    }
     gameSendRoundStatsEnd(); //TELL CLIENT TO STOP SHOWING THE STATS
     gameEndOfRound(); //END OF ROUND
   }

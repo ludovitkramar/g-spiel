@@ -20,7 +20,7 @@ let voteImpColor2 = '#fbf7fe';
 let voteCorrectColor = '#2d5020ff';
 let voteCorrectColor2 = '#f7f8ed';
 let roundStatsColor = '#000000';
-let roundStatsColor2 = '#cccccc';
+let roundStatsColor2 = '#eeeeee';
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -81,7 +81,7 @@ socket.on("startGame", (msg) => {  //server orders: start game!
     hideAllScreens();
     document.getElementById('gameScr').classList.remove("hidden"); //show the game screen
     //change colros
-    document.getElementById('gameInfoBox').style.backgroundColor =  talkingColor;
+    document.getElementById('gameInfoBox').style.backgroundColor = talkingColor;
     document.getElementById('gameScr').style.backgroundColor = talkingColor2;
     localStorage.setItem("gameID", sid) //add this sID to local storage, to handle disconnects and reconnects
 });
@@ -275,6 +275,49 @@ socket.on("gameRoundStatsEnd", (msg) => {
     //change colros
     document.getElementById('gameInfoBox').style.backgroundColor = talkingColor;
     document.getElementById('gameScr').style.backgroundColor = talkingColor2;
+})
+
+socket.on('gameNewPhase', (phaseCode) => {
+    //phaseCode should be a single letter: 'j' join, 's' start, 't' talk, 'v' vote, 'e' evaluate, 'r' round stats, 'f' finished game (endScr)
+    const noticediv = document.getElementById('phaseChangeNotice')
+    function showPhaseNotice(textsArray){
+        noticediv.classList.remove('hidden');
+        document.getElementById('phaseTitle').innerHTML = textsArray[0];
+        document.getElementById('phaseText').innerHTML = textsArray[1];
+        setTimeout(() => {
+            noticediv.classList.add('hidden');
+        }, 2600);
+    };
+    switch (phaseCode) {
+        case 'j':
+            showPhaseNotice(["Join the game!", "choose a name and click Join!"])
+            break;
+        case 's':
+            showPhaseNotice(["Are you ready?", "everybody needs to confirm they are ready before the game starts."])
+            break;
+        case 't':
+            showPhaseNotice(["Time to talk!", "make sure we are all on the same page"])
+            break;
+        case 'v':
+            showPhaseNotice(["Voting time", "who was the black sheep?"])
+            break;
+        case 'e':
+            showPhaseNotice(["Evaluate", "did the imposter just ignored their word?"])
+            break;
+        case 'r':
+            showPhaseNotice(["Let's recap", "the truth shall be known!"])
+            break;
+        case 'f':
+            showPhaseNotice(["Game ended", "congratulations to the winners!"])
+            break;
+        default:
+            alert('incorrect phase code');
+            break;
+    }
+});
+
+socket.on("gameRemainingSecs", (s) => {
+    document.getElementById('gameRemainingTimeDisplay').innerHTML = `${s} seconds remaining.`
 })
 
 socket.on("endGame", (msg) => {

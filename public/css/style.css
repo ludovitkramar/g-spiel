@@ -175,6 +175,10 @@ input {
     background-color: #1f4e7aff;
     color: white;
     min-height: 12em;
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
 }
 
 #gameRoundCounter {
@@ -190,7 +194,11 @@ input {
 }
 
 #gameStateSubtitle {
-    font-size: 2em;
+    font-size: 1.4em;
+}
+
+#gameRemainingTimeDisplay {
+    font-size: 1em;
 }
 
 #gamePlayersBox > div.gamePlayerBoxTitle {
@@ -229,8 +237,7 @@ input {
 }
 
 .gameRoundStatsPlayer{
-    border: 1px solid black;
-    border-radius: .3em;
+    box-shadow: 0 0 .1em black;
     padding: .2em;
     background-color: #fff;
 }
@@ -243,7 +250,6 @@ input {
 .grspName {
     font-size: 1.5em;
     background-image: linear-gradient(90deg, #9e80ff, #d880ff);
-    border-radius: .5em;
     color: white;
     display: flex;
     align-items: center;
@@ -253,7 +259,6 @@ input {
 .grspNameImp {
     font-size: 1.5em;
     background-image: linear-gradient(90deg, #ec8e58, #c04362);
-    border-radius: .5em;
     color: white;
     display: flex;
     align-items: center;
@@ -262,6 +267,7 @@ input {
 
 .grspPoints {
     font-size: 1.25em;
+    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -269,15 +275,18 @@ input {
 
 .grspTitle {
     font-size: 1.3em;
+    border-bottom: 1px solid black;
 }
 
 ul.grspPlayersList {
     margin-left: 1em;
+    
     list-style-type: none;
 }
 
 ul.grspScoreboard {
     margin-left: 1em;
+    
     list-style-type: none;
 }
 
@@ -292,6 +301,48 @@ span.grspPoint {
 #endScr {
     background-color: #bb472a;
     color: white;
+}
+
+#phaseChangeNotice {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#phaseChangeNotice > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#phaseChangeNotice > div > div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    background-color: #fff;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1);
+    width: 30em;
+}
+
+#phaseTitle {
+    font-size: 3em;
+    color: rgb(41, 97, 200);
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 12px;
+}
+
+#phaseText {
+    font-size: 1.3em;
+    margin-left: .4em;
+    margin-right: .4em;
+    margin-bottom: 12px;
 }
 
 @media (max-width: 30em) {

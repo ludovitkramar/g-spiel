@@ -64,6 +64,8 @@
                 <span id="gameStateTitle">Waiting to start</span>
                 <br>
                 <span id="gameStateSubtitle">Hey!</span>
+                <br>
+                <span id="gameRemainingTimeDisplay"></span>
             </div>
         </div>
         <div id="gamePlayersBox">
@@ -106,7 +108,7 @@
                         <div class="grspPoints"><span>90 points</span></div>
                     </div>
                     <div class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></div>
-                            
+
                     <div class="grspTitle">Players fooled: 1</div>
                     <div class="grspTitle">0 invalid votes</div>
                 </div>
@@ -118,6 +120,15 @@
     </div>
 
     <div id="reconnectBox" class="hidden">
+    </div>
+
+    <div id="phaseChangeNotice" class="hidden">
+        <div>
+            <div>
+                <span id="phaseTitle">Heyaaaaaaa</span>
+                <span id="phaseText">TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText</span>
+            </div>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
