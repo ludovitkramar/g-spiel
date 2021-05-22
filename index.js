@@ -46,19 +46,22 @@ io.on('connection', (socket) => {
     if (!gameRunning) {
       //check if someone has the same name
       var canJoin = true;
-      for (key in joinedPlayers) {
+      for (key in joinedPlayers) { //if there isn't a player with the same name already
         if (joinedPlayers[key] == pname) {
           canJoin = false;
+          io.to(sID).emit("gameRunningError", "Someone already has that name")
         }
       }
-      if (canJoin) { //if there isn't a player with the same name already
+      if (pname == "") {
+        canJoin = false;
+        io.to(sID).emit("gameRunningError", "Can't use empty name")
+      }
+      if (canJoin) { 
         //add player name the joinedPlayers object
         joinedPlayers[sID] = pname; //add the name of the player to the joinedPlayers object with sID as the key
         console.log(`${sID} joined the game as: ${joinedPlayers[sID]}`);
         io.sockets.emit("joinPlayersNames", joinedPlayers); //send joinedPlayers to clients
         io.to(sID).emit("joinSuccessful", "server: join succesful"); //this triggers the client to show start screen.
-      } else {
-        io.to(sID).emit("gameRunningError", "Someone already has that name") //gameRunningError will trigger an alert on the client
       };
     } else {
       io.to(sID).emit("gameRunningError", "Game running, can't join.") //gameRunningError will trigger an alert on the client

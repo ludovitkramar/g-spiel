@@ -35,14 +35,14 @@
         <div id="joinScrBottomBox">
             <div id="startPlayersList" class="hidden">
                 <div>
-                    <span class="startReadyCaption">Ready to start</span>
+                    <span class="startReadyCaption">Players ready</span>
                     <div id="startReadyPlayers">
                         <div class="startReadyPlayer">
                             <div></div>
                             <span>Player 1</span>
                         </div>
                     </div>
-                    <span class="startReadyCaption">Waiting to start</span>
+                    <span class="startReadyCaption">Players waiting</span>
                     <div id="startNotReadyPlayers">
                         <div class="startNotReadyPlayer">
                             <div></div>
@@ -87,30 +87,34 @@
                         <div class="grspName"><span>Pname</span></div>
                         <div class="grspPoints"><span>90 points</span></div>
                     </div>
-                    <div class="grspTitle">Last round voted:</div>
-                    <ul class="grspPlayersList">
-                        <li>Player X</li>
-                        <li>Player Y</li>
-                    </ul>
-                    <div class="grspTitle">Last round judged:</div>
-                    <ul class="grspScoreboard">
-                        <li class="grspValue">Player X
-                            <span class="grspPoint">2.3</span>
-                        </li>
-                        <li class="grspValue">Player Y
-                            <span class="grspPoint">3.5</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <span class="grspTitle">Voted:</span>
+                        <ul class="grspPlayersList">
+                            <li class="grspCorrect">Player X</li>
+                            <li class="grspIncorrect">Player Y</li>
+                        </ul>
+                        <br>
+                        <span class="grspTitle">Eval. :</span>
+                        <ul class="grspScoreboard">
+                            <li class="grspValue">Player X
+                                <span class="grspPoint">2.3</span>
+                            </li>
+                            <li class="grspValue">Player Y
+                                <span class="grspPoint">3.5</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="gameRoundStatsPlayer">
                     <div class="grspTop">
                         <div class="grspNameImp"><span>Imposter</span></div>
                         <div class="grspPoints"><span>90 points</span></div>
                     </div>
-                    <div class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></div>
-
-                    <div class="grspTitle">Players fooled: 1</div>
-                    <div class="grspTitle">0 invalid votes</div>
+                    <div>
+                        <span class="grspTitle">3 Players didn't vote this imposter.</span>
+                        <br>
+                        <span class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,8 +130,53 @@
         <div>
             <div>
                 <span id="phaseTitle">Heyaaaaaaa</span>
-                <span id="phaseText">TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText</span>
+                <span
+                    id="phaseText">TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText</span>
             </div>
+        </div>
+    </div>
+
+    <div id="toolBox">
+        <button id="devTools">Functions</button>
+        <div id="devTooslBox">
+            <input type="text" id="devToolsArgument" placeholder="Input argument for function">
+            <button onclick="sendReady(eval(document.getElementById('devToolsArgument').value))">sendReady(c)</button>
+            <button onclick="onConnect(eval(document.getElementById('devToolsArgument').value))">onConnect()</button>
+            <button onclick="joinGame(eval(document.getElementById('devToolsArgument').value))">joinGame()</button>
+            <button
+                onclick="joinSuccessful(eval(document.getElementById('devToolsArgument').value))">joinSuccessful()</button>
+            <button
+                onclick="updatePlayerLists(eval(document.getElementById('devToolsArgument').value))">updatePlayerLists()</button>
+            <button
+                onclick="gameStateUpdate(eval(document.getElementById('devToolsArgument').value))">gameStateUpdate()</button>
+            <button
+                onclick="hideAllScreens(eval(document.getElementById('devToolsArgument').value))">hideAllScreens()</button>
+            <button
+                onclick="changeStateText(eval(document.getElementById('devToolsArgument').value))">changeStateText(arr)</button>
+            <button
+                onclick="changeStateColor(eval(document.getElementById('devToolsArgument').value))">changeStateColor(arr)</button>
+            <button
+                onclick="noticeNewPhase(eval(document.getElementById('devToolsArgument').value))">noticeNewPhase(phaseCode)</button>
+            <button onclick="startGame(eval(document.getElementById('devToolsArgument').value))">startGame()</button>
+            <button
+                onclick="gameHighlightActivePlayer(eval(document.getElementById('devToolsArgument').value))">gameHighlightActivePlayer(name)</button>
+            <button
+                onclick="startVoteImposter(eval(document.getElementById('devToolsArgument').value))">startVoteImposter(msg)</button>
+            <button
+                onclick="voteImposter(eval(document.getElementById('devToolsArgument').value))">voteImposter(s)</button>
+            <button
+                onclick="endVoteImposter(eval(document.getElementById('devToolsArgument').value))">endVoteImposter()</button>
+            <button
+                onclick="startEvaluation(eval(document.getElementById('devToolsArgument').value))">startEvaluation(msg)</button>
+            <button
+                onclick="evaluateImposter(eval(document.getElementById('devToolsArgument').value))">evaluateImposter(s)</button>
+            <button
+                onclick="endEvaluation(eval(document.getElementById('devToolsArgument').value))">endEvaluation()</button>
+            <button
+                onclick="showRoundStats(eval(document.getElementById('devToolsArgument').value))">showRoundStats(msg)</button>
+            <button
+                onclick="endRoundStats(eval(document.getElementById('devToolsArgument').value))">endRoundStats()</button>
+            <button onclick="showEnd(eval(document.getElementById('devToolsArgument').value))">showEnd()</button>
         </div>
     </div>
 

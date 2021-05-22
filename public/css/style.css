@@ -13,8 +13,19 @@
     outline-offset: .1em;
 }
 
-body {
-    min-height: 100vh;
+input {
+    user-select: auto;
+    background-color: #fff;
+    border-radius: 0;
+    border: 1px solid rgb(192, 192, 192)
+}
+
+button {
+    background-color: rgb(240, 244, 247);
+    color: rgb(19, 30, 39);
+    cursor: pointer;
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 0;
 }
 
 .hidden {
@@ -23,11 +34,6 @@ body {
 
 .screen {
     min-height: 100vh;
-}
-
-input {
-    line-height: 2.4em;
-    border-radius: 0;
 }
 
 #joinScr {
@@ -40,7 +46,6 @@ input {
     height: 100vh;
     display: grid;
     justify-content: center;
-    transition: .5s;
 }
 
 #joinGameForm {
@@ -78,6 +83,8 @@ input {
     width: 25em;
     border: 1px solid rgb(4, 28, 43);
     user-select: auto;
+    line-height: 2.4em;
+    border-radius: 0;
 }
 
 #startGameTopBox > div {
@@ -231,12 +238,14 @@ input {
 #gameRoundStatsBox > div {
     display: grid;
     gap: .2em;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     max-width: 30em;
     margin: 0 auto;
 }
 
 .gameRoundStatsPlayer{
+    display: grid;
+    grid-template-columns: 170px auto;
     box-shadow: 0 0 .1em black;
     padding: .2em;
     background-color: #fff;
@@ -244,50 +253,60 @@ input {
 
 .grspTop{
     display: grid;
-    grid-template-columns: auto auto;
+    padding-right: 10px;
+    border-right: 1px solid rgb(105, 105, 105);
 }
 
 .grspName {
     font-size: 1.5em;
-    background-image: linear-gradient(90deg, #9e80ff, #d880ff);
     color: white;
     display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.grspName > * {
+    margin-top: auto;
+    color: royalblue;
 }
 
 .grspNameImp {
     font-size: 1.5em;
-    background-image: linear-gradient(90deg, #ec8e58, #c04362);
     color: white;
     display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.grspNameImp > * {
+    margin-top: auto;
+    color: orangered;
 }
 
 .grspPoints {
-    font-size: 1.25em;
-    
+    font-size: 1.05em;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row-reverse;
 }
 
 .grspTitle {
-    font-size: 1.3em;
-    border-bottom: 1px solid black;
+    font-size: 1.2em;
+    display: inline-block;
+    margin-left: 10px;
 }
 
 ul.grspPlayersList {
-    margin-left: 1em;
-    
     list-style-type: none;
+    display: inline-block;
+}
+
+ul.grspPlayersList > li {
+    display: inline-block;
 }
 
 ul.grspScoreboard {
-    margin-left: 1em;
-    
     list-style-type: none;
+    display: inline-block;
+}
+
+ul.grspScoreboard > li {
+    display: inline-block;
 }
 
 span.grspPoint {
@@ -310,6 +329,7 @@ span.grspPoint {
     right: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 #phaseChangeNotice > div {
@@ -326,7 +346,6 @@ span.grspPoint {
     word-wrap: break-word;
     overflow-wrap: break-word;
     background-color: #fff;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 1);
     width: 30em;
 }
 
@@ -345,6 +364,48 @@ span.grspPoint {
     margin-bottom: 12px;
 }
 
+#toolBox {
+    position: fixed;
+    display: inline-block;
+    bottom: 20px;
+    right: 20px;
+    border: 1px solid grey;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#toolBox > button {
+    margin: 3px;
+    padding: 4px;
+    border: none;
+    background-color: #00000000;
+    cursor: pointer;
+}
+
+#toolBox > button:hover {
+    background-color: #fff;
+}
+
+#devTooslBox {
+    position: absolute;
+    display: none;
+    max-height: calc(100vh - 150px);
+    overflow: auto;
+    bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid grey;
+    right: 0;
+    padding: 4px;
+    width: 20em;
+    max-width: 85vw;
+}
+
+#devTooslBox > * {
+    display: block;
+    margin: 5px;
+    width: 95%;
+}
+
 @media (max-width: 30em) {
     #gamePlayersBox > div {
         grid-template-columns: auto;
@@ -352,5 +413,41 @@ span.grspPoint {
 
     #gameRoundStatsBox > div {
         grid-template-columns: auto;
+    }
+}
+
+.downSwoosh {
+    animation-name: downSwoosh;
+    animation-duration: .1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes downSwoosh {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.closeZoom {
+    animation-name: closeZoom;
+    animation-duration: .1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+}
+
+@keyframes closeZoom {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(.95);
+        opacity: 0;
     }
 }
