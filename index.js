@@ -143,7 +143,7 @@ io.on('connection', (socket) => {
         //send the things for it to work fine
         gameSendGameState();
         io.to(sID).emit("startGame", "start");
-        game
+        io.to(sID).emit("sMsg", "You've been reconnected automaticaly, expect errors.");
       } else {
         console.log('not player wanted to reconnect: ' + msg)
       }
