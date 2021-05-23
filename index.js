@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
         canJoin = false;
         io.to(sID).emit("gameRunningError", "Can't use empty name")
       }
-      if (canJoin) { 
+      if (canJoin) {
         //add player name the joinedPlayers object
         joinedPlayers[sID] = pname; //add the name of the player to the joinedPlayers object with sID as the key
         console.log(`${sID} joined the game as: ${joinedPlayers[sID]}`);
@@ -131,6 +131,25 @@ io.on('connection', (socket) => {
     console.log('User ' + sID + " disconnected.");
     console.log(joinedPlayers);
     console.log(connectionCounter + ' connections are active.');
+  });
+  socket.on('reconnect', msg => {
+    if (gameRunning && connectionIDs.indexOf(msg) == -1) { //only reconnect if game is running and the requested id is not connected
+      if (game["players"].indexOf(msg) != -1) {//if the id is one of the players
+        //replace the id
+        console.log('reconnect approved: ' + sID + ' replaces ' + msg)
+        const regx = new RegExp(msg, 'g');
+        var modObject = JSON.stringify(game).replace(regx, sID)
+        game = JSON.parse(modObject);
+        //send the things for it to work fine
+        gameSendGameState();
+        io.to(sID).emit("startGame", "start");
+        game
+      } else {
+        console.log('not player wanted to reconnect: ' + msg)
+      }
+    } else {
+      console.log('bad reconnect request: ' + msg)
+    }
   });
 });
 
@@ -409,7 +428,7 @@ function gameSendRemainingSecs(s) {
 
 function gameSendNewPhaseNotice(phaseCode) { //phaseCode should be a single letter: 'j' join, 's' start, 't' talk, 'v' vote, 'e' evaluate, 'r' round stats, 'f' finished game (endScr)
   game["players"].forEach(e => { //send each player
-    io.to(e).emit("gameNewPhase", phaseCode); 
+    io.to(e).emit("gameNewPhase", phaseCode);
   });
 }
 

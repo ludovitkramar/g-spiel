@@ -36,7 +36,7 @@ let roundStatsColor2 = '#eeeeee';
 socket.on("connect", () => {
     sid = socket.id;
     console.log(sid);
-    //TODO: check if there is something in localstorage, and if game is running try to reconnect
+    attemptReconnect();
     onConnect()
 });
 
@@ -45,7 +45,8 @@ socket.on("connectionIDs", (msg) => { //when the server sends the updated list o
 });
 
 socket.on("gameRunningError", (msg) => { //when the servers report an error
-    alert(`Server says: ${msg}`);
+    console.log(`Server error: ${msg}`);
+    //TODO: on screen pop out
 })
 
 socket.on("joinPlayersNames", (msg) => {
@@ -489,4 +490,13 @@ function showEnd(msg) {
         ${JSON.stringify(msg, null, 2)}`;
     console.log("game result:");
     console.log(msg);
+}
+
+function attemptReconnect() {
+    try {
+        socket.emit("reconnect", localStorage.getItem("gameID", sid)) //request reconnect for the stored id
+    } catch (error) {
+        console.log('reconnect attempt failed')
+    }
+    
 }
