@@ -13,24 +13,24 @@ let clientGame = { //this object will be sent to the client to sync game state
     "voteTime": 0, //time for players to vote in seconds
 };
 //colors
-let c1 = "#1f4e7a";
-let c2 = "#f9fdff";
-let talkingColor = c1;
-let talkingColor2 = c2;
-let voteImpColor = c1;
-let voteImpColor2 = c2;
-let voteCorrectColor = c1;
-let voteCorrectColor2 = c2;
-let roundStatsColor = '#000000';
-let roundStatsColor2 = '#eeeeee';
-// let talkingColor = '#1f4e7aff';
-// let talkingColor2 = '#f9fdff'
-// let voteImpColor = '#6c41a3ff';
-// let voteImpColor2 = '#fbf7fe';
-// let voteCorrectColor = '#2d5020ff';
-// let voteCorrectColor2 = '#f7f8ed';
+// let c1 = "#1f4e7a";
+// let c2 = "#f9fdff";
+// let talkingColor = c1;
+// let talkingColor2 = c2;
+// let voteImpColor = c1;
+// let voteImpColor2 = c2;
+// let voteCorrectColor = c1;
+// let voteCorrectColor2 = c2;
 // let roundStatsColor = '#000000';
 // let roundStatsColor2 = '#eeeeee';
+let talkingColor = '#1f4e7aff';
+let talkingColor2 = '#f9fdff'
+let voteImpColor = '#6c41a3ff';
+let voteImpColor2 = '#fbf7fe';
+let voteCorrectColor = '#2d5020ff';
+let voteCorrectColor2 = '#f7f8ed';
+let roundStatsColor = '#000000';
+let roundStatsColor2 = '#eeeeee';
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -85,10 +85,14 @@ socket.on("gameImposterWord", (msg) => { //receives imposter's word
     changeStateText([`Describe: ${msg}`, "You are the imposter, be careful don't make it sound too different!"])
     //highlight your name
     gameHighlightActivePlayer(myName);
+    //change colros
+    changeStateColor([talkingColor, talkingColor2])
 })
 
 socket.on("gameNormalWord", (msg) => { //receives your normal word.
     changeStateText([`Describe: ${msg}`, "You are not the imposter."])
+    //change colros
+    changeStateColor([talkingColor, talkingColor2])
     //highlight your name
     gameHighlightActivePlayer(myName);
 })
@@ -130,8 +134,8 @@ socket.on("endGame", (msg) => {
     showEnd(msg);
 })
 
-socket.on("sMsg", (msg) => { //just logging
-    console.log("Mensaje provisional:" + msg);
+socket.on("sMsg", (msg) => {
+    console.log("Server info:" + msg);
 })
 
 document.getElementById('startReady').onclick = function () {
@@ -146,13 +150,13 @@ document.getElementById('devTools').onclick = function () {
         setTimeout(() => {
             ele.classList.remove("closeZoom");
             ele.style.display = "none";
-        }, 200);
+        }, 500);
     } else {
         ele.style.display = "block";
         ele.classList.add("downSwoosh");
         setTimeout(() => {
             ele.classList.remove("downSwoosh");
-        }, 200);
+        }, 500);
     }
 }
 
@@ -180,7 +184,13 @@ function joinGame() { //tell the server you want to join
 
 function joinSuccessful() {
     //show start stuff
-    document.getElementById('startGameTopBox').classList.remove("hidden");
+    setTimeout(() => {
+        document.getElementById('startGameTopBox').classList.add('fadeIn')
+        document.getElementById('startGameTopBox').classList.remove("hidden");
+        setTimeout(() => {
+            document.getElementById('startGameTopBox').classList.remove('fadeIn')
+        }, 500);
+    }, 400);
     setTimeout(() => {
         document.getElementById('startPlayersList').classList.remove("hidden");
         document.getElementById('startPlayersList').classList.add("downSwoosh");
@@ -191,7 +201,7 @@ function joinSuccessful() {
     //hide join stuff
     document.getElementById('joinGameFormBox').classList.add("hidden");
     //change the thing's size
-    document.getElementById('joinScrTopBox').style.transition = '.3s'
+    document.getElementById('joinScrTopBox').style.transition = '.5s'
     document.getElementById('joinScrTopBox').style.height = '200px';
     setTimeout(() => {
         document.getElementById('joinScrTopBox').style.transition = ''
@@ -227,6 +237,8 @@ function updatePlayerLists() {
 }
 
 function gameStateUpdate() {
+    //set myName
+    myName = clientGame["pnames"][sid]
     //show the players on the game screen
     playerListDiv = document.getElementById('gamePlayersBox');
     var txt = `<div class="gamePlayerBoxTitle">Players: </div><div>`;
@@ -256,8 +268,15 @@ function hideAllScreens() {
 }
 
 function changeStateText(arr) {
-    document.getElementById('gameStateTitle').innerHTML = arr[0];
-    document.getElementById('gameStateSubtitle').innerHTML = arr[1];
+    statediv = document.getElementById('gameStateDisplay')
+    statediv.classList.add('fadeFlash')
+    setTimeout(() => {
+        document.getElementById('gameStateTitle').innerHTML = arr[0];
+        document.getElementById('gameStateSubtitle').innerHTML = arr[1];
+    }, 250);
+    setTimeout(() => {
+        statediv.classList.remove('fadeFlash')
+    }, 500);
 }
 
 function changeStateColor(arr) {
@@ -269,13 +288,35 @@ function changeStateColor(arr) {
 function noticeNewPhase(phaseCode) {
     //phaseCode should be a single letter: 'j' join, 's' start, 't' talk, 'v' vote, 'e' evaluate, 'r' round stats, 'f' finished game (endScr)
     const noticediv = document.getElementById('phaseChangeNotice')
+    const noticeboxdiv = document.getElementById('phaseNoticeDialogueBox')
     function showPhaseNotice(textsArray) {
         noticediv.classList.remove('hidden');
+        //play open animation
+        noticediv.classList.add('fadeIn')
+        setTimeout(() => {
+            noticeboxdiv.classList.add('openZoom')
+            noticeboxdiv.classList.remove('hidden')
+        }, 120);
+        setTimeout(() => {
+            noticediv.classList.remove('fadeIn')
+            noticeboxdiv.classList.remove('openZoom')
+        }, 500);
+        //set the text
         document.getElementById('phaseTitle').innerHTML = textsArray[0];
         document.getElementById('phaseText').innerHTML = textsArray[1];
+        //play close animation
+        setTimeout(() => {
+            noticeboxdiv.classList.add('closeZoom')
+            setTimeout(() => {
+                noticediv.classList.add('fadeOut')
+            }, 100);
+        }, 2700);
         setTimeout(() => {
             noticediv.classList.add('hidden');
-        }, 2600);
+            noticeboxdiv.classList.add('hidden')
+            noticediv.classList.remove('fadeOut')
+            noticeboxdiv.classList.remove('closeZoom')
+        }, 3000);
     };
     switch (phaseCode) {
         case 'j':
@@ -372,8 +413,6 @@ function voteImposter(s) { //tell the server you want to vote the id "s"
 function endVoteImposter() {
     var voteZone = document.getElementById('gameVoteImposterBox');
     voteZone.innerHTML = "";
-    //change game state title
-    changeStateText(["", ""])
 }
 
 function startEvaluation(msg) {
@@ -410,7 +449,6 @@ function evaluateImposter(s) { //data format is : ["imposter's id", number]
 function endEvaluation() {
     var voteZone = document.getElementById('gameVoteCorrectnesBox');
     voteZone.innerHTML = "";
-    changeStateText(["", ""])
 }
 
 function showRoundStats(msg) {
@@ -425,26 +463,23 @@ function showRoundStats(msg) {
         var thisID = clientGame['players'][key];
         if (msg["imposters"].indexOf(thisID) != -1) { //if imposter
             txt += `
-                <div class="gameRoundStatsPlayer">
                     <div class="grspTop">
                         <div class="grspNameImp"><span>${clientGame['pnames'][thisID]}</span></div>
                         <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
                     </div>
-                    <div>
+                    <div class="grspLeft">
                         <span class="grspTitle">${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} Players didn't vote this imposter.</span>
                         <br>
                         <span class="grspTitle">Imposter Score: <span class="grspPoint">${msg["impScore"][thisID]}</span></span>
                     </div>
-                </div>
             `;
         } else { //if normal player
             txt += `
-                <div class="gameRoundStatsPlayer">
                     <div class="grspTop">
                         <div class="grspName"><span>${clientGame['pnames'][thisID]}</span></div>
                         <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
                     </div>
-                    <div>
+                    <div class="grspLeft">
                     <span class="grspTitle">Voted:</span>
                     <ul class="grspPlayersList">`;
             var impvotes = msg["r"][thisID]
@@ -460,7 +495,6 @@ function showRoundStats(msg) {
                 txt += `<li class="grspValue">${clientGame["pnames"][id]}<span class="grspPoint">${cvotes[id]}</span></li>`
             }
             txt += `</ul>
-                    </div>
                     </div>`;
         }
     }
@@ -472,8 +506,6 @@ function endRoundStats() {
     document.getElementById('gameRoundStatsBox').classList.add('hidden');
     //show players list
     document.getElementById('gamePlayersBox').classList.remove('hidden');
-    //change colros
-    changeStateColor([talkingColor, talkingColor2])
 }
 
 function showEnd(msg) {
@@ -498,5 +530,4 @@ function attemptReconnect() {
     } catch (error) {
         console.log('reconnect attempt failed')
     }
-    
 }

@@ -34,7 +34,8 @@ button {
 
 .screen {
     position: fixed;
-    min-height: 100%;
+    height: 100%;
+    overflow: auto;
     width: 100%;
 }
 
@@ -184,11 +185,14 @@ button {
 #gameInfoBox {
     background-color: #1f4e7aff;
     color: white;
-    min-height: 12em;
+    height: 15em;
+    max-height: 48vh;
     position: sticky;
     top: 0;
     right: 0;
     left: 0;
+    display: grid;
+    grid-template-rows: 1.3em auto;
 }
 
 #gameRoundCounter {
@@ -196,6 +200,11 @@ button {
 }
 
 #gameStateDisplay {
+    transform: translateY(-.5em);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -240,24 +249,24 @@ button {
 
 #gameRoundStatsBox > div {
     display: grid;
-    gap: .2em;
-    grid-template-columns: auto;
+    grid-template-columns: auto auto;
     max-width: 30em;
     margin: 0 auto;
 }
 
-.gameRoundStatsPlayer{
-    display: grid;
-    grid-template-columns: auto auto;
-    box-shadow: 0 0 .1em black;
-    padding: .2em;
+.grspTop{
+    padding-left: .2em;
+    padding-right: .4em;
     background-color: #fff;
+    box-shadow: 0 0 .1em black;
+    margin-top: 10px;
 }
 
-.grspTop{
-    display: grid;
-    padding-right: 10px;
-    border-right: 1px solid rgb(105, 105, 105);
+.grspLeft {
+    box-shadow: 0 0 .1em black;
+    background-color: #fff;
+    margin-top: 10px;
+    padding: .2em;
 }
 
 .grspName {
@@ -291,7 +300,7 @@ button {
 .grspTitle {
     font-size: 1.2em;
     display: inline-block;
-    margin-left: 10px;
+    margin-left: .2em;
 }
 
 ul.grspPlayersList {
@@ -313,10 +322,12 @@ ul.grspScoreboard > li {
 }
 
 span.grspPoint {
+    margin: 1px;
     background-color: #f7ff80;
-    border-radius: .5em;
-    padding-left: .5em;
-    padding-right: .5em;
+    line-height: 1em;
+    font-size: .8em;
+    padding-left: .4em;
+    padding-right: .4em;
     border: 1px solid black;
 }
 
@@ -343,8 +354,6 @@ span.grspPoint {
 }
 
 #phaseChangeNotice > div > div{
-    display: flex;
-    flex-direction: column;
     text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -353,6 +362,7 @@ span.grspPoint {
 }
 
 #phaseTitle {
+    display: block;
     font-size: 3em;
     color: rgb(41, 97, 200);
     margin-left: 1em;
@@ -361,6 +371,7 @@ span.grspPoint {
 }
 
 #phaseText {
+    display: block;
     font-size: 1.3em;
     margin-left: .4em;
     margin-right: .4em;
@@ -417,11 +428,28 @@ span.grspPoint {
     #gameRoundStatsBox > div {
         grid-template-columns: auto;
     }
+
+    .grspLeft {
+        margin-top: 0;
+    }
+
+    .grspName {
+        display: inline-block;
+    }
+
+    .grspNameImp {
+        display: inline-block;
+    }
+
+    .grspPoints {
+        display: inline-block;
+        margin-left: .2em;
+    }
 }
 
 .downSwoosh {
     animation-name: downSwoosh;
-    animation-duration: .1s;
+    animation-duration: .4s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
 }
@@ -439,7 +467,7 @@ span.grspPoint {
 
 .closeZoom {
     animation-name: closeZoom;
-    animation-duration: .1s;
+    animation-duration: .2s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in;
 }
@@ -452,5 +480,77 @@ span.grspPoint {
     100% {
         transform: scale(.95);
         opacity: 0;
+    }
+}
+
+.openZoom {
+    animation-name: openZoom;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+}
+
+@keyframes openZoom {
+    0% {
+        transform: scale(.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.fadeFlash {
+    animation-name: fadeFlash;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeFlash {
+    0% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

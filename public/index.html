@@ -62,9 +62,7 @@
             </div>
             <div id="gameStateDisplay">
                 <span id="gameStateTitle">Waiting to start</span>
-                <br>
                 <span id="gameStateSubtitle">Hey!</span>
-                <br>
                 <span id="gameRemainingTimeDisplay"></span>
             </div>
         </div>
@@ -82,39 +80,35 @@
         <div id="gameVoteCorrectnesBox"></div>
         <div id="gameRoundStatsBox" class="hidden">
             <div>
-                <div class="gameRoundStatsPlayer">
-                    <div class="grspTop">
-                        <div class="grspName"><span>Pname</span></div>
-                        <div class="grspPoints"><span>90 points</span></div>
-                    </div>
-                    <div>
-                        <span class="grspTitle">Voted:</span>
-                        <ul class="grspPlayersList">
-                            <li class="grspCorrect">Player X</li>
-                            <li class="grspIncorrect">Player Y</li>
-                        </ul>
-                        <br>
-                        <span class="grspTitle">Eval. :</span>
-                        <ul class="grspScoreboard">
-                            <li class="grspValue">Player X
-                                <span class="grspPoint">2.3</span>
-                            </li>
-                            <li class="grspValue">Player Y
-                                <span class="grspPoint">3.5</span>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="grspTop">
+                    <div class="grspName"><span>Pname</span></div>
+                    <div class="grspPoints"><span>90 points</span></div>
                 </div>
-                <div class="gameRoundStatsPlayer">
-                    <div class="grspTop">
-                        <div class="grspNameImp"><span>Imposter</span></div>
-                        <div class="grspPoints"><span>90 points</span></div>
-                    </div>
-                    <div>
-                        <span class="grspTitle">3 Players didn't vote this imposter.</span>
-                        <br>
-                        <span class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></span>
-                    </div>
+                <div class="grspLeft">
+                    <span class="grspTitle">Voted:</span>
+                    <ul class="grspPlayersList">
+                        <li class="grspCorrect">Player X</li>
+                        <li class="grspIncorrect">Player Y</li>
+                    </ul>
+                    <br>
+                    <span class="grspTitle">Eval. :</span>
+                    <ul class="grspScoreboard">
+                        <li class="grspValue">Player X
+                            <span class="grspPoint">2.3</span>
+                        </li>
+                        <li class="grspValue">Player Y
+                            <span class="grspPoint">3.5</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="grspTop">
+                    <div class="grspNameImp"><span>Imposter</span></div>
+                    <div class="grspPoints"><span>90 points</span></div>
+                </div>
+                <div class="grspLeft">
+                    <span class="grspTitle">3 Players didn't vote this imposter.</span>
+                    <br>
+                    <span class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></span>
                 </div>
             </div>
         </div>
@@ -128,7 +122,7 @@
 
     <div id="phaseChangeNotice" class="hidden">
         <div>
-            <div>
+            <div id="phaseNoticeDialogueBox" class="hidden">
                 <span id="phaseTitle">Heyaaaaaaa</span>
                 <span
                     id="phaseText">TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText</span>
@@ -177,7 +171,8 @@
             <button
                 onclick="endRoundStats(eval(document.getElementById('devToolsArgument').value))">endRoundStats()</button>
             <button onclick="showEnd(eval(document.getElementById('devToolsArgument').value))">showEnd()</button>
-            <button onclick="attemptReconnect(eval(document.getElementById('devToolsArgument').value))">attemptReconnect()</button>
+            <button
+                onclick="attemptReconnect(eval(document.getElementById('devToolsArgument').value))">attemptReconnect()</button>
         </div>
     </div>
 
