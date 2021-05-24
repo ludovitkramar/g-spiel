@@ -16,7 +16,27 @@ var readyPlayers = {}; //players that have joined and are ready to start, same f
 //game related variables:
 var gameRunning = false;
 const words = [["Stuhl", "Sofa"], ["Computer", "Laptop"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"], ["Hund", "Katze"]];
-let game = {};
+let game = {
+  players: [],
+  pnames: {},
+  ppoints: {},
+  imposters: [],
+  impostersCount: 0,
+  round: 0,
+  playersOrder: [],
+  usedWordSets: [],
+  setIndex: 0,
+  imposterIndex: 0,
+  talkTime: 0,
+  voteTime: 0,
+  canVote: false,
+  canVoteCorrectnes: false,
+  r1: {},
+  c1: {},
+  impScore1: {},
+  wronGuesses1: {},
+  noGuesses1: {},
+};
 
 let clientGame = { //this object will be sent to the client to sync game state
   "players": ["ID1", "ID2", "ID3", "ID4"], //array with ids of players
