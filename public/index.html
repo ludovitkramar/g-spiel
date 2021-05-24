@@ -55,60 +55,63 @@
     </div>
 
     <div id="gameScr" class="screen hidden">
-        <div id="gameInfoBox">
-            <div id="gameTopBar">
-                <span id="gameYourPoints">You have [0] points</span>
-                <span id="gameRoundCounter">Round: 0 / 999</span>
-            </div>
-            <div id="gameStateDisplay">
-                <span id="gameStateTitle">Waiting to start</span>
-                <span id="gameStateSubtitle">Hey!</span>
-                <span id="gameRemainingTimeDisplay"></span>
-            </div>
-        </div>
-        <div id="gamePlayersBox">
-            <div class="gamePlayerBoxTitle">Players: </div>
-            <div>
-                <div class="gamePlayersBoxPlayer">P1</div>
-                <div class="gamePlayersBoxPlayer">LOOOOOOOOOOONG NAME</div>
-                <div class="gamePlayersBoxPlayer gamePlayerActive">Plazer 3</div>
-                <div class="gamePlayersBoxPlayer">Carlitos</div>
-                <div class="gamePlayersBoxPlayer">ALSDJLASDJ</div>
-            </div>
-        </div>
-        <div id="gameVoteImposterBox"></div>
-        <div id="gameVoteCorrectnesBox"></div>
-        <div id="gameRoundStatsBox" class="hidden">
-            <div>
-                <div class="grspTop">
-                    <div class="grspName"><span>Pname</span></div>
-                    <div class="grspPoints"><span>90 points</span></div>
+        <div>
+            <div id="gameInfoBox">
+                <div id="gameTopBar">
+                    <span id="gameRoundCounter">Round: 0 / 999</span>
+                    <span id="gameRemainingTimeDisplay"></span>
                 </div>
-                <div class="grspLeft">
-                    <span class="grspTitle">Voted:</span>
-                    <ul class="grspPlayersList">
-                        <li class="grspCorrect">Player X</li>
-                        <li class="grspIncorrect">Player Y</li>
-                    </ul>
-                    <br>
-                    <span class="grspTitle">Eval. :</span>
-                    <ul class="grspScoreboard">
-                        <li class="grspValue">Player X
-                            <span class="grspPoint">2.3</span>
-                        </li>
-                        <li class="grspValue">Player Y
-                            <span class="grspPoint">3.5</span>
-                        </li>
-                    </ul>
+                <div id="gameStateDisplay">
+                    <span id="gameStateTitle">Waiting to start</span>
+                    <span id="gameStateSubtitle">Hey!</span>
                 </div>
-                <div class="grspTop">
-                    <div class="grspNameImp"><span>Imposter</span></div>
-                    <div class="grspPoints"><span>90 points</span></div>
+            </div>
+            <div id="gameRightBox">
+                <div id="gamePlayersBox" class="hidden">
+                    <div class="gamePlayerBoxTitle">Players: </div>
+                    <div>
+                        <div class="gamePlayersBoxPlayer">P1</div>
+                        <div class="gamePlayersBoxPlayer">LOOOOOOOOOOONG NAME</div>
+                        <div class="gamePlayersBoxPlayer gamePlayerActive">Plazer 3</div>
+                        <div class="gamePlayersBoxPlayer">Carlitos</div>
+                        <div class="gamePlayersBoxPlayer">ALSDJLASDJ</div>
+                    </div>
                 </div>
-                <div class="grspLeft">
-                    <span class="grspTitle">3 Players didn't vote this imposter.</span>
-                    <br>
-                    <span class="grspTitle">Imposter Score: <span class="grspPoint">2.3</span></span>
+                <div id="gameVoteImposterBox" class="hidden"></div>
+                <div id="gameVoteCorrectnesBox" class="hidden"></div>
+                <div id="gameRoundStatsBox" class="hidden">
+                    <div>
+                        <div class="grspTop">
+                            <div class="grspName"><span>Pname</span></div>
+                            <div class="grspPoints"><span>90 points</span></div>
+                        </div>
+                        <div class="grspLeft">
+                            <span class="grspTitle">Voted:</span>
+                            <ul class="grspPlayersList">
+                                <li class="grspCorrect">Player X <span>Imposter</span></li>
+                                <li class="grspIncorrect">Player Y <span>Wrong guess</span></li>
+                            </ul>
+                            <br>
+                            <span class="grspTitle">Evaluation:</span>
+                            <ul class="grspScoreboard">
+                                <li class="grspGold">Player X
+                                    <span>Excellent</span>
+                                </li>
+                                <li class="grspBronze">Player Y
+                                    <span>Fair</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grspTop">
+                            <div class="grspNameImp"><span>Imposter</span></div>
+                            <div class="grspPoints"><span>90 points</span></div>
+                        </div>
+                        <div class="grspLeft">
+                            <span class="grspTitle">3 Players didn't vote this imposter.</span>
+                            <br>
+                            <span class="grspTitle">Description quality: <span class="grspSilver">Very Good <span>2.3</span> </span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

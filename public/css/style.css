@@ -35,7 +35,6 @@ button {
 .screen {
     position: fixed;
     height: 100%;
-    overflow: auto;
     width: 100%;
 }
 
@@ -182,21 +181,40 @@ button {
     background-color: #daeeffff;
 }
 
+#gameScr > div {
+    display: grid;
+    grid-template-columns: 50vw auto;
+    height: 100%;
+    align-content: initial;
+}
+
 #gameInfoBox {
+    grid-column: 1;
+    grid-row: 1/100;
     background-color: #1f4e7aff;
     color: white;
-    height: 15em;
-    max-height: 48vh;
-    position: sticky;
-    top: 0;
-    right: 0;
-    left: 0;
     display: grid;
     grid-template-rows: 1.3em auto;
 }
 
+#gameRightBox {
+    grid-column: 2;
+    grid-row: 1/100;
+    display: grid;
+    place-items: center;
+    overflow: auto;
+}
+
 #gameRoundCounter {
+    float: left;
+    margin: .1em;
+    opacity: .7;
+}
+
+#gameRemainingTimeDisplay {
     float: right;
+    margin: .1em;
+    opacity: .7;
 }
 
 #gameStateDisplay {
@@ -214,10 +232,6 @@ button {
 
 #gameStateSubtitle {
     font-size: 1.4em;
-}
-
-#gameRemainingTimeDisplay {
-    font-size: 1em;
 }
 
 #gamePlayersBox > div.gamePlayerBoxTitle {
@@ -245,6 +259,10 @@ button {
     padding: .5em;
     border: 1px solid red;
     background-color: #be948a;
+}
+
+#gameRoundStatsBox {
+    padding-bottom: 10px;
 }
 
 #gameRoundStatsBox > div {
@@ -292,7 +310,7 @@ button {
 }
 
 .grspPoints {
-    font-size: 1.05em;
+    font-size: .8em;
     display: flex;
     flex-direction: row-reverse;
 }
@@ -312,6 +330,32 @@ ul.grspPlayersList > li {
     display: inline-block;
 }
 
+.grspCorrect {
+    margin: 1px;
+    background-color: #237e53;
+    color: #fff;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grspCorrect > span {
+    font-size: .8em;
+}
+
+.grspIncorrect{
+    margin: 1px;
+    background-color: #a13711;
+    color: #fff;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grspIncorrect > span {
+    font-size: .8em;
+}
+
 ul.grspScoreboard {
     list-style-type: none;
     display: inline-block;
@@ -321,11 +365,76 @@ ul.grspScoreboard > li {
     display: inline-block;
 }
 
+.grspGold {
+    margin: 1px;
+    background-color: #b3edbd;
+    color: #000;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grspGold > span {
+    font-size: .8em;
+}
+
+.grspSilver {
+    margin: 1px;
+    background-color: #c4fece;
+    color: #000;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grspSilver > span {
+    font-size: .8em;
+}
+
+.grspBronze {
+    margin: 1px;
+    background-color: #FFFDBF;
+    color: #000;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grspBronze > span {
+    font-size: .8em;
+}
+
+.grsp4th {
+    margin: 1px;
+    background-color: #FFDBAD;
+    color: #000;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grsp4th > span {
+    font-size: .8em;
+}
+
+.grsp5th {
+    margin: 1px;
+    background-color: #FFA9AA;
+    color: #000;
+    padding-left: .2em;
+    padding-right: .2em;
+    border: 1px solid #010204a4;
+}
+
+.grsp5th > span {
+    font-size: .8em;
+    /*color: #d82c19;*/
+}
+
 span.grspPoint {
     margin: 1px;
     background-color: #f7ff80;
-    line-height: 1em;
-    font-size: .8em;
+    font-size: .9em;
     padding-left: .4em;
     padding-right: .4em;
     border: 1px solid black;
@@ -420,9 +529,28 @@ span.grspPoint {
     width: 95%;
 }
 
-@media (max-width: 30em) {
+@media (max-width: 65em) {
     #gamePlayersBox > div {
         grid-template-columns: auto;
+    }
+
+    #gameScr > div {
+        display: grid;
+        grid-template-columns: auto;
+        min-height: 100%;
+        align-content: start;
+    }
+    
+    #gameInfoBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 50vh;
+    }
+    
+    #gameRightBox {
+        grid-column: 1;
+        grid-row: 2;
+        place-items:unset;
     }
 
     #gameRoundStatsBox > div {
@@ -444,6 +572,7 @@ span.grspPoint {
     .grspPoints {
         display: inline-block;
         margin-left: .2em;
+        font-size: .8em;
     }
 }
 
@@ -535,7 +664,7 @@ span.grspPoint {
 
 .fadeFlash {
     animation-name: fadeFlash;
-    animation-duration: .5s;
+    animation-duration: .6s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
 }
@@ -544,10 +673,10 @@ span.grspPoint {
     0% {
         opacity: 1;
     }
-    40% {
+    36% {
         opacity: 0;
     }
-    60% {
+    64% {
         opacity: 0;
     }
     100% {

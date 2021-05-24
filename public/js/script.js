@@ -79,6 +79,8 @@ socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
     changeStateText([`It's ${msg}'s turn!`, "Listen carefully, what is being described?"])
     //select the active player in the player list
     gameHighlightActivePlayer(msg); //send name to highlight;
+    //change colros
+    changeStateColor([talkingColor, talkingColor2])
 })
 
 socket.on("gameImposterWord", (msg) => { //receives imposter's word
@@ -187,6 +189,8 @@ function joinSuccessful() {
     setTimeout(() => {
         document.getElementById('startGameTopBox').classList.add('fadeIn')
         document.getElementById('startGameTopBox').classList.remove("hidden");
+        //focus the button
+        document.getElementById('startReady').focus();
         setTimeout(() => {
             document.getElementById('startGameTopBox').classList.remove('fadeIn')
         }, 500);
@@ -252,8 +256,8 @@ function gameStateUpdate() {
     }
     txt += `</div>`;
     playerListDiv.innerHTML = txt;
-    //show the points
-    document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
+    //show the points //the element has been removed
+    //document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
     //show the round
     document.getElementById('gameRoundCounter').innerHTML = `Round: ${clientGame["round"]} / ${clientGame["players"].length}`;
 }
@@ -262,21 +266,28 @@ function hideAllScreens() {
     document.getElementById('joinScr').classList.add("hidden"); //hide the join screen
     document.getElementById('gameScr').classList.add("hidden"); //hide the game screen
     document.getElementById('endScr').classList.add("hidden"); //hide the end screen
-    //things that are not screens
+}
+
+function hideGameRight() {
     document.getElementById('gameRoundStatsBox').classList.add('hidden');
     document.getElementById('gamePlayersBox').classList.add('hidden');
+    document.getElementById('gameVoteImposterBox').classList.add('hidden');
+    document.getElementById('gameVoteCorrectnesBox').classList.add('hidden');
 }
 
 function changeStateText(arr) {
-    statediv = document.getElementById('gameStateDisplay')
-    statediv.classList.add('fadeFlash')
+    var tit = document.getElementById('gameStateTitle')
+    var stit = document.getElementById('gameStateSubtitle');
+    tit.classList.add('fadeFlash') //start animation
+    stit.classList.add('fadeFlash')
     setTimeout(() => {
-        document.getElementById('gameStateTitle').innerHTML = arr[0];
-        document.getElementById('gameStateSubtitle').innerHTML = arr[1];
-    }, 250);
+        tit.innerHTML = arr[0]; //change text midway animation
+        stit.innerHTML = arr[1];
+    }, 300);
     setTimeout(() => {
-        statediv.classList.remove('fadeFlash')
-    }, 500);
+        tit.classList.remove('fadeFlash')  //remove animation
+        stit.classList.remove('fadeFlash')
+    }, 1000);
 }
 
 function changeStateColor(arr) {
@@ -318,6 +329,10 @@ function noticeNewPhase(phaseCode) {
             noticeboxdiv.classList.remove('closeZoom')
         }, 3000);
     };
+    //remove the game state text
+    changeStateText(["", ""]);
+    //hide the right side things
+    hideGameRight();
     switch (phaseCode) {
         case 'j':
             showPhaseNotice(["Join the game!", "choose a name and click Join!"])
@@ -368,6 +383,8 @@ function gameHighlightActivePlayer(msg) { //msg is player's name
             }
         };
     }
+    hideGameRight();
+    document.getElementById('gamePlayersBox').classList.remove('hidden');
 }
 
 function startVoteImposter(msg) {
@@ -401,7 +418,9 @@ function startVoteImposter(msg) {
     }
     //change game state title
     //hide players list
-    document.getElementById('gamePlayersBox').classList.add('hidden');
+    hideGameRight()
+    //show votezone
+    voteZone.classList.remove('hidden');
     //change colros
     changeStateColor([voteImpColor, voteImpColor2])
 }
@@ -440,6 +459,9 @@ function startEvaluation(msg) {
     }
     //change colros
     changeStateColor([voteCorrectColor, voteCorrectColor2])
+    //show and hide things
+    hideGameRight();
+    voteZone.classList.remove('hidden')
 }
 
 function evaluateImposter(s) { //data format is : ["imposter's id", number]
@@ -454,23 +476,65 @@ function endEvaluation() {
 function showRoundStats(msg) {
     const div = document.getElementById('gameRoundStatsBox');
     changeStateText([`Round ${clientGame["round"]} ended`, "Round statistics"])
+    hideGameRight(); //hide other things
     div.classList.remove('hidden'); //show the div
     //change colros
     changeStateColor([roundStatsColor, roundStatsColor2])
+    //function to get score category (gold bronze etc.)
+    function getColorClassName(s) { //s is score 1-5
+        if (s > 4.3) {
+            return 'grsp5th'
+        } else if (s > 3.3) {
+            return 'grsp4th'
+        } else if (s > 2.3) {
+            return 'grspBronze'
+        } else if (s > 1.2) {
+            return 'grspSilver'
+        } else {
+            return 'grspGold'
+        }
+    }
+    //function to get score description (excellent unacceptable etc.)
+    function getScoreDescription(s) { //s is score 1-5
+        if (s > 4.3) {
+            return 'Unacceptable'
+        } else if (s > 3.3) {
+            return 'Fair'
+        } else if (s > 2.3) {
+            return 'Good'
+        } else if (s > 1.2) {
+            return 'Very good'
+        } else {
+            return 'Excellent'
+        }
+    }
     //generate the table
-    txt = "<div>";
+    var txt = "<div>";
     for (key in clientGame['players']) {
         var thisID = clientGame['players'][key];
         if (msg["imposters"].indexOf(thisID) != -1) { //if imposter
+            var t0 = `` //how many people voted?
+            if(msg["noGuesses"][thisID] + msg["wronGuesses"][thisID] == 1){
+                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} player didn't vote this imposter.`
+            } else if (msg["noGuesses"][thisID] + msg["wronGuesses"][thisID] == 0) {
+                t0 = `Everybody voted correctly...`
+            } else {
+                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} players didn't vote this imposter.`
+            }
             txt += `
                     <div class="grspTop">
                         <div class="grspNameImp"><span>${clientGame['pnames'][thisID]}</span></div>
                         <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
                     </div>
                     <div class="grspLeft">
-                        <span class="grspTitle">${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} Players didn't vote this imposter.</span>
+                        <span class="grspTitle">${t0}</span>
                         <br>
-                        <span class="grspTitle">Imposter Score: <span class="grspPoint">${msg["impScore"][thisID]}</span></span>
+                        <span class="grspTitle">Description quality: 
+                            <span class="${getColorClassName(msg["impScore"][thisID])}">
+                                ${getScoreDescription(msg["impScore"][thisID])} 
+                                <span> (${msg["impScore"][thisID]})</span>
+                            </span>
+                        </span>
                     </div>
             `;
         } else { //if normal player
@@ -483,19 +547,34 @@ function showRoundStats(msg) {
                     <span class="grspTitle">Voted:</span>
                     <ul class="grspPlayersList">`;
             var impvotes = msg["r"][thisID]
-            for (id in impvotes) {
-                txt += `<li>${clientGame["pnames"][impvotes[id]]}</li>`
+            console.log(impvotes)
+            if (typeof impvotes == 'undefined') {
+                txt += `<li>Didn't vote.</li>`
+            } else {
+                for (id in impvotes) { //for every id the player voted to be imposter
+                    if (msg["imposters"].indexOf(impvotes[id])==-1) { //if didn't vote imposter
+                        txt += `<li class="grspIncorrect">${clientGame["pnames"][impvotes[id]]} <span>Wrong guess</span></li>`
+                    } else { //if was imposter
+                        txt += `<li class="grspCorrect">${clientGame["pnames"][impvotes[id]]} <span>Imposter</span></li>`
+                    }
+                }
             }
             txt += `</ul>
                     <br>
-                    <span class="grspTitle">Eval. :</span>
+                    <span class="grspTitle">Evaluation:</span>
                     <ul class="grspScoreboard">`;
             var cvotes = msg["c"][thisID]
-            for (id in cvotes) {
-                txt += `<li class="grspValue">${clientGame["pnames"][id]}<span class="grspPoint">${cvotes[id]}</span></li>`
+            if (Object.keys(cvotes).length == 0) { //if didn't evaluate
+                txt += '<li>Didn\'t evaluate.</li>'
+            } else { //if did evalute
+                for (id in cvotes) {
+                    txt += `<li class="${getColorClassName(cvotes[id])}">
+                                ${clientGame["pnames"][id]}
+                                <span>${getScoreDescription(cvotes[id])} (${cvotes[id]})</span>
+                            </li>`
+                }
             }
-            txt += `</ul>
-                    </div>`;
+            txt += `</ul></div>`;
         }
     }
     txt += "</div>";
@@ -503,9 +582,7 @@ function showRoundStats(msg) {
 }
 
 function endRoundStats() {
-    document.getElementById('gameRoundStatsBox').classList.add('hidden');
-    //show players list
-    document.getElementById('gamePlayersBox').classList.remove('hidden');
+    hideGameRight();
 }
 
 function showEnd(msg) {
