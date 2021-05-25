@@ -206,3 +206,127 @@ game = {
   wronGuesses6: { j0gZm1OQARaghWNgAAAT: 5, FDbOTVeN3HfMxpgoAAAN: 5 },
   noGuesses6: { j0gZm1OQARaghWNgAAAT: 3, FDbOTVeN3HfMxpgoAAAN: 3 }
 }
+
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+game = {
+  players: [
+    'h2Fkken5ID1vULLJAAAH',
+    '7sZDZiMIxGmnGZFNAAAJ',
+    'VFlrdsXdFjvb1bXBAAAN',
+    'G47wNoN0h5ENFy1gAAAD',
+    '53ttHhqoZs5oBVMVAAAM',
+    'wopfm7022lhFVTwgAAAT'
+  ],
+  pnames: {
+    h2Fkken5ID1vULLJAAAH: 'F1',
+    '7sZDZiMIxGmnGZFNAAAJ': 'F2',
+    VFlrdsXdFjvb1bXBAAAN: 'F3',
+    G47wNoN0h5ENFy1gAAAD: 'F4',
+    '53ttHhqoZs5oBVMVAAAM': 'F5',
+    wopfm7022lhFVTwgAAAT: 'Handy'
+  },
+  ppoints: {
+    h2Fkken5ID1vULLJAAAH: 743,
+    '7sZDZiMIxGmnGZFNAAAJ': 100,
+    VFlrdsXdFjvb1bXBAAAN: 529,
+    G47wNoN0h5ENFy1gAAAD: 223,
+    '53ttHhqoZs5oBVMVAAAM': 467,
+    wopfm7022lhFVTwgAAAT: 850
+  },
+  imposters: [ '53ttHhqoZs5oBVMVAAAM', 'h2Fkken5ID1vULLJAAAH' ],
+  impostersCount: 2,
+  round: 5,
+  playersOrder: [
+    '7sZDZiMIxGmnGZFNAAAJ',
+    'G47wNoN0h5ENFy1gAAAD',
+    'h2Fkken5ID1vULLJAAAH',
+    '53ttHhqoZs5oBVMVAAAM',
+    'wopfm7022lhFVTwgAAAT',
+    'VFlrdsXdFjvb1bXBAAAN'
+  ],
+  usedWordSets: [ 3, 5, 4, 2, 0 ],
+  setIndex: 0,
+  imposterIndex: 0,
+  talkTime: 5,
+  voteTime: 10,
+  canVote: false,
+  canVoteCorrectnes: false,
+  totalRounds: 6,
+  r1: {
+    VFlrdsXdFjvb1bXBAAAN: 'imposter',
+    G47wNoN0h5ENFy1gAAAD: 'imposter',
+    wopfm7022lhFVTwgAAAT: [ 'G47wNoN0h5ENFy1gAAAD', 'VFlrdsXdFjvb1bXBAAAN' ],
+    '7sZDZiMIxGmnGZFNAAAJ': [ 'G47wNoN0h5ENFy1gAAAD', 'VFlrdsXdFjvb1bXBAAAN' ],
+    h2Fkken5ID1vULLJAAAH: [ '7sZDZiMIxGmnGZFNAAAJ', 'G47wNoN0h5ENFy1gAAAD' ]
+  },
+  c1: {
+    h2Fkken5ID1vULLJAAAH: { VFlrdsXdFjvb1bXBAAAN: 2, G47wNoN0h5ENFy1gAAAD: 2 },
+    '7sZDZiMIxGmnGZFNAAAJ': { G47wNoN0h5ENFy1gAAAD: 4, VFlrdsXdFjvb1bXBAAAN: 2 },
+    '53ttHhqoZs5oBVMVAAAM': { G47wNoN0h5ENFy1gAAAD: 2 },
+    wopfm7022lhFVTwgAAAT: { VFlrdsXdFjvb1bXBAAAN: 3, G47wNoN0h5ENFy1gAAAD: 3 }
+  },
+  impScore1: {
+    VFlrdsXdFjvb1bXBAAAN: 2.3333333333333335,
+    G47wNoN0h5ENFy1gAAAD: 2.75
+  },
+  wronGuesses1: { VFlrdsXdFjvb1bXBAAAN: 1, G47wNoN0h5ENFy1gAAAD: 0 },
+  noGuesses1: { VFlrdsXdFjvb1bXBAAAN: 2, G47wNoN0h5ENFy1gAAAD: 2 },
+  r2: {
+    VFlrdsXdFjvb1bXBAAAN: 'imposter',
+    h2Fkken5ID1vULLJAAAH: 'imposter',
+    G47wNoN0h5ENFy1gAAAD: [ '7sZDZiMIxGmnGZFNAAAJ' ]
+  },
+  c2: {
+    '7sZDZiMIxGmnGZFNAAAJ': { h2Fkken5ID1vULLJAAAH: 3, VFlrdsXdFjvb1bXBAAAN: 2 },
+    G47wNoN0h5ENFy1gAAAD: { VFlrdsXdFjvb1bXBAAAN: 3, h2Fkken5ID1vULLJAAAH: 3 },
+    '53ttHhqoZs5oBVMVAAAM': { VFlrdsXdFjvb1bXBAAAN: 1, h2Fkken5ID1vULLJAAAH: 2 },
+    wopfm7022lhFVTwgAAAT: {}
+  },
+  impScore2: { VFlrdsXdFjvb1bXBAAAN: 2, h2Fkken5ID1vULLJAAAH: 2.6666666666666665 },
+  wronGuesses2: { VFlrdsXdFjvb1bXBAAAN: 1, h2Fkken5ID1vULLJAAAH: 1 },
+  noGuesses2: { VFlrdsXdFjvb1bXBAAAN: 7, h2Fkken5ID1vULLJAAAH: 7 },
+  r3: {
+    '53ttHhqoZs5oBVMVAAAM': 'imposter',
+    h2Fkken5ID1vULLJAAAH: 'imposter'
+  },
+  c3: {
+    '7sZDZiMIxGmnGZFNAAAJ': {},
+    VFlrdsXdFjvb1bXBAAAN: {},
+    G47wNoN0h5ENFy1gAAAD: {},
+    wopfm7022lhFVTwgAAAT: { h2Fkken5ID1vULLJAAAH: 5, '53ttHhqoZs5oBVMVAAAM': 3 }
+  },
+  impScore3: { '53ttHhqoZs5oBVMVAAAM': 3, h2Fkken5ID1vULLJAAAH: 5 },
+  wronGuesses3: { '53ttHhqoZs5oBVMVAAAM': 0, h2Fkken5ID1vULLJAAAH: 0 },
+  noGuesses3: { '53ttHhqoZs5oBVMVAAAM': 8, h2Fkken5ID1vULLJAAAH: 8 },
+  r4: {
+    wopfm7022lhFVTwgAAAT: 'imposter',
+    G47wNoN0h5ENFy1gAAAD: 'imposter',
+    '53ttHhqoZs5oBVMVAAAM': [ 'G47wNoN0h5ENFy1gAAAD', '7sZDZiMIxGmnGZFNAAAJ' ]
+  },
+  c4: {
+    h2Fkken5ID1vULLJAAAH: {},
+    '7sZDZiMIxGmnGZFNAAAJ': {},
+    VFlrdsXdFjvb1bXBAAAN: {},
+    '53ttHhqoZs5oBVMVAAAM': { wopfm7022lhFVTwgAAAT: 1, G47wNoN0h5ENFy1gAAAD: 4 }
+  },
+  impScore4: { wopfm7022lhFVTwgAAAT: 1, G47wNoN0h5ENFy1gAAAD: 4 },
+  wronGuesses4: { wopfm7022lhFVTwgAAAT: 1, G47wNoN0h5ENFy1gAAAD: 0 },
+  noGuesses4: { wopfm7022lhFVTwgAAAT: 6, G47wNoN0h5ENFy1gAAAD: 6 },
+  r5: {
+    '53ttHhqoZs5oBVMVAAAM': 'imposter',
+    h2Fkken5ID1vULLJAAAH: 'imposter',
+    wopfm7022lhFVTwgAAAT: [ '53ttHhqoZs5oBVMVAAAM', 'G47wNoN0h5ENFy1gAAAD' ]
+  },
+  c5: {
+    '7sZDZiMIxGmnGZFNAAAJ': {},
+    VFlrdsXdFjvb1bXBAAAN: {},
+    G47wNoN0h5ENFy1gAAAD: {},
+    wopfm7022lhFVTwgAAAT: { '53ttHhqoZs5oBVMVAAAM': 4, h2Fkken5ID1vULLJAAAH: 3 }
+  },
+  impScore5: { '53ttHhqoZs5oBVMVAAAM': 4, h2Fkken5ID1vULLJAAAH: 3 },
+  wronGuesses5: { '53ttHhqoZs5oBVMVAAAM': 0, h2Fkken5ID1vULLJAAAH: 1 },
+  noGuesses5: { '53ttHhqoZs5oBVMVAAAM': 6, h2Fkken5ID1vULLJAAAH: 6 }
+}
