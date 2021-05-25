@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 * {
     padding: 0;
     margin: 0;
-    font-family: 'Dosis', sans-serif;
-    font-size: 105%;
+    font-family: 'Titillium Web', 'Source Sans Pro', sans-serif;
+    font-size: 104%;
     user-select: none;
+    font-weight: 400;
 }
 
 *:focus {
@@ -39,7 +44,7 @@ button {
 }
 
 #joinScr {
-    background-color: rgb(246, 249, 255);
+    background-color: rgb(250, 252, 255);
 }
 
 #joinScrTopBox{
@@ -195,6 +200,7 @@ button {
     color: white;
     display: grid;
     grid-template-rows: 1.3em auto;
+    transition: 1.6s;
 }
 
 #gameRightBox {
@@ -228,6 +234,7 @@ button {
 
 #gameStateTitle {
     font-size: 3em;
+    line-height: 1.1em;
 }
 
 #gameStateSubtitle {
@@ -235,30 +242,107 @@ button {
 }
 
 #gamePlayersBox > div.gamePlayerBoxTitle {
-    border-bottom: 1px solid black;
-    max-width: 30em;
+    max-width: 20em;
     margin: 0 auto;
     margin-top: 1em;
-    margin-bottom: 1em;
+    font-size: 1em;
+    color: #555;
+    border-bottom: 1px solid #aaa;
+    width: 95vw;
+    padding: .5em;
 }
 
-#gamePlayersBox > div {
+#gamePlayersBox > div.gamePlayerBoxGrid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     gap: .2em;
-    max-width: 30em;
+    max-width: 20em;
     margin: 0 auto;
+    padding: .5em;
 }
 
 #gamePlayersBox > div > div {
-    padding: .5em;
-    border: 1px solid black;
+    padding: .3em;
+    padding-left: 1.5em;
+    position: relative;
+}
+
+#gamePlayersBox > div > div::before {
+    content: "";
+    background-color: rgb(227, 230, 238);
+    border-radius: 100%;
+    height: .5em;
+    width: .5em;
+    position: absolute;
+    margin-top: .5em;
+    transform: translateX(-.8em);
 }
 
 #gamePlayersBox > div > div.gamePlayerActive {
+    padding: .3em;
+    padding-left: 1.5em;
+    text-shadow: rgb(132, 185, 255) 1px 0 2px;
+}
+
+#gamePlayersBox > div > div.gamePlayerActive::before {
+    content: "";
+    background-color: rgb(75, 105, 240);
+    border-radius: 100%;
+    height: .5em;
+    width: .5em;
+    position: absolute;
+    margin-top: .5em;
+    transform: translateX(-.8em);
+    animation-name: blinkPlayer;
+    animation-duration: 1s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+}
+@keyframes blinkPlayer {
+    0%{
+        background-color: rgb(75, 105, 240);
+    }
+    100% {
+        background-color: rgb(150, 186, 240);
+    }
+}
+
+#gameVoteImposterBox {
+    padding-top: 1.2em;
+}
+#gameVoteImposterBox > button {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: .8em;
+    width: 90vw;
+    max-width: 20em;
     padding: .5em;
-    border: 1px solid red;
-    background-color: #be948a;
+    border-color: #837f88;
+    background-color: #A393AD22;
+    word-wrap: break-word;
+}
+#gameVoteImposterBox > button:hover {
+    background-color: #A393AD44;
+}
+#gameVoteImposterBox > button:focus {
+    outline-color: #837f88;
+    outline-offset: 0;
+}
+#gameVoteImposterBox > button:active {
+    background-color: #A393ADAA;
+    padding-top: .6em;
+    padding-bottom: .4em;
+}
+#gameVoteImposterBox > button.voted {
+    border-color: #2b292e;
+    background-color: #644e7e85;
+    color: #fff;
+}
+#gameVoteImposterBox > button.voted:hover {
+    background-color: #644e7eDD;
+}
+#gameVoteImposterBox > button.voted:active {
+    background-color: #644e7eEE;
 }
 
 #gameRoundStatsBox {
@@ -467,12 +551,13 @@ span.grspPoint {
     word-wrap: break-word;
     overflow-wrap: break-word;
     background-color: #fff;
-    width: 30em;
+    width: 40em;
 }
 
 #phaseTitle {
     display: block;
     font-size: 3em;
+    line-height: 1.1em;
     color: rgb(41, 97, 200);
     margin-left: 1em;
     margin-right: 1em;
@@ -482,6 +567,7 @@ span.grspPoint {
 #phaseText {
     display: block;
     font-size: 1.3em;
+    line-height: 1.15em;
     margin-left: .4em;
     margin-right: .4em;
     margin-bottom: 12px;
@@ -530,9 +616,6 @@ span.grspPoint {
 }
 
 @media (max-width: 65em) {
-    #gamePlayersBox > div {
-        grid-template-columns: auto;
-    }
 
     #gameScr > div {
         display: grid;
@@ -573,6 +656,20 @@ span.grspPoint {
         display: inline-block;
         margin-left: .2em;
         font-size: .8em;
+    }
+}
+
+@media (max-width: 35em) {
+    * {
+        font-size: 103%;
+    }
+    #gameInfoBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 40vh;
+    }
+    #gameStateTitle {
+        font-size: 2.5em;
     }
 }
 
