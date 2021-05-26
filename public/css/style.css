@@ -526,6 +526,7 @@ span.grspPoint {
 }
 
 #endScr {
+    overflow: auto;
     background-color: #bb472a;
     color: white;
 }
@@ -1015,8 +1016,8 @@ span.grspPoint {
 }
 
 #endScr {
-    background-color: #bb472a;
-    color: white;
+    background-color: #2f1e1a;
+    color: rgb(204, 204, 204);
 }
 
 #phaseChangeNotice > div > div{
