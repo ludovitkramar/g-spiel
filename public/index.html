@@ -20,7 +20,7 @@
                 <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
                     <label>
                         <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!"
-                            autofocus maxlength="25">
+                            autofocus maxlength="15">
                     </label>
                     <button type="submit" id="joinFormButton">Join!</button>
                 </form>
@@ -28,7 +28,7 @@
             <div id="startGameTopBox" class="hidden">
                 <div>
                     <button id="startReady">Ready to start</button>
-                    <span id="startProportion">999/999</span>
+                    <span id="startProportion">0/0</span>
                 </div>
             </div>
         </div>
@@ -37,17 +37,9 @@
                 <div>
                     <span class="startReadyCaption">Players ready</span>
                     <div id="startReadyPlayers">
-                        <div class="startReadyPlayer">
-                            <div></div>
-                            <span>Player 1</span>
-                        </div>
                     </div>
                     <span class="startReadyCaption">Players waiting</span>
                     <div id="startNotReadyPlayers">
-                        <div class="startNotReadyPlayer">
-                            <div></div>
-                            <span>Player 2</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -58,12 +50,12 @@
         <div>
             <div id="gameInfoBox">
                 <div id="gameTopBar">
-                    <span id="gameRoundCounter">Round: 0 / 999</span>
+                    <span id="gameRoundCounter">Round: 0 / 0</span>
                     <span id="gameRemainingTimeDisplay"></span>
                 </div>
                 <div id="gameStateDisplay">
-                    <span id="gameStateTitle">Waiting to start</span>
-                    <span id="gameStateSubtitle">Hey!</span>
+                    <span id="gameStateTitle">Waiting</span>
+                    <span id="gameStateSubtitle">Lorem ipsum</span>
                 </div>
             </div>
             <div id="gameRightBox">

@@ -667,8 +667,8 @@ function showRoundStats(msg) {
             } else { //if did evalute
                 for (id in cvotes) {
                     txt += `<li class="${getColorClassName(cvotes[id])}">
-                                ${clientGame["pnames"][id]}
-                                <span>${getScoreDescription(cvotes[id])} (${cvotes[id]})</span>
+                                ${getScoreDescription(cvotes[id])}(${cvotes[id]})
+                                <span>${clientGame["pnames"][id]}</span>
                             </li>`
                 }
             }
