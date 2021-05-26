@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
 * {
     padding: 0;
@@ -54,6 +54,7 @@ button {
     width: 100%;
     display: grid;
     justify-content: center;
+    transition: .5s;
 }
 
 #joinGameForm {
@@ -281,7 +282,7 @@ button {
 #gamePlayersBox > div > div.gamePlayerActive {
     padding: .3em;
     padding-left: 1.5em;
-    text-shadow: rgb(132, 185, 255) 1px 0 2px;
+    text-shadow: rgb(132 185 255) 0px 0 4px;
 }
 
 #gamePlayersBox > div > div.gamePlayerActive::before {
@@ -335,11 +336,11 @@ button {
 }
 #gameVoteImposterBox > button.voted {
     border-color: #2b292e;
-    background-color: #644e7e85;
+    background-color: #644e7eDD;
     color: #fff;
 }
 #gameVoteImposterBox > button.voted:hover {
-    background-color: #644e7eDD;
+    background-color: #644e7ed8;
 }
 #gameVoteImposterBox > button.voted:active {
     background-color: #644e7eEE;
@@ -779,4 +780,268 @@ span.grspPoint {
     100% {
         opacity: 1;
     }
+}
+
+@media (prefers-reduced-motion) {
+    #joinScrTopBox{
+        transition: unset;
+    }
+    #gameInfoBox {
+        transition: unset;
+    }
+    #gamePlayersBox > div > div.gamePlayerActive::before {
+        animation-name: unset;
+    }
+    .downSwoosh {
+        animation-name: unset;
+    }
+    .closeZoom {
+        animation-name: unset;
+    }
+    .openZoom {
+        animation-name: unset;
+    }
+    .fadeIn {
+        animation-name: unset;
+    }
+    .fadeOut {
+        animation-name: unset;
+    }
+    .fadeFlash {
+        animation-name: unset;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+* {
+    color: #eee;
+}
+
+*:focus {
+    outline: .16em solid rgb(60, 114, 148);
+}
+
+input {
+    background-color: rgb(119, 119, 119);
+    border: 1px solid rgb(56, 56, 56)
+}
+
+::placeholder {
+    color: rgb(189, 189, 189);
+}
+
+button {
+    background-color: rgb(92, 92, 92);
+    color: rgb(214, 214, 214);
+    border: 1px solid rgb(70, 70, 70);
+}
+
+#joinScr {
+    background-color: rgb(34, 34, 34);
+}
+
+#joinScrTopBox{
+    background-color: rgb(58, 58, 58);
+    color: rgb(0, 0, 0);
+}
+
+#joinFormButton {
+    background-color: #065e99ff;
+    color: #daeeffff;
+    border: 1px solid rgb(4, 28, 43);
+}
+
+#joinFormButton:hover {
+    background-color: rgb(33, 112, 165);
+}
+
+#joinFormButton:active {
+    background-color: rgb(16, 56, 83);
+}
+
+#joinFormName {
+    border: 1px solid rgb(4, 28, 43);
+}
+
+#startReady {
+    background-color: #065e99ff;
+    color: #daeeffff;
+    border: 1px solid rgb(4, 28, 43);
+}
+
+#startReady:hover {
+    background-color: rgb(33, 112, 165);
+}
+
+#startReady:active {
+    background-color: rgb(16, 56, 83);
+}
+
+#startProportion {
+    color: white;
+}
+
+.startReadyCaption {
+    color: rgb(133, 133, 133);
+    border-bottom: 1px solid rgb(93, 93, 93);
+}
+
+.startReadyPlayer > div {
+    background-color: green;
+}
+
+.startNotReadyPlayer > div {
+    background-color: red;
+}
+
+#gameScr {
+    background-color: rgb(46, 46, 46);
+}
+
+#gameInfoBox {
+    background-color: #1f4e7aff;
+    color: white;
+}
+
+#gamePlayersBox > div.gamePlayerBoxTitle {
+    color: rgb(136, 136, 136);
+    border-bottom: 1px solid rgb(92, 92, 92);
+}
+
+#gamePlayersBox > div > div::before {
+    background-color: rgb(78, 78, 78);
+}
+
+#gamePlayersBox > div > div.gamePlayerActive {
+    text-shadow: rgb(132 185 255) 0px 0 4px;
+}
+
+#gameVoteImposterBox > button {
+    border-color: #4a484d;
+    background-color: #6b646e;
+}
+#gameVoteImposterBox > button:hover {
+    background-color: #8e8594;
+}
+#gameVoteImposterBox > button:focus {
+    outline-color: #342547;
+}
+#gameVoteImposterBox > button:active {
+    background-color: #453f47;
+}
+#gameVoteImposterBox > button.voted {
+    border-color: #2b292e;
+    background-color: #693a9e;
+    color: #fff;
+}
+#gameVoteImposterBox > button.voted:hover {
+    background-color: #8146c5;
+}
+#gameVoteImposterBox > button.voted:active {
+    background-color: #512a7e;
+}
+
+.grspTop{
+    background-color: #222;
+    box-shadow: 0 0 .1em #aaa;
+}
+
+.grspLeft {
+    box-shadow: 0 0 .1em #aaa;
+    background-color: #222;
+}
+
+.grspName {
+    color: white;
+}
+
+.grspName > * {
+    color: royalblue;
+}
+
+.grspNameImp {
+    color: white;
+}
+
+.grspNameImp > * {
+    color: orangered;
+}
+
+.grspCorrect {
+    background-color: #237e53;
+    color: #fff;
+    border: 1px solid #010204a4;
+}
+
+.grspIncorrect{
+    background-color: #a13711;
+    color: #fff;
+    border: 1px solid #010204a4;
+}
+
+.grspGold {
+    background-color: #546e59;
+    color: rgb(255, 255, 255);
+    border: 1px solid #010204a4;
+}
+
+.grspSilver {
+    background-color: #506854;
+    color: rgb(255, 255, 255);
+    border: 1px solid #010204a4;
+}
+
+.grspBronze {
+    background-color: #757457;
+    color: rgb(255, 255, 255);
+    border: 1px solid #010204a4;
+}
+
+.grsp4th {
+    background-color: #746450;
+    color: rgb(255, 255, 255);
+    border: 1px solid #010204a4;
+}
+
+.grsp5th {
+    background-color: #6d4647;
+    color: rgb(255, 255, 255);
+    border: 1px solid #010204a4;
+}
+
+span.grspPoint {
+    background-color: #f7ff80;
+    border: 1px solid black;
+}
+
+#endScr {
+    background-color: #bb472a;
+    color: white;
+}
+
+#phaseChangeNotice > div > div{
+    background-color: rgb(31, 31, 31);
+}
+
+#phaseTitle {
+    color: rgb(41, 97, 200);
+}
+
+#toolBox {
+    border: 1px solid rgb(97, 97, 97);
+    background-color: rgba(65, 65, 65, 0.8);
+}
+
+#toolBox > button {
+    background-color: #00000000;
+}
+
+#toolBox > button:hover {
+    background-color: rgb(107, 107, 107);
+}
+
+#devTooslBox {
+    background-color: rgba(73, 73, 73, 0.9);
+    border: 1px solid grey;
+}
 }

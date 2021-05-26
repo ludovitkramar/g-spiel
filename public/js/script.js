@@ -12,26 +12,98 @@ let clientGame = { //this object will be sent to the client to sync game state
     "talkTime": 0, // time for players to talk in seconds
     "voteTime": 0, //time for players to vote in seconds
 };
+let strings = { //collections of all the text for ease of management
+    "serr": "Server error:",
+    "stur": "'s turn!",
+    "awts": "Listen carefully, what is the hidden subject?",
+    "desc": "Your word:",
+    "ymnc": "You are the mole! Try to not get cought",
+    "yanm": "You are not the mole.",
+    "secr": "seconds remaining.",
+    "pinf": "Server info:",
+    "pyrs": "Players:",
+    "rnot": "Round:",
+    "lide": "Listen and Talk",
+    "ewem": "Everybody will build sentences with the given nound as the hidden subject.",
+    "vttm": "Voting time",
+    "wstm": "who was the mole?",
+    "etmo": "Evaluate the mole",
+    "dsms": "did the sentences made sense for the given noun?",
+    "rded": "Round ended",
+    "lswh": "Let's see what happened this round.",
+    "gend": "Game ended",
+    "cong": "congratulations to the winners!",
+    "crac": "couldn't remove active class",
+    "hadw": "had a different word.",
+    "thar": "There are",
+    "mols": "moles",
+    "thes": "There is",
+    "mole": "mole",
+    "wwtm": "Who was the mole?",
+    "ywtm": "You were the mole",
+    "tmcv": "The moles can't vote.",
+    "crvc": "couldn't remove voted class",
+    "evtm": "Evaluate the moles!",
+    "thnw": "Their noun was:",
+    "eval": "Evaluate",
+    "ssen": "'s sentences:",
+    "watm": "was the mole",
+    "tnwa": "The noun was:",
+    "toey": "The other players are evaluating your sentences.",
+    "rnum": "Round",
+    "rnue": "ended",
+    "rsta": "Round statistics",
+    "scr5": "Unacceptable",
+    "scr4": "Fair",
+    "scr3": "Good",
+    "scr2": "Very good",
+    "scr1": "Excellent",
+    "psdv": "player didn't vote this mole.",
+    "eevc": "Everybody voted correctly...",
+    "pdvt": "players didn't vote this mole.",
+    "evre": "Evaluation result:",
+    "votd": "Voted:",
+    "ddvt": "Didn't vote.",
+    "wrgs": "Wrong guess",
+    "imps": "Correct guess",
+    "evad": "Evaluated:",
+    "ddev": "Didn\'t evaluate.",
+    "rcof": "reconnect attempt failed",
+};
+//players that have been selected as imposters by this player in the voting phase.
 let votedImpArray = [];
 //colors
-// let c1 = "#1f4e7a";
-let c2 = "#fff";
-// let talkingColor = c1;
-let talkingColor2 = c2;
-// let voteImpColor = c1;
-let voteImpColor2 = c2;
-// let voteCorrectColor = c1;
-let voteCorrectColor2 = c2;
-// let roundStatsColor = '#000000';
-//let roundStatsColor2 = '#eeeeee';
+let c2 = "";
 let talkingColor = '#1f4e7aff';
-//let talkingColor2 = '#f9fdff'
+let talkingColor2 = '';
 let voteImpColor = '#6c41a3ff';
-//let voteImpColor2 = '#fbf7fe';
+let voteImpColor2 = '';
 let voteCorrectColor = '#2d5020ff';
-//let voteCorrectColor2 = '#f7f8ed';
+let voteCorrectColor2 = '';
 let roundStatsColor = '#000000';
-let roundStatsColor2 = '#eeeeee';
+let roundStatsColor2 = '';
+let darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+function setTheme(e) {
+    if (e.matches) {
+        console.log('dark theme')
+        c2 = "#333";
+        talkingColor2 = c2;
+        voteImpColor2 = c2;
+        voteCorrectColor2 = c2;
+        roundStatsColor2 = c2;
+    } else {
+        console.log('light theme')
+        roundStatsColor2 = '#eeeeee';
+        c2 = "#fff";
+        talkingColor2 = c2;
+        voteImpColor2 = c2;
+        voteCorrectColor2 = c2;
+    }
+}
+setTheme(darkTheme)  //set theme on load
+darkTheme.addEventListener("change", (e) => { //set theme when changed dynamically
+    setTheme(e)
+})
 
 //when connected succesfully
 socket.on("connect", () => {
@@ -46,7 +118,7 @@ socket.on("connectionIDs", (msg) => { //when the server sends the updated list o
 });
 
 socket.on("gameRunningError", (msg) => { //when the servers report an error
-    console.log(`Server error: ${msg}`);
+    console.log(`${strings["serr"]} ${msg}`);
     //TODO: on screen pop out
 })
 
@@ -77,7 +149,7 @@ socket.on("gameStateUpdate", (msg) => {
 })
 
 socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
-    changeStateText([`${msg}'s turn!`, "Listen carefully, what is being described?"])
+    changeStateText([`${msg}${strings["stur"]}`, `${strings["awts"]}`])
     //select the active player in the player list
     gameHighlightActivePlayer(msg); //send name to highlight;
     //change colros
@@ -85,7 +157,7 @@ socket.on("gamePlayerTalking", (msg) => { //receives name of who is talking
 })
 
 socket.on("gameImposterWord", (msg) => { //receives imposter's word
-    changeStateText([`Describe: ${msg}`, "You are the imposter, be careful don't make it sound too different!"])
+    changeStateText([`${strings["desc"]} ${msg}`, `${strings["ymnc"]}`])
     //highlight your name
     gameHighlightActivePlayer(myName);
     //change colros
@@ -93,7 +165,7 @@ socket.on("gameImposterWord", (msg) => { //receives imposter's word
 })
 
 socket.on("gameNormalWord", (msg) => { //receives your normal word.
-    changeStateText([`Describe: ${msg}`, "You are not the imposter."])
+    changeStateText([`${strings["desc"]} ${msg}`, `${strings["yanm"]}`])
     //change colros
     changeStateColor([talkingColor, talkingColor2])
     //highlight your name
@@ -129,7 +201,7 @@ socket.on('gameNewPhase', (phaseCode) => {
 });
 
 socket.on("gameRemainingSecs", (s) => {
-    document.getElementById('gameRemainingTimeDisplay').innerHTML = `${s} seconds remaining.`
+    document.getElementById('gameRemainingTimeDisplay').innerHTML = `${s} ${strings["secr"]}`
 })
 
 socket.on("endGame", (msg) => {
@@ -138,7 +210,7 @@ socket.on("endGame", (msg) => {
 })
 
 socket.on("sMsg", (msg) => {
-    console.log("Server info:" + msg);
+    console.log(strings["pinf"] + msg);
 })
 
 document.getElementById('startReady').onclick = function () {
@@ -206,7 +278,6 @@ function joinSuccessful() {
     //hide join stuff
     document.getElementById('joinGameFormBox').classList.add("hidden");
     //change the thing's size
-    document.getElementById('joinScrTopBox').style.transition = '.5s'
     document.getElementById('joinScrTopBox').style.height = '200px';
     setTimeout(() => {
         document.getElementById('joinScrTopBox').style.transition = ''
@@ -246,7 +317,7 @@ function gameStateUpdate() {
     myName = clientGame["pnames"][sid]
     //show the players on the game screen
     playerListDiv = document.getElementById('gamePlayersBox');
-    var txt = `<div class="gamePlayerBoxTitle">Players: </div><div class="gamePlayerBoxGrid">`;
+    var txt = `<div class="gamePlayerBoxTitle">${strings["pyrs"]} </div><div class="gamePlayerBoxGrid">`;
     playerListArray = [];
     for (key in clientGame["pnames"]) {
         playerListArray.push(clientGame["pnames"][key]);
@@ -260,7 +331,7 @@ function gameStateUpdate() {
     //show the points //the element has been removed
     //document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
     //show the round
-    document.getElementById('gameRoundCounter').innerHTML = `Round: ${clientGame["round"]} / ${clientGame["players"].length}`;
+    document.getElementById('gameRoundCounter').innerHTML = `${strings["rnot"]} ${clientGame["round"]} / ${clientGame["players"].length}`;
 }
 
 function hideAllScreens() {
@@ -342,19 +413,19 @@ function noticeNewPhase(phaseCode) {
             showPhaseNotice(["Are you ready?", "everybody needs to confirm they are ready before the game starts."])
             break;
         case 't':
-            showPhaseNotice(["Listen and describe", "Everybody will describe the same word except for the imposters."])
+            showPhaseNotice([strings["lide"], strings["ewem"]])
             break;
         case 'v':
-            showPhaseNotice(["Voting time", "who was the black sheep?"])
+            showPhaseNotice([strings["vttm"], strings["wstm"]])
             break;
         case 'e':
-            showPhaseNotice(["Evaluate the imposter", "did the imposter just ignored their word?"])
+            showPhaseNotice([strings["etmo"], strings["dsms"]])
             break;
         case 'r':
-            showPhaseNotice(["Round ended", "Let's see what happened this round."])
+            showPhaseNotice([strings["rded"], strings["lswh"]])
             break;
         case 'f':
-            showPhaseNotice(["Game ended", "congratulations to the winners!"])
+            showPhaseNotice([strings["gend"], strings["cong"]])
             break;
         default:
             showPhaseNotice(phaseCode)
@@ -380,7 +451,7 @@ function gameHighlightActivePlayer(msg) { //msg is player's name
             try {
                 elements[key].classList.remove("gamePlayerActive");
             } catch (error) {
-                console.log(`couldn't remove active class`)
+                console.log(strings["crac"])
             }
         };
     }
@@ -404,20 +475,20 @@ function startVoteImposter(msg) {
             for (s in clientGame["pnames"]) { // for every id of pnames
                 if (clientGame["pnames"][s] == playerListArray[key]) { //if found id (s) that matches current player's name
                     if (playerListArray[key] != myName) { //if s is not you (you can't vote yourself)
-                        voteZone.innerHTML += `<button id="vib${s}" onclick="voteImposter('${s}')">${playerListArray[key]} described a different word.</button>`;
+                        voteZone.innerHTML += `<button id="vib${s}" onclick="voteImposter('${s}')">${playerListArray[key]} ${strings["hadw"]}</button>`;
                     }
                 }
             }
         }
         var text = ""
         if (clientGame["impostersCount"] > 1) {
-            text = `There are ${clientGame["impostersCount"]} imposters`
+            text = `${strings["thar"]} ${clientGame["impostersCount"]} ${strings["mols"]}`
         } else {
-            text = `There is ${clientGame["impostersCount"]} imposter`
+            text = `${strings["thes"]} ${clientGame["impostersCount"]} ${strings["mole"]}`
         }
-        changeStateText(["Who was the imposter?", text])
+        changeStateText([`${strings["wwtm"]}`, text])
     } else {
-        changeStateText([`You were the imposter`, "Imposters can't vote."])
+        changeStateText([`${strings["ywtm"]}`, `${strings["tmcv"]}`])
     }
     //change game state title
     //hide players list
@@ -450,7 +521,7 @@ function voteImposter(s) { //s is id of who you voted
         try {
             document.getElementById(`vib${notvoted[s]}`).classList.remove('voted')
         } catch (error) {
-            console.log(`couldn't remove voted class`)
+            console.log(`${strings["crvc"]}`)
         }
     }
 }
@@ -462,26 +533,27 @@ function endVoteImposter() {
 
 function startEvaluation(msg) {
     var voteZone = document.getElementById('gameVoteCorrectnesBox');
-    voteZone.innerHTML = "<span>Evaluate the imposter's sentence: </span>";
+    voteZone.innerHTML = "";
 
     if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
         if (msg[0].length > 1) {  //multiple imposters
-            changeStateText([`Evaluate the imposters! `, `How well did they described: ${msg[1]}`])
+            changeStateText([`${strings["evtm"]}`, `${strings["thnw"]} ${msg[1]}`])
             for (key in msg[0]) { //for each imposter
-                voteZone.innerHTML += `<span>Evaluate ${clientGame["pnames"][msg[0][key]]}'s description:</span>`
+                voteZone.innerHTML += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][key]]}${strings["ssen"]}</span>`
                 for (i = 0; i < 5; i++) {
                     voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][key]}',${i + 1}])">${i + 1}</button>`;
                 };
                 voteZone.innerHTML += `<br>`
             }
         } else { //one imposter
-            changeStateText([`${clientGame["pnames"][msg[0][0]]} was the imposter`, `How well was "${msg[1]}" described?`])
+            changeStateText([`${clientGame["pnames"][msg[0][0]]} ${strings["watm"]}`, `${strings["tnwa"]} "${msg[1]}"`])
+            voteZone.innerHTML += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][0]]}${strings["ssen"]}</span>`
             for (i = 0; i < 5; i++) {
                 voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][0]}',${i + 1}])">${i + 1}</button>`;
             };
         }
     } else { //if you are imposter
-        changeStateText([`You were the imposter`, "The other players are voting how well you described the word."])
+        changeStateText([`${strings["ywtm"]}`, `${strings["toey"]}`])
     }
     //change colros
     changeStateColor([voteCorrectColor, voteCorrectColor2])
@@ -501,7 +573,7 @@ function endEvaluation() {
 
 function showRoundStats(msg) {
     const div = document.getElementById('gameRoundStatsBox');
-    changeStateText([`Round ${clientGame["round"]} ended`, "Round statistics"])
+    changeStateText([`${strings["rnum"]} ${clientGame["round"]} ${strings["rnue"]}`, `${strings["rsta"]}`])
     hideGameRight(); //hide other things
     div.classList.remove('hidden'); //show the div
     //change colros
@@ -523,15 +595,15 @@ function showRoundStats(msg) {
     //function to get score description (excellent unacceptable etc.)
     function getScoreDescription(s) { //s is score 1-5
         if (s > 4.3) {
-            return 'Unacceptable'
+            return strings["scr5"]
         } else if (s > 3.3) {
-            return 'Fair'
+            return strings["scr4"]
         } else if (s > 2.3) {
-            return 'Good'
+            return strings["scr3"]
         } else if (s > 1.2) {
-            return 'Very good'
+            return strings["scr2"]
         } else {
-            return 'Excellent'
+            return strings["scr1"]
         }
     }
     //generate the table
@@ -541,11 +613,11 @@ function showRoundStats(msg) {
         if (msg["imposters"].indexOf(thisID) != -1) { //if imposter
             var t0 = `` //how many people voted?
             if (msg["noGuesses"][thisID] + msg["wronGuesses"][thisID] == 1) {
-                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} player didn't vote this imposter.`
+                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} ${strings["psdv"]}`
             } else if (msg["noGuesses"][thisID] + msg["wronGuesses"][thisID] == 0) {
-                t0 = `Everybody voted correctly...`
+                t0 = `${strings["eevc"]}`
             } else {
-                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} players didn't vote this imposter.`
+                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} ${strings["psdv"]}`
             }
             txt += `
                     <div class="grspTop">
@@ -555,7 +627,7 @@ function showRoundStats(msg) {
                     <div class="grspLeft">
                         <span class="grspTitle">${t0}</span>
                         <br>
-                        <span class="grspTitle">Description quality: 
+                        <span class="grspTitle">${strings["evre"]} 
                             <span class="${getColorClassName(msg["impScore"][thisID])}">
                                 ${getScoreDescription(msg["impScore"][thisID])} 
                                 <span> (${Math.round(msg["impScore"][thisID] * 10) / 10})</span>
@@ -570,28 +642,28 @@ function showRoundStats(msg) {
                         <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
                     </div>
                     <div class="grspLeft">
-                    <span class="grspTitle">Voted:</span>
+                    <span class="grspTitle">${strings["votd"]}</span>
                     <ul class="grspPlayersList">`;
             var impvotes = msg["r"][thisID]
             console.log(impvotes)
             if (typeof impvotes == 'undefined') {
-                txt += `<li>Didn't vote.</li>`
+                txt += `<li>${strings["ddvt"]}</li>`
             } else {
                 for (id in impvotes) { //for every id the player voted to be imposter
                     if (msg["imposters"].indexOf(impvotes[id]) == -1) { //if didn't vote imposter
-                        txt += `<li class="grspIncorrect">${clientGame["pnames"][impvotes[id]]} <span>Wrong guess</span></li>`
+                        txt += `<li class="grspIncorrect">${clientGame["pnames"][impvotes[id]]} <span>${strings["wrgs"]}</span></li>`
                     } else { //if was imposter
-                        txt += `<li class="grspCorrect">${clientGame["pnames"][impvotes[id]]} <span>Imposter</span></li>`
+                        txt += `<li class="grspCorrect">${clientGame["pnames"][impvotes[id]]} <span>${strings["imps"]}</span></li>`
                     }
                 }
             }
             txt += `</ul>
                     <br>
-                    <span class="grspTitle">Evaluated:</span>
+                    <span class="grspTitle">${strings["evad"]}</span>
                     <ul class="grspScoreboard">`;
             var cvotes = msg["c"][thisID]
             if (Object.keys(cvotes).length == 0) { //if didn't evaluate
-                txt += '<li>Didn\'t evaluate.</li>'
+                txt += `<li>${strings["ddev"]}</li>`
             } else { //if did evalute
                 for (id in cvotes) {
                     txt += `<li class="${getColorClassName(cvotes[id])}">
@@ -632,6 +704,10 @@ function attemptReconnect() {
     try {
         socket.emit("reconnect", localStorage.getItem("gameID", sid)) //request reconnect for the stored id
     } catch (error) {
-        console.log('reconnect attempt failed')
+        console.log(strings["rcof"])
     }
+}
+
+function disconnect() {
+    socket.disconnect()
 }

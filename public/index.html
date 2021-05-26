@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Ludovit Kramar" />
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="Ein tolles Grammatikspiel">
+    <meta name="description" content="Ein tolles Grammatikspiel - Passiversatzformen Übung">
     <title>Grammatikspiel</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -138,45 +138,38 @@
         <button id="devTools">Functions</button>
         <div id="devTooslBox">
             <input type="text" id="devToolsArgument" placeholder="Input argument for function">
+            <button onclick="disconnect()">disconnect()</button>
             <button onclick="sendReady(eval(document.getElementById('devToolsArgument').value))">sendReady(c)</button>
-            <button onclick="onConnect(eval(document.getElementById('devToolsArgument').value))">onConnect()</button>
-            <button onclick="joinGame(eval(document.getElementById('devToolsArgument').value))">joinGame()</button>
-            <button
-                onclick="joinSuccessful(eval(document.getElementById('devToolsArgument').value))">joinSuccessful()</button>
-            <button
-                onclick="updatePlayerLists(eval(document.getElementById('devToolsArgument').value))">updatePlayerLists()</button>
-            <button
-                onclick="gameStateUpdate(eval(document.getElementById('devToolsArgument').value))">gameStateUpdate()</button>
-            <button
-                onclick="hideAllScreens(eval(document.getElementById('devToolsArgument').value))">hideAllScreens()</button>
+            <button onclick="onConnect()">onConnect()</button>
+            <button onclick="joinGame()">joinGame()</button>
+            <button onclick="joinSuccessful()">joinSuccessful()</button>
+            <button onclick="updatePlayerLists()">updatePlayerLists()</button>
+            <button onclick="gameStateUpdate()">gameStateUpdate()</button>
+            <button onclick="hideAllScreens()">hideAllScreens()</button>
             <button
                 onclick="changeStateText(eval(document.getElementById('devToolsArgument').value))">changeStateText(arr)</button>
             <button
                 onclick="changeStateColor(eval(document.getElementById('devToolsArgument').value))">changeStateColor(arr)</button>
             <button
                 onclick="noticeNewPhase(eval(document.getElementById('devToolsArgument').value))">noticeNewPhase(phaseCode)</button>
-            <button onclick="startGame(eval(document.getElementById('devToolsArgument').value))">startGame()</button>
+            <button onclick="startGame()">startGame()</button>
             <button
                 onclick="gameHighlightActivePlayer(eval(document.getElementById('devToolsArgument').value))">gameHighlightActivePlayer(name)</button>
             <button
                 onclick="startVoteImposter(eval(document.getElementById('devToolsArgument').value))">startVoteImposter(msg)</button>
             <button
                 onclick="voteImposter(eval(document.getElementById('devToolsArgument').value))">voteImposter(s)</button>
-            <button
-                onclick="endVoteImposter(eval(document.getElementById('devToolsArgument').value))">endVoteImposter()</button>
+            <button onclick="endVoteImposter()">endVoteImposter()</button>
             <button
                 onclick="startEvaluation(eval(document.getElementById('devToolsArgument').value))">startEvaluation(msg)</button>
             <button
                 onclick="evaluateImposter(eval(document.getElementById('devToolsArgument').value))">evaluateImposter(s)</button>
-            <button
-                onclick="endEvaluation(eval(document.getElementById('devToolsArgument').value))">endEvaluation()</button>
+            <button onclick="endEvaluation()">endEvaluation()</button>
             <button
                 onclick="showRoundStats(eval(document.getElementById('devToolsArgument').value))">showRoundStats(msg)</button>
-            <button
-                onclick="endRoundStats(eval(document.getElementById('devToolsArgument').value))">endRoundStats()</button>
-            <button onclick="showEnd(eval(document.getElementById('devToolsArgument').value))">showEnd()</button>
-            <button
-                onclick="attemptReconnect(eval(document.getElementById('devToolsArgument').value))">attemptReconnect()</button>
+            <button onclick="endRoundStats()">endRoundStats()</button>
+            <button onclick="showEnd()">showEnd()</button>
+            <button onclick="attemptReconnect()">attemptReconnect()</button>
         </div>
     </div>
 
