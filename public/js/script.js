@@ -13,6 +13,11 @@ let clientGame = { //this object will be sent to the client to sync game state
     "voteTime": 0, //time for players to vote in seconds
 };
 let strings = { //collections of all the text for ease of management
+    "join": "Join!",
+    "jinp": "Enter your name!",
+    "rdts": "Ready to start",
+    "srcr": "Players ready",
+    "srcw": "Players waiting",
     "serr": "Server error:",
     "stur": "'s turn!",
     "awts": "Listen carefully, what is the hidden subject?",
@@ -58,6 +63,7 @@ let strings = { //collections of all the text for ease of management
     "scr3": "Good",
     "scr2": "Very good",
     "scr1": "Excellent",
+    "pnts": "points",
     "psdv": "player didn't vote this mole.",
     "eevc": "Everybody voted correctly...",
     "pdvt": "players didn't vote this mole.",
@@ -250,6 +256,18 @@ function onConnect() {
     document.getElementById('joinGameFormBox').classList.remove("hidden");
     //change the thing's size
     document.getElementById('joinScrTopBox').style.height = '100vh';
+    //focus name box
+    document.getElementById('joinFormName').focus();
+    //set the text of several elements
+    populateStrings();
+}
+
+function populateStrings() {
+    document.getElementById('joinFormButton').innerText = strings["join"];
+    document.getElementById('startReady').innerText = strings["rdts"];
+    document.getElementById('srcReady').innerText = strings["srcr"];
+    document.getElementById('srcWaiting').innerText = strings["srcw"];
+    document.getElementById('joinFormName').placeholder = strings["jinp"];
 }
 
 function joinGame() { //tell the server you want to join
@@ -617,12 +635,12 @@ function showRoundStats(msg) {
             } else if (msg["noGuesses"][thisID] + msg["wronGuesses"][thisID] == 0) {
                 t0 = `${strings["eevc"]}`
             } else {
-                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} ${strings["psdv"]}`
+                t0 = `${msg["noGuesses"][thisID] + msg["wronGuesses"][thisID]} ${strings["pdvt"]}`
             }
             txt += `
                     <div class="grspTop">
                         <div class="grspNameImp"><span>${clientGame['pnames'][thisID]}</span></div>
-                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
+                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} ${strings["pnts"]}</span></div>
                     </div>
                     <div class="grspLeft">
                         <span class="grspTitle">${t0}</span>
@@ -639,7 +657,7 @@ function showRoundStats(msg) {
             txt += `
                     <div class="grspTop">
                         <div class="grspName"><span>${clientGame['pnames'][thisID]}</span></div>
-                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} points</span></div>
+                        <div class="grspPoints"><span>${clientGame['ppoints'][thisID]} ${strings["pnts"]}</span></div>
                     </div>
                     <div class="grspLeft">
                     <span class="grspTitle">${strings["votd"]}</span>

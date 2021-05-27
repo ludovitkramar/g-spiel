@@ -3,11 +3,11 @@
 
 <head>
     <meta name="google-site-verification" content="AGs4m-1A4pyMsQJgdfGm3aaYU6Hga2zpioFeMtN-KFU" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="utf-8">
     <meta name="author" content="Ludovit Kramar" />
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="Ein tolles Grammatikspiel - Passiversatzformen Übung">
+    <meta name="description" content="Ein tolles Grammatikspiel - Passiversatzformen Übung" />
     <title>Grammatikspiel</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -19,15 +19,14 @@
             <div id="joinGameFormBox">
                 <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
                     <label>
-                        <input type="text" name="name" id="joinFormName" required placeholder="Enter your name!"
-                            autofocus maxlength="15">
+                        <input type="text" name="name" id="joinFormName" required placeholder="jinp" maxlength="25">
                     </label>
-                    <button type="submit" id="joinFormButton">Join!</button>
+                    <button type="submit" id="joinFormButton">join</button>
                 </form>
             </div>
             <div id="startGameTopBox" class="hidden">
                 <div>
-                    <button id="startReady">Ready to start</button>
+                    <button id="startReady">rdts</button>
                     <span id="startProportion">0/0</span>
                 </div>
             </div>
@@ -35,10 +34,10 @@
         <div id="joinScrBottomBox">
             <div id="startPlayersList" class="hidden">
                 <div>
-                    <span class="startReadyCaption">Players ready</span>
+                    <span class="startReadyCaption" id="srcReady">srcr</span>
                     <div id="startReadyPlayers">
                     </div>
-                    <span class="startReadyCaption">Players waiting</span>
+                    <span class="startReadyCaption" id="srcWaiting">srcw</span>
                     <div id="startNotReadyPlayers">
                     </div>
                 </div>
