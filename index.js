@@ -394,10 +394,12 @@ function gameEvalPoints() {
     for (key in game["players"]) { //for every player
       if (game["imposters"].indexOf(game["players"][key]) == -1) { //if wasn't imposter
         if (game[`r${game["round"]}`][game["players"][key]] == undefined) { //if haven't voted at all
-          noVote += game["imposters"].length;
+          noVote += 1;
         } else { //if have voted somebody already
           if (game[`r${game["round"]}`][game["players"][key]].indexOf(game["imposters"][ik]) == -1) { //if haven't voted this imposter
-            noVote += (game["imposters"].length - game[`r${game["round"]}`][game["players"][key]].length);
+            if (game[`r${game["round"]}`][game["players"][key]].length < game["imposters"].length) { //if voted less players than there are imposters
+              noVote += 1;
+            }
           }
         }
       }
