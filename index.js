@@ -77,6 +77,7 @@ io.on('connection', (socket) => {
         io.to(sID).emit("gameRunningError", "Can't use empty name")
       }
       if (canJoin) {
+        pname = pname.slice(0, 26) //don't allow long names.
         //add player name the joinedPlayers object
         joinedPlayers[sID] = pname; //add the name of the player to the joinedPlayers object with sID as the key
         console.log(`${sID} joined the game as: ${joinedPlayers[sID]}`);
@@ -140,7 +141,7 @@ io.on('connection', (socket) => {
     connectionsIDs = connectionIDs.splice(connectionIDs.indexOf(sID), 1); //remove the id from the array of connected users
     if (gameRunning && game["players"].indexOf(sID) != -1) { //if the game is running and this id is a player
       console.log('player disconnected while in game')
-      io.sockets.emit("gameRunningError", `Player "${sID}" disconnected mid game`)
+      io.sockets.emit("gameRunningError", `Player ${game["pnames"][sID]}(${sID}) disconnected mid game`);
     } else {
       delete joinedPlayers[sID]; //remove from joinedPlayers object
       delete readyPlayers[sID];
@@ -440,7 +441,7 @@ function gameEndOfRound() {
     gameEnds();
   } else {
     game["players"].forEach(e => { // to every player
-      io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
+      // io.to(e).emit("sMsg", `end of round: ${game["round"]}`); //send end of round notice
     });
     game["round"] += 1; //move on to next round
   }

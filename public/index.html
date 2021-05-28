@@ -10,6 +10,7 @@
     <meta name="description" content="Ein tolles Grammatikspiel - Passiversatzformen Übung" />
     <title>Grammatikspiel</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -20,7 +21,7 @@
                 <noscript>This site requires JavaScript!</noscript>
                 <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
                     <label>
-                        <input type="text" name="name" id="joinFormName" required placeholder="jinp" maxlength="25">
+                        <input type="text" name="name" id="joinFormName" placeholder="jinp" maxlength="24">
                     </label>
                     <button type="submit" id="joinFormButton">join</button>
                 </form>
@@ -86,6 +87,9 @@
         </div>
     </div>
 
+    <div id="notificationsBox">
+    </div>
+
     <div id="toolBox">
         <button id="devTools">Functions</button>
         <div id="devTooslBox">
@@ -122,6 +126,7 @@
             <button onclick="endRoundStats()">endRoundStats()</button>
             <button onclick="showEnd()">showEnd()</button>
             <button onclick="attemptReconnect()">attemptReconnect()</button>
+            <button onclick="showNotification(eval(document.getElementById('devToolsArgument').value))">showNotification(msg, t)</button>
         </div>
     </div>
 

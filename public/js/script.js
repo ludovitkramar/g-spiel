@@ -126,7 +126,7 @@ socket.on("connectionIDs", (msg) => { //when the server sends the updated list o
 
 socket.on("gameRunningError", (msg) => { //when the servers report an error
     console.error(`${strings["serr"]} ${msg}`);
-    //TODO: on screen pop out
+    showNotification(msg, 'error');
 })
 
 socket.on("joinPlayersNames", (msg) => {
@@ -218,6 +218,7 @@ socket.on("endGame", (msg) => {
 
 socket.on("sMsg", (msg) => {
     console.info(strings["pinf"] + ` msg`);
+    showNotification(msg, "info");
 })
 
 document.getElementById('startReady').onclick = function () {
@@ -454,6 +455,39 @@ function noticeNewPhase(phaseCode) {
     }
 }
 
+let notCounter = 0
+function showNotification(msg, t) { //t is type, error or info
+    notCounter += 1;
+    notBox = document.getElementById('notificationsBox');
+    function destroy(code) { //code is id of element to delete
+        setTimeout(() => {
+            setTimeout(() => {
+                document.getElementById(code).remove();
+            }, 1000);
+            document.getElementById(code).classList.add('slowFadeOut');
+        }, 5000);
+    }
+    switch (t) {
+        case 'error':
+            notBox.innerHTML += `<div class="notifyError" id="notification${notCounter}">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    <span>${msg}</span> 
+                                </div>`
+            destroy(`notification${notCounter}`);
+            break;
+        case 'info':
+            notBox.innerHTML += `<div class="notifyInfo" id="notification${notCounter}">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    <span>${msg}</span> 
+                                </div>`
+            destroy(`notification${notCounter}`);
+            break;
+        default:
+            console.error('Invalid notification')
+            break;
+    }
+}
+
 function startGame() {
     hideAllScreens();
     document.getElementById('gameScr').classList.remove("hidden"); //show the game screen
@@ -608,7 +642,7 @@ function evaluateImposter(s, ele) { //data format is : ["imposter's id", number]
         try {
             allButtons[key].classList.remove('evbselected');
         } catch (error) {
-            
+
         }
     }
     for (ik in clientTempC) { //ik is imp's id //add the indication
