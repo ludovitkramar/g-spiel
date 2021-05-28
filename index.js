@@ -462,7 +462,7 @@ function gameEnds() {
   gameRunning = false; //game finished
   console.log('game ended')
   game["players"].forEach(e => { //send each player command to end game
-    io.to(e).emit("endGame", game); //TODO: the client doesn't do anything yet.
+    io.to(e).emit("endGame", game);
   });
 }
 
@@ -498,7 +498,7 @@ async function startGame() { //THE MAIN GAME FUNCTION //TODO: ABILITY TO PAUSE
       await new Promise(resolve => setTimeout(resolve, 1000)); //wait taktime seconds (for people to talk)
     }
     gameEndVoteCorrectnes(); //END CORRECTNES VOTING
-    gameEvalPoints(); //COUNT POINTS USING r1 and c1 TODO
+    gameEvalPoints(); //COUNT POINTS USING r1 and c1
     gameSendGameState(); //LET CLIENT UPDATE THE POINTS AND THINGS
     gameSendNewPhaseNotice('r') //Tell player next phase is the round stats phase
     await new Promise(resolve => setTimeout(resolve, 3000)); //wait three seconds

@@ -12,6 +12,7 @@ let clientGame = { //this object will be sent to the client to sync game state
     "talkTime": 0, // time for players to talk in seconds
     "voteTime": 0, //time for players to vote in seconds
 };
+let clientTempC = {}; //stores evaluation of each round
 let strings = { //collections of all the text for ease of management
     "join": "Join!",
     "jinp": "Enter your name!",
@@ -103,7 +104,7 @@ function setTheme(e) {
         c2 = "#fff";
         talkingColor2 = c2;
         voteImpColor2 = c2;
-        voteCorrectColor2 = c2;
+        voteCorrectColor2 = '#eeeeee';
     }
 }
 setTheme(darkTheme)  //set theme on load
@@ -491,11 +492,13 @@ function startVoteImposter(msg) {
             playerListArray.push(clientGame["pnames"][key]);
         }
         playerListArray.sort();
+        var ii = 0;
         for (key in playerListArray) { //for every player name
             for (s in clientGame["pnames"]) { // for every id of pnames
                 if (clientGame["pnames"][s] == playerListArray[key]) { //if found id (s) that matches current player's name
                     if (playerListArray[key] != myName) { //if s is not you (you can't vote yourself)
-                        voteZone.innerHTML += `<button id="vib${s}" onclick="voteImposter('${s}')">${playerListArray[key]} ${strings["hadw"]}</button>`;
+                        ii += 1;
+                        voteZone.innerHTML += `<button id="vib${s}" onclick="voteImposter('${s}')" style="--ani-order: ${ii};">${playerListArray[key]} ${strings["hadw"]}</button>`;
                     }
                 }
             }
@@ -552,29 +555,42 @@ function endVoteImposter() {
 }
 
 function startEvaluation(msg) {
+    clientTempC = {}; //empty data from last round
     var voteZone = document.getElementById('gameVoteCorrectnesBox');
-    voteZone.innerHTML = "";
-
+    htmlCode = "";
     if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
         if (msg[0].length > 1) {  //multiple imposters
             changeStateText([`${strings["evtm"]}`, `${strings["thnw"]} ${msg[1]}`])
             for (key in msg[0]) { //for each imposter
-                voteZone.innerHTML += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][key]]}${strings["ssen"]}</span>`
+                htmlCode += `<div class="gvcImposter" style="--ani-order: ${key + 1};">`;
+                htmlCode += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][key]]}${strings["ssen"]}</span>`;
+                htmlCode += "<div>";
                 for (i = 0; i < 5; i++) {
-                    voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][key]}',${i + 1}])">${i + 1}</button>`;
+                    htmlCode += `<button id="evb,${msg[0][key]},${i + 1}" class="evb${i + 1} evb" onclick="evaluateImposter(['${msg[0][key]}',${i + 1}], this)">
+                                    ${i + 1}
+                                    <span>(${getScoreDescription(i + 1)})</span>
+                                </button>`;
                 };
-                voteZone.innerHTML += `<br>`
+                htmlCode += "</div></div>";
             }
         } else { //one imposter
             changeStateText([`${clientGame["pnames"][msg[0][0]]} ${strings["watm"]}`, `${strings["tnwa"]} "${msg[1]}"`])
-            voteZone.innerHTML += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][0]]}${strings["ssen"]}</span>`
+            htmlCode += `<div class="gvcImposter" style="--ani-order: 1;">`;
+            htmlCode += `<span>${strings["eval"]} ${clientGame["pnames"][msg[0][0]]}${strings["ssen"]}</span>`
+            htmlCode += "<div>";
             for (i = 0; i < 5; i++) {
-                voteZone.innerHTML += `<button onclick="evaluateImposter(['${msg[0][0]}',${i + 1}])">${i + 1}</button>`;
+                htmlCode += `<button id="evb,${msg[0][0]},${i + 1}" class="evb${i + 1} evb" onclick="evaluateImposter(['${msg[0][0]}',${i + 1}], this)">
+                                ${i + 1}
+                                <span>(${getScoreDescription(i + 1)})</span>
+                            </button>`;
             };
+            htmlCode += "</div></div>";
         }
     } else { //if you are imposter
         changeStateText([`${strings["ywtm"]}`, `${strings["toey"]}`])
     }
+    //update voteZone html
+    voteZone.innerHTML = htmlCode;
     //change colros
     changeStateColor([voteCorrectColor, voteCorrectColor2])
     //show and hide things
@@ -582,13 +598,56 @@ function startEvaluation(msg) {
     voteZone.classList.remove('hidden')
 }
 
-function evaluateImposter(s) { //data format is : ["imposter's id", number]
+function evaluateImposter(s, ele) { //data format is : ["imposter's id", number], ele is the button clicked
     socket.emit("voteCorrectnes", s);
+    //store the vote
+    clientTempC[s[0]] = s[1];
+    //change color of clicked, works for only one imposter as of right now
+    allButtons = document.getElementsByClassName('evb');
+    for (key in allButtons) { //remove all selection indicators
+        try {
+            allButtons[key].classList.remove('evbselected');
+        } catch (error) {
+            
+        }
+    }
+    for (ik in clientTempC) { //ik is imp's id //add the indication
+        document.getElementById(`evb,${ik},${clientTempC[ik]}`).classList.add('evbselected');
+    }
 }
 
 function endEvaluation() {
     var voteZone = document.getElementById('gameVoteCorrectnesBox');
     voteZone.innerHTML = "";
+}
+
+//function to get score category (gold bronze etc.)
+function getColorClassName(s) { //s is score 1-5
+    if (s > 4.3) {
+        return 'grsp5th'
+    } else if (s > 3.3) {
+        return 'grsp4th'
+    } else if (s > 2.3) {
+        return 'grspBronze'
+    } else if (s > 1.2) {
+        return 'grspSilver'
+    } else {
+        return 'grspGold'
+    }
+}
+//function to get score description (excellent unacceptable etc.)
+function getScoreDescription(s) { //s is score 1-5
+    if (s > 4.3) {
+        return strings["scr5"]
+    } else if (s > 3.3) {
+        return strings["scr4"]
+    } else if (s > 2.3) {
+        return strings["scr3"]
+    } else if (s > 1.2) {
+        return strings["scr2"]
+    } else {
+        return strings["scr1"]
+    }
 }
 
 function showRoundStats(msg) {
@@ -598,34 +657,6 @@ function showRoundStats(msg) {
     div.classList.remove('hidden'); //show the div
     //change colros
     changeStateColor([roundStatsColor, roundStatsColor2])
-    //function to get score category (gold bronze etc.)
-    function getColorClassName(s) { //s is score 1-5
-        if (s > 4.3) {
-            return 'grsp5th'
-        } else if (s > 3.3) {
-            return 'grsp4th'
-        } else if (s > 2.3) {
-            return 'grspBronze'
-        } else if (s > 1.2) {
-            return 'grspSilver'
-        } else {
-            return 'grspGold'
-        }
-    }
-    //function to get score description (excellent unacceptable etc.)
-    function getScoreDescription(s) { //s is score 1-5
-        if (s > 4.3) {
-            return strings["scr5"]
-        } else if (s > 3.3) {
-            return strings["scr4"]
-        } else if (s > 2.3) {
-            return strings["scr3"]
-        } else if (s > 1.2) {
-            return strings["scr2"]
-        } else {
-            return strings["scr1"]
-        }
-    }
     //generate the table
     var txt = "<div>";
     for (key in clientGame['players']) {

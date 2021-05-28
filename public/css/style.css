@@ -323,7 +323,13 @@ button {
     padding: .5em;
     border-color: #837f88;
     background-color: #A393AD22;
-    word-wrap: break-word;
+    word-wrap: break-word;    
+    opacity: 0;
+    animation-name: appearAni;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    animation-delay: calc(var(--ani-order) * 140ms + 400ms);
 }
 #gameVoteImposterBox > button:hover {
     background-color: #A393AD44;
@@ -347,6 +353,126 @@ button {
 }
 #gameVoteImposterBox > button.voted:active {
     background-color: #644e7eEE;
+}
+
+.gvcImposter {
+    margin: 0 auto;
+    max-width: 30em;
+    margin-top: .6em;
+    margin-bottom: .4em;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
+    background-color: white;
+    padding: .4em;
+    opacity: 0;
+    animation-name: appearAni;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    animation-delay: calc(var(--ani-order) * 15ms + 500ms);
+}
+@keyframes appearAni {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+.gvcImposter > div {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    gap: .1em;
+}
+
+.evb {
+    padding: 3px
+}
+.evb > span {
+    font-size: .7em;
+}
+.evb:focus {
+    outline: unset;
+}
+.evb:active {
+    padding-top: 6px;
+    padding-bottom: 0px;
+}
+
+.evb1 {
+    background-color: rgb(76, 97, 61);
+    color: #fff;
+    border-color: rgb(0, 0, 0);
+}
+.evb1:hover {
+    background-color: rgb(96, 122, 77);
+}
+.evb1:active {
+    background-color: rgb(44, 58, 34);
+}
+
+.evb2 {
+    background-color: rgb(96, 112, 78);
+    color: #fff;
+    border-color: rgb(0, 0, 0);
+}
+.evb2:hover {
+    background-color: rgb(117, 136, 94);
+}
+.evb2:active {
+    background-color: rgb(68, 80, 55);
+}
+
+.evb3 {
+    background-color: rgb(119, 122, 78);
+    color: #fff;
+    border-color: rgb(0, 0, 0);
+}
+.evb3:hover {
+    background-color: rgb(141, 145, 98);
+}
+.evb3:active {
+    background-color: rgb(63, 65, 42);
+}
+
+.evb4 {
+    background-color: rgb(134, 108, 64);
+    color: #fff;
+    border-color: rgb(0, 0, 0);
+}
+.evb4:hover {
+    background-color: rgb(167, 138, 89);
+}
+.evb4:active {
+    background-color: rgb(66, 57, 40);
+}
+
+.evb5 {
+    background-color: rgb(117, 70, 70);
+    color: #fff;
+    border-color: rgb(0, 0, 0);
+}
+.evb5:hover {
+    background-color: rgb(156, 97, 97);
+}
+.evb5:active {
+    background-color: rgb(49, 31, 31);
+}
+
+.evbselected {
+    background-color: #efdf00;
+    color: black;
+    box-shadow: 0px 0px 10px 0px #dc0;
+}
+.evbselected > span {
+    color: #111;
+}
+.evbselected:hover {
+    background-color: #ffee00;
+}
+.evbselected:active {
+    background-color: #cec000;
 }
 
 #gameRoundStatsBox {
@@ -676,6 +802,11 @@ span.grspPoint {
     #gameStateTitle {
         font-size: 2.5em;
     }
+    .evb > span {
+        line-height: 1em;
+        display: block;
+        margin-bottom: .3em;
+    }
 }
 
 .downSwoosh {
@@ -794,6 +925,14 @@ span.grspPoint {
         transition: unset;
     }
     #gamePlayersBox > div > div.gamePlayerActive::before {
+        animation-name: unset;
+    }
+    #gameVoteImposterBox > button {
+        opacity: 1;
+        animation-name: unset;
+    }
+    .gvcImposter {
+        opacity: 1;
         animation-name: unset;
     }
     .downSwoosh {
@@ -943,6 +1082,10 @@ button {
 }
 #gameVoteImposterBox > button.voted:active {
     background-color: #512a7e;
+}
+
+.gvcImposter {
+    background-color: rgb(85, 85, 85);
 }
 
 .grspTop{
