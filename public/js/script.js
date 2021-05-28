@@ -91,14 +91,14 @@ let roundStatsColor2 = '';
 let darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
 function setTheme(e) {
     if (e.matches) {
-        console.log('dark theme')
+        console.info('dark theme')
         c2 = "#333";
         talkingColor2 = c2;
         voteImpColor2 = c2;
         voteCorrectColor2 = c2;
         roundStatsColor2 = c2;
     } else {
-        console.log('light theme')
+        console.info('light theme')
         roundStatsColor2 = '#eeeeee';
         c2 = "#fff";
         talkingColor2 = c2;
@@ -124,7 +124,7 @@ socket.on("connectionIDs", (msg) => { //when the server sends the updated list o
 });
 
 socket.on("gameRunningError", (msg) => { //when the servers report an error
-    console.log(`${strings["serr"]} ${msg}`);
+    console.error(`${strings["serr"]} ${msg}`);
     //TODO: on screen pop out
 })
 
@@ -216,7 +216,7 @@ socket.on("endGame", (msg) => {
 })
 
 socket.on("sMsg", (msg) => {
-    console.log(strings["pinf"] + msg);
+    console.info(strings["pinf"] + ` msg`);
 })
 
 document.getElementById('startReady').onclick = function () {
@@ -302,7 +302,9 @@ function joinSuccessful() {
     }, 500);
     //other things
     myName = joinedPlayers[sid];
-    console.log(`my name is: ${myName}`);
+    console.info(`My name is: ${myName}`);
+    //allow scrolling
+    document.getElementById('joinScr').style.overflow = 'auto';
 }
 
 function updatePlayerLists() {
@@ -469,7 +471,7 @@ function gameHighlightActivePlayer(msg) { //msg is player's name
             try {
                 elements[key].classList.remove("gamePlayerActive");
             } catch (error) {
-                console.log(strings["crac"])
+                //console.warn(strings["crac"])
             }
         };
     }
@@ -539,7 +541,7 @@ function voteImposter(s) { //s is id of who you voted
         try {
             document.getElementById(`vib${notvoted[s]}`).classList.remove('voted')
         } catch (error) {
-            console.log(`${strings["crvc"]}`)
+            //console.warn(`${strings["crvc"]}`)
         }
     }
 }
@@ -714,7 +716,7 @@ function showEnd(msg) {
         <span>Game:</span>
         <hr>
         ${JSON.stringify(msg, null, 2)}`;
-    console.log("game result:");
+    console.info("game result:");
     console.log(msg);
 }
 
@@ -722,7 +724,7 @@ function attemptReconnect() {
     try {
         socket.emit("reconnect", localStorage.getItem("gameID", sid)) //request reconnect for the stored id
     } catch (error) {
-        console.log(strings["rcof"])
+        console.error(strings["rcof"])
     }
 }
 

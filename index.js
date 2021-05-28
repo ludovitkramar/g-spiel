@@ -381,11 +381,15 @@ function gameEvalPoints() {
     //calculate all the times a normal player guessed incorrectly
     for (id in game[`r${game["round"]}`]) { //for everyone that voted
       if (game["imposters"].indexOf(id) == -1) { //if wasn't imposter
+        var didntVotethisImposter = true; //assume the player didn't vote this imposter
         for (key in game[`r${game["round"]}`][id]) { //for every vote
-          if (game["imposters"].indexOf(game[`r${game["round"]}`][id][key]) == -1 && game[`r${game["round"]}`][id].indexOf(game["imposters"][ik]) == -1) {//if the vote isn't any imposter and didn't vote this imposter
-            wrongGuesses += 1;
+          if (game["imposters"][ik] == game[`r${game["round"]}`][id][key]) {//if the vote was this imposter
+            didntVotethisImposter = false
           }
         }
+        if (didntVotethisImposter && game[`r${game["round"]}`][id].length == game["imposters"].length) { //if none of the votes were this imposter and voted as many times as there are imposters (if haven't voted all the times he could have, that is a noGuess, not wrongVote)
+          wrongGuesses += 1
+        };
       }
     }
     game[`wronGuesses${game["round"]}`][game["imposters"][ik]] = wrongGuesses; //store wrong guesses

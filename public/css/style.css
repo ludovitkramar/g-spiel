@@ -45,9 +45,12 @@ button {
 
 #joinScr {
     background-color: rgb(250, 252, 255);
+    /* overflow: auto; controlled be script.js joinSuccessful()*/
 }
 
 #joinScrTopBox{
+    position: sticky;
+    top: 0;
     background-color: #4aace9ff;
     color: rgb(0, 0, 0);
     height: 100vh;
