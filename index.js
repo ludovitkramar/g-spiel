@@ -141,7 +141,7 @@ io.on('connection', (socket) => {
     connectionsIDs = connectionIDs.splice(connectionIDs.indexOf(sID), 1); //remove the id from the array of connected users
     if (gameRunning && game["players"].indexOf(sID) != -1) { //if the game is running and this id is a player
       console.log('player disconnected while in game')
-      io.sockets.emit("gameRunningError", `Player ${game["pnames"][sID]}(${sID}) disconnected mid game`);
+      io.sockets.emit("gameRunningError", `Player ${game["pnames"][sID]} (${sID}) disconnected mid game`);
     } else {
       delete joinedPlayers[sID]; //remove from joinedPlayers object
       delete readyPlayers[sID];
@@ -165,6 +165,9 @@ io.on('connection', (socket) => {
         gameSendGameState();
         io.to(sID).emit("startGame", "start");
         io.to(sID).emit("sMsg", "You've been reconnected automaticaly, expect errors.");
+        for (key in game["players"]) { //for every player
+          io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} (${sID}) has been reconnected.`);
+        }
       } else {
         console.log('not player wanted to reconnect: ' + msg)
       }
