@@ -311,9 +311,6 @@ button {
     }
 }
 
-#gameVoteImposterBox {
-    padding-top: 1.2em;
-}
 #gameVoteImposterBox > button {
     display: block;
     margin: 0 auto;
@@ -355,9 +352,13 @@ button {
     background-color: #644e7eEE;
 }
 
+#gameVoteCorrectnesBox {
+    padding-bottom: 10px;
+    width: 100%;
+    max-width: 33em;
+}
 .gvcImposter {
     margin: 0 auto;
-    max-width: 27em;
     margin-bottom: 1em;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
     background-color: white;
@@ -386,7 +387,6 @@ button {
 }
 
 .gameGreyLineTitle {
-    max-width: 29em;
     margin: 0 auto;
     width: 100%;
     margin-top: 1em;
@@ -395,6 +395,7 @@ button {
     color: #555;
     border-bottom: 1px solid #aaa;
 }
+
 
 .evb {
     padding: .25em;
@@ -487,6 +488,7 @@ button {
 
 #gameRoundStatsBox {
     padding-bottom: 10px;
+    max-width: 40em;
 }
 
 #gameRoundStatsBox > div {
@@ -807,9 +809,11 @@ span.grspPoint {
     #gameRightBox {
         grid-column: 1;
         grid-row: 2;
-        place-items:unset;
     }
 
+    #gameRoundStatsBox {
+        width: 100%;
+    }
     #gameRoundStatsBox > div {
         grid-template-columns: auto;
     }

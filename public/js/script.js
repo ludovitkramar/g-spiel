@@ -100,9 +100,9 @@ function setTheme(e) {
         voteImpColor2 = c2;
         voteCorrectColor2 = c2;
         roundStatsColor2 = c2;
-        talkingColor = '#163857';
-        voteImpColor = '#402761';
-        voteCorrectColor = '#1f3817';
+        // talkingColor = '#163857';
+        // voteImpColor = '#402761';
+        // voteCorrectColor = '#1f3817';
     } else {
         console.info('light theme')
         roundStatsColor2 = '#eeeeee';
@@ -786,8 +786,8 @@ function showEnd(msg) {
         <br>
         <span>Reload the page to start again.</span>
         <br>
-        <span>Game:</span>
         <hr>
+        <span>Game data: </span><br />
         ${JSON.stringify(msg, null, 2)}`;
     console.info("game result:");
     console.log(msg);
