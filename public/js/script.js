@@ -76,6 +76,8 @@ let strings = { //collections of all the text for ease of management
     "evad": "Evaluated:",
     "ddev": "Didn\'t evaluate.",
     "rcof": "reconnect attempt failed",
+    "vtit": "Vote:",
+    "evat": "Evaluate:",
 };
 //players that have been selected as imposters by this player in the voting phase.
 let votedImpArray = [];
@@ -98,6 +100,9 @@ function setTheme(e) {
         voteImpColor2 = c2;
         voteCorrectColor2 = c2;
         roundStatsColor2 = c2;
+        talkingColor = '#163857';
+        voteImpColor = '#402761';
+        voteCorrectColor = '#1f3817';
     } else {
         console.info('light theme')
         roundStatsColor2 = '#eeeeee';
@@ -527,16 +532,18 @@ function startVoteImposter(msg) {
         }
         playerListArray.sort();
         var ii = 0;
+        var viCode = `<div class="gameGreyLineTitle">${strings["vtit"]}</div>`;
         for (key in playerListArray) { //for every player name
             for (s in clientGame["pnames"]) { // for every id of pnames
                 if (clientGame["pnames"][s] == playerListArray[key]) { //if found id (s) that matches current player's name
                     if (playerListArray[key] != myName) { //if s is not you (you can't vote yourself)
                         ii += 1;
-                        voteZone.innerHTML += `<button id="vib${s}" onclick="voteImposter('${s}')" style="--ani-order: ${ii};">${playerListArray[key]} ${strings["hadw"]}</button>`;
+                        viCode += `<button id="vib${s}" onclick="voteImposter('${s}')" style="--ani-order: ${ii};">${playerListArray[key]} ${strings["hadw"]}</button>`;
                     }
                 }
             }
         }
+        voteZone.innerHTML += viCode;
         var text = ""
         if (clientGame["impostersCount"] > 1) {
             text = `${strings["thar"]} ${clientGame["impostersCount"]} ${strings["mols"]}`
@@ -593,6 +600,7 @@ function startEvaluation(msg) {
     var voteZone = document.getElementById('gameVoteCorrectnesBox');
     htmlCode = "";
     if (msg[0].indexOf(sid) == -1) { //if you are not the imposter
+        htmlCode += `<div class="gameGreyLineTitle">${strings["evat"]}</div>`;
         if (msg[0].length > 1) {  //multiple imposters
             changeStateText([`${strings["evtm"]}`, `${strings["thnw"]} ${msg[1]}`])
             for (key in msg[0]) { //for each imposter

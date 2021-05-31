@@ -357,12 +357,11 @@ button {
 
 .gvcImposter {
     margin: 0 auto;
-    max-width: 30em;
-    margin-top: .6em;
-    margin-bottom: .4em;
+    max-width: 27em;
+    margin-bottom: 1em;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
     background-color: white;
-    padding: .4em;
+    padding: .5em;
     opacity: 0;
     animation-name: appearAni;
     animation-duration: .4s;
@@ -383,11 +382,22 @@ button {
 .gvcImposter > div {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
-    gap: .1em;
+    gap: .25em;
+}
+
+.gameGreyLineTitle {
+    max-width: 29em;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: #555;
+    border-bottom: 1px solid #aaa;
 }
 
 .evb {
-    padding: 3px
+    padding: .25em;
 }
 .evb > span {
     font-size: .7em;
@@ -682,7 +692,10 @@ span.grspPoint {
     word-wrap: break-word;
     overflow-wrap: break-word;
     background-color: #fff;
-    width: 40em;
+    width: 44em;
+    padding: 1em;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #phaseTitle {
@@ -776,7 +789,7 @@ span.grspPoint {
     width: 95%;
 }
 
-@media (max-width: 65em) {
+@media (max-width: 75em) {
 
     #gameScr > div {
         display: grid;
@@ -788,7 +801,7 @@ span.grspPoint {
     #gameInfoBox {
         grid-column: 1;
         grid-row: 1;
-        height: 50vh;
+        height: 42vh;
     }
     
     #gameRightBox {
@@ -827,7 +840,7 @@ span.grspPoint {
     #gameInfoBox {
         grid-column: 1;
         grid-row: 1;
-        height: 40vh;
+        height: 36vh;
     }
     #gameStateTitle {
         font-size: 2.5em;
@@ -1121,18 +1134,23 @@ button {
     background-color: #512a7e;
 }
 
+.gameGreyLineTitle {
+    color: rgb(136, 136, 136);
+    border-bottom: 1px solid rgb(92, 92, 92);    
+}
+
 .gvcImposter {
     background-color: rgb(85, 85, 85);
 }
 
 .grspTop{
-    background-color: #222;
+    background-color: rgb(85, 85, 85);
     box-shadow: 0 0 .1em #aaa;
 }
 
 .grspLeft {
     box-shadow: 0 0 .1em #aaa;
-    background-color: #222;
+    background-color: rgb(85, 85, 85);
 }
 
 .grspName {
@@ -1140,7 +1158,8 @@ button {
 }
 
 .grspName > * {
-    color: royalblue;
+    color: rgb(114, 145, 236);
+    text-shadow: 0px 0px 8px royalblue;
 }
 
 .grspNameImp {
@@ -1148,7 +1167,8 @@ button {
 }
 
 .grspNameImp > * {
-    color: orangered;
+    color: rgb(255, 105, 51);
+    text-shadow: 0px 0px 8px orangered;
 }
 
 .grspCorrect {
