@@ -69,12 +69,12 @@ io.on('connection', (socket) => {
       for (key in joinedPlayers) { //if there isn't a player with the same name already
         if (joinedPlayers[key] == pname) {
           canJoin = false;
-          io.to(sID).emit("gameRunningError", "Someone already has that name")
+          io.to(sID).emit("gameRunningError", "Jemand hat bereits den gleichen Namen.")
         }
       }
       if (pname == "") {
         canJoin = false;
-        io.to(sID).emit("gameRunningError", "Can't use empty name")
+        io.to(sID).emit("gameRunningError", "Geben Sie bitte einen Namen ein.")
       }
       if (canJoin) {
         pname = pname.slice(0, 26) //don't allow long names.
@@ -85,7 +85,7 @@ io.on('connection', (socket) => {
         io.to(sID).emit("joinSuccessful", "server: join succesful"); //this triggers the client to show start screen.
       };
     } else {
-      io.to(sID).emit("gameRunningError", "Game running, can't join.") //gameRunningError will trigger an alert on the client
+      io.to(sID).emit("gameRunningError", "Spiel läuft, kann nicht beitreten.") //will trigger an alert on the client
     }
   });
   //player says he is ready
@@ -102,10 +102,10 @@ io.on('connection', (socket) => {
           startGame();
         }
       } else {
-        io.to(sID).emit("gameRunningError", "Game running, can't ready.")
+        io.to(sID).emit("gameRunningError", "Spiel läuft.")
       }
     } else {
-      io.to(sID).emit("gameRunningError", "How can you be ready without first joining?")
+      io.to(sID).emit("gameRunningError", "Bitte erst beitreten.")
     }
     //console.log(readyPlayers);
   });
@@ -141,7 +141,7 @@ io.on('connection', (socket) => {
     connectionsIDs = connectionIDs.splice(connectionIDs.indexOf(sID), 1); //remove the id from the array of connected users
     if (gameRunning && game["players"].indexOf(sID) != -1) { //if the game is running and this id is a player
       console.log('player disconnected while in game')
-      io.sockets.emit("gameRunningError", `Player ${game["pnames"][sID]} (${sID}) disconnected mid game`);
+      io.sockets.emit("gameRunningError", `${game["pnames"][sID]} (${sID}) hat die Verbindung mitten im Spiel unterbrochen.`);
     } else {
       delete joinedPlayers[sID]; //remove from joinedPlayers object
       delete readyPlayers[sID];
@@ -164,9 +164,9 @@ io.on('connection', (socket) => {
         //send the things for it to work fine
         gameSendGameState();
         io.to(sID).emit("startGame", "start");
-        io.to(sID).emit("sMsg", "You've been reconnected automaticaly, expect errors.");
+        io.to(sID).emit("sMsg", "Sie wurden automatisch neu verbunden.");
         for (key in game["players"]) { //for every player
-          io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} (${sID}) has been reconnected.`);
+          io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} (${sID}) wurde wieder verbunden.`);
         }
       } else {
         console.log('not player wanted to reconnect: ' + msg)
