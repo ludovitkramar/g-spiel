@@ -1,4 +1,4 @@
-let socket = io.connect("/", { path: "/socket.io" }); //connect ro socket.io
+let socket = io.connect("/", { path: "/gSpiel/socket.io" }); //connect ro socket.io
 var sid = ""; //the session id of this player
 var joinedPlayers = {}; //same object as the server
 var readyPlayers = {}; //same object as the server
