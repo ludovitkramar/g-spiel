@@ -13,7 +13,8 @@ let clientGame = { //this object will be sent to the client to sync game state
     "voteTime": 0, //time for players to vote in seconds
 };
 let clientTempC = {}; //stores evaluation of each round
-let strings = { //collections of all the text for ease of management
+let strings = {}
+let strings_en = { //collections of all the text for ease of management
     "join": "Join!",
     "jinp": "Enter your name!",
     "rdts": "Ready to start",
@@ -78,11 +79,18 @@ let strings = { //collections of all the text for ease of management
     "rcof": "reconnect attempt failed",
     "vtit": "Vote:",
     "evat": "Evaluate:",
+    "sltt": "Large text",
+    "smtt": "Medium text",
+    "sstt": "Small text",
+    "pyag": "Play again",
+    "pos1": "1st place",
+    "pos2": "2nd place",
+    "pos3": "3rd place",
 };
-strings = { //german
+let strings_de = { //german
     "join": "Beitreten!",
     "jinp": "Geben Sie Ihren Namen ein",
-    "rdts": "Startbereit",
+    "rdts": "Ich bin bereit",
     "srcr": "Bereite Spieler",
     "srcw": "Wartende Spieler",
     "serr": "Server-Fehlermeldung:",
@@ -144,7 +152,33 @@ strings = { //german
     "rcof": "Wiederverbindungsversuch fehlgeschlagen",
     "vtit": "Wählen Sie:",
     "evat": "Bewerten Sie:",
+    "sltt": "Große Schriftgröße",
+    "smtt": "Mittlere Schriftgröße",
+    "sstt": "Kleine Schriftgröße",
+    "pyag": "Erneut spielen",
+    "pos1": "1. Platz",
+    "pos2": "2. Platz",
+    "pos3": "3. Platz",
 };
+//set correct language
+function setLang(l) {
+    switch (l) {
+        case "en":
+            strings = strings_en;
+            localStorage.setItem('lang', l)
+            break;
+        case "de":
+            strings = strings_de;
+            localStorage.setItem('lang', l)
+            break
+        default:
+            strings = strings_de;
+            localStorage.setItem('lang', "de")
+            break;
+    }
+    populateStrings();
+}
+setLang(localStorage.getItem('lang'))
 //players that have been selected as imposters by this player in the voting phase.
 let votedImpArray = [];
 //colors
@@ -181,6 +215,10 @@ function setTheme(e) {
 setTheme(darkTheme)  //set theme on load
 darkTheme.addEventListener("change", (e) => { //set theme when changed dynamically
     setTheme(e)
+})
+document.getElementById('esAgain').addEventListener("click", function () {
+    window.location.reload()
+    return false;
 })
 
 //when connected succesfully
@@ -288,30 +326,29 @@ socket.on("endGame", (msg) => {
 })
 
 socket.on("sMsg", (msg) => {
-    console.info(strings["pinf"] + ` msg`);
+    console.info(strings["pinf"] + ` ${msg}`);
     showNotification(msg, "info");
 })
 
 document.getElementById('startReady').onclick = function () {
     sendReady(sid);
-}
+};
 
-//open and close toolbox
-document.getElementById('devTools').onclick = function () {
-    const ele = document.getElementById('devTooslBox')
-    if (ele.style.display == "block") {
-        ele.classList.add("closeZoom");
-        setTimeout(() => {
-            ele.classList.remove("closeZoom");
-            ele.style.display = "none";
-        }, 500);
-    } else {
-        ele.style.display = "block";
-        ele.classList.add("downSwoosh");
-        setTimeout(() => {
-            ele.classList.remove("downSwoosh");
-        }, 500);
-    }
+//bellow is to change the * css thingy, thanks to zer0 https://stackoverflow.com/questions/14791094/how-to-set-the-universal-css-selector-with-javascript
+(function (exports) {
+    var style = document.querySelector("head")
+        .appendChild(document.createElement("style"));
+
+    var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+    styleSheet.insertRule("* {}", 0);
+
+    exports.universal = styleSheet.cssRules[0];
+}(window));
+// console.log("universal" in window); // true
+
+function setTextSize(percentage) {
+    console.log(`${percentage}%`)
+    window.universal.style.fontSize = `${percentage}%`;
 }
 
 function sendReady(c) {
@@ -332,7 +369,6 @@ function onConnect() {
     //focus name box
     document.getElementById('joinFormName').focus();
     //set the text of several elements
-    populateStrings();
 }
 
 function populateStrings() {
@@ -341,11 +377,21 @@ function populateStrings() {
     document.getElementById('srcReady').innerText = strings["srcr"];
     document.getElementById('srcWaiting').innerText = strings["srcw"];
     document.getElementById('joinFormName').placeholder = strings["jinp"];
+    document.getElementById('sltt').innerText = strings["sltt"];
+    document.getElementById('smtt').innerText = strings["smtt"];
+    document.getElementById('sstt').innerText = strings["sstt"];
+    document.getElementById('esTitle').innerText = strings["gend"];
+    document.getElementById('esAgain').innerText = strings["pyag"];
 }
 
 function joinGame() { //tell the server you want to join
-    var playerName = document.forms["join"]["name"].value;
+    playerName = document.forms["join"]["name"].value;
     socket.emit("playerJoin", playerName);
+    if (playerName == '' || typeof playerName == 'undefined') {
+        return false
+    } else {
+        return true
+    }
 }
 
 function joinSuccessful() {
@@ -846,15 +892,50 @@ function showEnd(msg) {
     hideAllScreens()
     document.getElementById('endScr').classList.remove('hidden')
     localStorage.removeItem("gameID"); //game ended, reconnect doesn't matter anymore
-    //show game result
-    document.getElementById('endScr').innerHTML = `
-        <span> Game ended.</span >
-        <br>
-        <span>Reload the page to start again.</span>
-        <br>
-        <hr>
-        <span>Game data: </span><br />
-        ${JSON.stringify(msg, null, 2)}`;
+    const pp = msg["ppoints"];
+    //generate ordered array of ids
+    var allPoints = [];
+    var p2id = {}; //object, keys are all the points present, stores array of ids that have that point
+    for (id in pp) {
+        if (allPoints.indexOf(pp[id]) == -1) { //if that point still hasn't been found
+            allPoints.push(pp[id]);
+        }
+        try { //add to points 2 id object
+            p2id[pp[id]].push(id)
+        } catch (error) {
+            p2id[pp[id]] = []
+            p2id[pp[id]].push(id);
+        }
+    }
+    allPoints.sort(function (a, b) { //descending order of points
+        return b - a;
+    });
+    var code1 = '';
+    var code2 = '';
+    for (key in allPoints) {
+        if (key < 3) { //for the first three players
+            for (ppp in p2id[allPoints[key]]) { //for all ids that have the same score
+                var pos = key * 1 + 1;
+                code1 += `<div id="es${pos}" class="esTop">`
+                var stringName = `pos${pos}`
+                code1 += `<div>${strings[stringName]}</div><div>`
+                code1 += `<span>${msg["pnames"][p2id[allPoints[key]][ppp]]}</span>
+                          <span>${allPoints[key]} ${strings["pnts"]}</span>`
+                code1 += '</div></div>'
+            }
+        } else {
+            for (ppp in p2id[allPoints[key]]) { //for all ids that have the same score
+                var pos = key * 1 + 1;
+                code2 += `<div><div>${pos}</div><div>`
+                code2 += `<span>${msg["pnames"][p2id[allPoints[key]][ppp]]}</span>
+                          <span>${allPoints[key]} ${strings["pnts"]}</span>`
+                code2 += '</div></div>'
+            }
+        }
+    }
+    document.getElementById('esPodium').innerHTML = code1;
+    document.getElementById('esRanking').innerHTML = code2;
+
     console.info("game result:");
     console.log(msg);
 }

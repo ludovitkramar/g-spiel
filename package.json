@@ -1,7 +1,7 @@
 {
   "name": "g-spiel",
-  "version": "1.0.0",
-  "description": "Grammatikspiel",
+  "version": "0.2.0",
+  "description": "Grammatiklernspiel - Passiversatzformen Übung",
   "main": "index.js",
   "scripts": {
     "test": "node index.js",

@@ -71,8 +71,8 @@ button {
 #joinFormButton {
     padding: 1.5em;
     margin: 2em;
-    padding-left: 4em;
-    padding-right: 4em;
+    padding-left: 2.6em;
+    padding-right: 2.6em;
     background-color: #065e99ff;
     color: #daeeffff;
     cursor: pointer;
@@ -398,10 +398,13 @@ button {
 
 
 .evb {
-    padding: .25em;
+    padding: 3px;
 }
 .evb > span {
     font-size: .7em;
+    line-height: 1em;
+    display: block; 
+    margin-bottom: .3em;
 }
 .evb:focus {
     outline: unset;
@@ -502,12 +505,12 @@ button {
     padding-left: .2em;
     padding-right: .4em;
     background-color: #fff;
-    box-shadow: 0 0 .1em black;
+    box-shadow: 0 0 1px black;
     margin-top: 10px;
 }
 
 .grspLeft {
-    box-shadow: 0 0 .1em black;
+    box-shadow: 0 0 1px black;
     background-color: #fff;
     margin-top: 10px;
     padding: .2em;
@@ -542,9 +545,13 @@ button {
 }
 
 .grspTitle {
-    font-size: 1.2em;
+    font-size: 1em;
     display: inline-block;
     margin-left: .2em;
+}
+
+.grspTitle > span {
+    font-size: .9em;
 }
 
 ul.grspPlayersList {
@@ -554,6 +561,7 @@ ul.grspPlayersList {
 
 ul.grspPlayersList > li {
     display: inline-block;
+    font-size: .9em;
 }
 
 .grspCorrect {
@@ -589,6 +597,7 @@ ul.grspScoreboard {
 
 ul.grspScoreboard > li {
     display: inline-block;
+    font-size: .9em;
 }
 
 .grspGold {
@@ -667,9 +676,99 @@ span.grspPoint {
 }
 
 #endScr {
+    background-color: #424242;
+    color: #fff;
     overflow: auto;
-    background-color: #bb472a;
-    color: white;
+}
+#esTitle {
+    margin: .4em;
+    font-size: 2.8em;
+    text-align: center;
+    line-height: 1.1em;
+}
+#esAgain {
+    display: block;
+    padding: .5em;
+    background-color: #065e99ff;
+    color: #daeeffff;
+    cursor: pointer;
+    border: 1px solid rgb(4, 28, 43);
+    border-radius: 0;
+    text-align: center;
+    margin: 0 auto;
+    width: max-content;
+    margin-bottom: 1em;
+    margin-top: -.3em;
+}
+#esAgain:hover {
+    background-color: rgb(33, 112, 165);
+}
+#esAgain:active {
+    background-color: rgb(16, 56, 83);
+    padding-top: .6em;
+    padding-bottom: .4em;
+}
+#esGrid {
+    margin: 0 auto;
+    width: 40em;
+    max-width: 100vw; 
+}
+#esPodium {
+    display: grid;
+    grid-template-columns: 35% 33% 32%;
+}
+.esTop {
+    position: relative;
+    margin: .25em;
+    border: 1px solid black;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+.esTop > div:first-child {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    opacity: .5;
+    font-size: .9em;
+}
+.esTop > div:last-child > span:first-child {
+    display: block;
+    font-size: 1.3em;
+}
+#es1 {
+    background-color: #b08f3f;
+}
+#es2 {
+    background-color: #a26e49;
+}
+#es3 {
+    background-color: #685a48;
+}
+#esRanking {
+    display: grid;
+}
+#esRanking > div {
+    position: relative;
+    margin: .25em;
+    background-color: rgb(94, 94, 94);
+    border: 1px solid black;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+#esRanking > div > div:first-child {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    opacity: .5;
+    font-size: .9em;
+}
+#esRanking > div > div:last-child > span:first-child {
+    display: block;
+    font-size: 1.1em;
+}
+#esRanking > div > div:last-child > span:last-child {
+    display: block;
+    font-size: .9em;
 }
 
 #phaseChangeNotice {
@@ -680,6 +779,7 @@ span.grspPoint {
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
+    z-index: 101;
 }
 
 #phaseChangeNotice > div {
@@ -727,6 +827,7 @@ span.grspPoint {
     grid-template-columns: auto;
     gap: .2em;
     max-width: 75vw;
+    z-index: 102;
 }
 
 .notifyInfo {
@@ -752,43 +853,72 @@ span.grspPoint {
 #toolBox {
     position: fixed;
     display: inline-block;
+    height: 42px;
+    /* border-radius: 21px; */
     bottom: 20px;
     right: 20px;
-    border: 1px solid grey;
+    border: 0;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.7);
+    opacity: .4;
+    transition: opacity .5s;
 }
-
+#toolBox:hover {
+    opacity: 1;
+}
 #toolBox > button {
-    margin: 3px;
-    padding: 4px;
+    height: 100%;
+    min-width: 42px;
+    padding-left: .5em;
+    padding-right: .5em;
     border: none;
     background-color: #00000000;
-    cursor: pointer;
 }
-
+/* #toolBox > button:first-child {
+    border-top-left-radius: 21px;
+    border-bottom-left-radius: 21px;
+}
+#toolBox > button:last-child {
+    border-top-right-radius: 21px;
+    border-bottom-right-radius: 21px;
+} */
 #toolBox > button:hover {
     background-color: #fff;
 }
-
-#devTooslBox {
+#toolBox > button:focus {
+    background-color: #fff;
+    outline: 0;
+}
+#toolBox > button:focus > .toolBoxTool {
+    display: block;
+}
+.toolBoxTool {
     position: absolute;
     display: none;
     max-height: calc(100vh - 150px);
-    overflow: auto;
-    bottom: 40px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid grey;
+    overflow-x: auto;
+    bottom: 0px;
+    /* border-radius: 10px; */
+    background-color: #fff;
     right: 0;
-    padding: 4px;
-    width: 20em;
+    padding: 5px;
+    min-width: 10em;
     max-width: 85vw;
 }
-
-#devTooslBox > * {
-    display: block;
-    margin: 5px;
-    width: 95%;
+.toolBoxTool > .toolBtn {
+    cursor: pointer;
+    text-align: left;
+    /* border-radius: 10px; */
+    padding-left: .3em;
+    padding-right: .3em;
+}
+.toolBoxTool > .toolBtn:hover {
+    background-color: rgba(134, 134, 134, 0.452);
+    cursor: pointer;
+}
+.toolBoxTool > .toolBtn:active {
+    background-color: rgba(95, 95, 95, 0.746);
+    cursor: pointer;
 }
 
 @media (max-width: 75em) {
@@ -837,7 +967,7 @@ span.grspPoint {
     }
 }
 
-@media (max-width: 35em) {
+@media (max-width: 38em) {
     * {
         font-size: 103%;
     }
@@ -847,15 +977,32 @@ span.grspPoint {
         height: 36vh;
     }
     #gameStateTitle {
-        font-size: 2.5em;
+        font-size: 2em;
+    }
+    #gameStateSubtitle{
+        font-size: 1.2em;
+    }
+    .gvcImposter > div {
+        grid-template-columns: auto;
     }
     .evb > span {
         line-height: 1em;
-        display: block;
-        margin-bottom: .3em;
+        display: unset; 
+    }
+    #esPodium {
+        grid-template-columns: auto;
+    }
+    #esTitle {
+        font-size: 2.4em;
     }
 }
 
+.fastDownSwoosh {
+    animation-name: downSwoosh;
+    animation-duration: .16s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
 .downSwoosh {
     animation-name: downSwoosh;
     animation-duration: .4s;
@@ -1222,11 +1369,6 @@ span.grspPoint {
     border: 1px solid black;
 }
 
-#endScr {
-    background-color: #2f1e1a;
-    color: rgb(204, 204, 204);
-}
-
 #phaseChangeNotice > div > div{
     background-color: rgb(31, 31, 31);
 }
@@ -1236,20 +1378,18 @@ span.grspPoint {
 }
 
 #toolBox {
-    border: 1px solid rgb(97, 97, 97);
-    background-color: rgba(65, 65, 65, 0.8);
+    background-color: rgba(73, 73, 73, 0.9);
 }
-
 #toolBox > button {
     background-color: #00000000;
 }
-
 #toolBox > button:hover {
     background-color: rgb(107, 107, 107);
 }
-
-#devTooslBox {
-    background-color: rgba(73, 73, 73, 0.9);
-    border: 1px solid grey;
+#toolBox > button:focus {
+    background-color: rgb(107, 107, 107);
+}
+.toolBoxTool {
+    background-color: rgb(107, 107, 107);
 }
 }

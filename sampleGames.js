@@ -338,7 +338,7 @@ game = {
 //------------------------------------------------------------------------------------------------------------------------------------
 //13 player' game, bad wrong guesses and no guesses counting, TODO: fix it
 
-{
+game = {
   players: [
     'MrxJgii4-mBD7oltAAAJ',
     'qA-nudgrj-El8qzQAAAB',

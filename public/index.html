@@ -7,8 +7,8 @@
     <meta charset="utf-8">
     <meta name="author" content="Ludovit Kramar" />
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="Ein tolles Grammatikspiel - Passiversatzformen Übung" />
-    <title>Grammatikspiel</title>
+    <meta name="description" content="Ein tolles Grammatiklernspiel - Passiversatzformen Übung" />
+    <title>Grammatiklernspiel</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -21,9 +21,10 @@
                 <noscript>This site requires JavaScript!</noscript>
                 <form action="#" onsubmit="joinGame(); return false" name="join" id="joinGameForm">
                     <label>
-                        <input type="text" name="name" id="joinFormName" placeholder="jinp" maxlength="24">
+                        <input type="text" name="name" id="joinFormName" placeholder="Geben Sie Ihren Namen ein"
+                            maxlength="24">
                     </label>
-                    <button type="submit" id="joinFormButton">join</button>
+                    <button type="submit" id="joinFormButton">Beitreten!</button>
                 </form>
             </div>
             <div id="startGameTopBox" class="hidden">
@@ -65,13 +66,19 @@
                 <div id="gameVoteImposterBox" class="hidden"></div>
                 <div id="gameVoteCorrectnesBox" class="hidden"></div>
                 <div id="gameRoundStatsBox" class="hidden">
-                   
+
                 </div>
             </div>
         </div>
     </div>
 
     <div id="endScr" class="hidden screen">
+        <div id="esGrid">
+            <div id="esTitle">G</div>
+            <button id="esAgain">P</button>
+            <div id="esPodium"></div>
+            <div id="esRanking"></div>
+        </div>
     </div>
 
     <div id="reconnectBox" class="hidden">
@@ -81,8 +88,7 @@
         <div>
             <div id="phaseNoticeDialogueBox" class="hidden">
                 <span id="phaseTitle">Title</span>
-                <span
-                    id="phaseText">Text</span>
+                <span id="phaseText">Text</span>
             </div>
         </div>
     </div>
@@ -91,43 +97,51 @@
     </div>
 
     <div id="toolBox">
-        <button id="devTools">Functions</button>
-        <div id="devTooslBox">
-            <input type="text" id="devToolsArgument" placeholder="Input argument for function">
-            <button onclick="disconnect()">disconnect()</button>
-            <button onclick="sendReady(eval(document.getElementById('devToolsArgument').value))">sendReady(c)</button>
-            <button onclick="onConnect()">onConnect()</button>
-            <button onclick="joinGame()">joinGame()</button>
-            <button onclick="joinSuccessful()">joinSuccessful()</button>
-            <button onclick="updatePlayerLists()">updatePlayerLists()</button>
-            <button onclick="gameStateUpdate()">gameStateUpdate()</button>
-            <button onclick="hideAllScreens()">hideAllScreens()</button>
-            <button
-                onclick="changeStateText(eval(document.getElementById('devToolsArgument').value))">changeStateText(arr)</button>
-            <button
-                onclick="changeStateColor(eval(document.getElementById('devToolsArgument').value))">changeStateColor(arr)</button>
-            <button
-                onclick="noticeNewPhase(eval(document.getElementById('devToolsArgument').value))">noticeNewPhase(phaseCode)</button>
-            <button onclick="startGame()">startGame()</button>
-            <button
-                onclick="gameHighlightActivePlayer(eval(document.getElementById('devToolsArgument').value))">gameHighlightActivePlayer(name)</button>
-            <button
-                onclick="startVoteImposter(eval(document.getElementById('devToolsArgument').value))">startVoteImposter(msg)</button>
-            <button
-                onclick="voteImposter(eval(document.getElementById('devToolsArgument').value))">voteImposter(s)</button>
-            <button onclick="endVoteImposter()">endVoteImposter()</button>
-            <button
-                onclick="startEvaluation(eval(document.getElementById('devToolsArgument').value))">startEvaluation(msg)</button>
-            <button
-                onclick="evaluateImposter(eval(document.getElementById('devToolsArgument').value))">evaluateImposter(s)</button>
-            <button onclick="endEvaluation()">endEvaluation()</button>
-            <button
-                onclick="showRoundStats(eval(document.getElementById('devToolsArgument').value))">showRoundStats(msg)</button>
-            <button onclick="endRoundStats()">endRoundStats()</button>
-            <button onclick="showEnd()">showEnd()</button>
-            <button onclick="attemptReconnect()">attemptReconnect()</button>
-            <button onclick="showNotification(eval(document.getElementById('devToolsArgument').value))">showNotification(msg, t)</button>
-        </div>
+        <button>
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <div class="toolBoxTool fastDownSwoosh">
+                <div class="toolBtn" onclick="disconnect()">disconnect()</div>
+                <div class="toolBtn" onclick="sendReady()">sendReady(c)</div>
+                <div class="toolBtn" onclick="onConnect()">onConnect()</div>
+                <div class="toolBtn" onclick="joinGame()">joinGame()</div>
+                <div class="toolBtn" onclick="joinSuccessful()">joinSuccessful()</div>
+                <div class="toolBtn" onclick="updatePlayerLists()">updatePlayerLists()</div>
+                <div class="toolBtn" onclick="gameStateUpdate()">gameStateUpdate()</div>
+                <div class="toolBtn" onclick="hideAllScreens()">hideAllScreens()</div>
+                <div class="toolBtn" onclick="changeStateText(['asd', 'qwe'])">changeStateText(arr)</div>
+                <div class="toolBtn" onclick="changeStateColor(['#e6a', '#e0f'])">changeStateColor(arr)</div>
+                <div class="toolBtn" onclick="noticeNewPhase('e')">noticeNewPhase(phaseCode)</div>
+                <div class="toolBtn" onclick="startGame()">startGame()</div>
+                <div class="toolBtn" onclick="gameHighlightActivePlayer('F1')">gameHighlightActivePlayer(name)</div>
+                <div class="toolBtn" onclick="startVoteImposter(['asd'])">startVoteImposter(msg)</div>
+                <div class="toolBtn" onclick="voteImposter()">voteImposter(s)</div>
+                <div class="toolBtn" onclick="endVoteImposter()">endVoteImposter()</div>
+                <div class="toolBtn" onclick="startEvaluation(['asd'])">startEvaluation(msg)</div>
+                <div class="toolBtn" onclick="evaluateImposter()">evaluateImposter(s)</div>
+                <div class="toolBtn" onclick="endEvaluation()">endEvaluation()</div>
+                <div class="toolBtn" onclick="showRoundStats(['asd'])">showRoundStats(msg)</div>
+                <div class="toolBtn" onclick="endRoundStats()">endRoundStats()</div>
+                <div class="toolBtn" onclick="showEnd()">showEnd()</div>
+                <div class="toolBtn" onclick="attemptReconnect()">attemptReconnect()</div>
+                <div class="toolBtn" onclick="showNotification('asd', 'info')">showNotification(msg, t)</div>
+            </div>
+        </button><button>
+            <i class="fa fa-globe" aria-hidden="true"></i>
+            <div class="toolBoxTool fastDownSwoosh">
+                <div onclick="setLang('de')" class="toolBtn">Deutsch</div>
+                <div onclick="setLang('en')" class="toolBtn">English</div>
+            </div>
+        </button><button>
+            <i class="fa fa-search-plus" aria-hidden="true"></i>
+            <div class="toolBoxTool fastDownSwoosh">
+                <div onclick="setTextSize(106)" class="toolBtn" id="sltt">Large Text</div>
+                <div onclick="setTextSize(104)" class="toolBtn" id="smtt">Medium Text</div>
+                <div onclick="setTextSize(101)" class="toolBtn" id="sstt">Small Text</div>
+            </div>
+        </button><button onclick="window.open('https://github.com/ludovitkramar/g-spiel', '_blank');">
+            <i class="fa fa-github" aria-hidden="true"></i>
+            Github
+        </button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
