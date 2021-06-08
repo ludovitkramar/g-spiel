@@ -4,6 +4,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
+:root {
+    --bg: #ffffff;
+    --text: #000;
+    --textAlt: #fff;
+    --focus: rgb(30, 105, 151);
+
+    --phaseTitle: rgb(41, 97, 200);
+    --joinScrBg: #4aace9;
+
+    --bigBtnBg: #065e99;
+    --bigBtnText: #daeeffff;
+    --bigBtnBorder: rgb(4, 28, 43);
+    --bigBtnBgH: rgb(33, 112, 165);
+    --bigBtnBgA: rgb(16, 56, 83);
+    --playerReady: green;
+    --playerNotReady: red;
+
+    --greyText: #555;
+    --greyBorder: #aaa;
+
+    --boxBg: #fff;
+    --boxShadow: rgba(0, 0, 0, 1);
+    --boxShadowSemiweak: rgba(0, 0, 0, 0.75);
+    --boxShadowWeak: rgba(0, 0, 0, 0.5);
+
+    --gameBg: #fff;
+    --gameBgAlt: #eee;
+    --gameTalking: #1f4e7a;
+    --gameVoting: #6c41a3;
+    --gameEvaluating: #2d5020;
+    --gameRoundStats: #000000;
+
+    --inactivePlayerDot: rgb(227, 230, 238);
+    --activePlayerDot1: rgb(75, 105, 240);
+    --activePlayerDot2: rgb(150, 186, 240);
+    
+    --gvtBtnBorder: #837f88;
+    --gvtBtnBg: #A393AD22;
+    --gvtBtnFocusShadow: #837f88;
+    --gvtBtnBgH: #A393AD44;
+    --gvtBtnBgA: #A393ADAA;
+    --gvtBtnBorderVoted: #2b292e;
+    --gvtBtnBgVoted: #A393ADDD;
+    --gvtBtnBgVotedH: #644e7ed8;
+    --gvtBtnBgVotedA: #644e7eee;
+    
+    --playerName: royalblue;
+    --imposterName: orangered;
+    --correctGuess: #237e53;
+    --incorrectGuess: #a13711;
+    
+    --notiInfo: rgb(40, 73, 124);
+    --notiInfoBorder: rgb(24, 42, 70);
+    --notiError: rgb(124, 40, 40);
+    --notiErrorBorder: rgb(41, 14, 14);
+    
+    --endScrBg: #424242;
+    --rankingBorder: black;
+    --ranking1: #b08f3f;
+    --ranking2: #a26e49;
+    --ranking3: #685a48;
+    --rankingLow: rgb(94, 94, 94);
+  }
+
 * {
     padding: 0;
     margin: 0;
@@ -14,23 +78,12 @@
 }
 
 *:focus {
-    outline: .1em solid rgb(30, 105, 151);
-    outline-offset: .1em;
-}
-
-input {
-    user-select: auto;
-    background-color: #fff;
-    border-radius: 0;
-    border: 1px solid rgb(192, 192, 192)
+    outline: none;
 }
 
 button {
-    background-color: rgb(240, 244, 247);
-    color: rgb(19, 30, 39);
     cursor: pointer;
-    border: 1px solid rgb(163, 163, 163);
-    border-radius: 0;
+    border-width: 0;
 }
 
 .hidden {
@@ -44,15 +97,15 @@ button {
 }
 
 #joinScr {
-    background-color: rgb(250, 252, 255);
+    background-color: var(--bg);
     /* overflow: auto; controlled be script.js joinSuccessful()*/
 }
 
 #joinScrTopBox{
     position: sticky;
     top: 0;
-    background-color: #4aace9ff;
-    color: rgb(0, 0, 0);
+    background-color: var(--joinScrBg);
+    color: var(--text);
     height: 100vh;
     width: 100%;
     display: grid;
@@ -73,30 +126,40 @@ button {
     margin: 2em;
     padding-left: 2.6em;
     padding-right: 2.6em;
-    background-color: #065e99ff;
-    color: #daeeffff;
+    background-color: var(--bigBtnBg);
+    color: var(--bigBtnText);
     cursor: pointer;
-    border: 1px solid rgb(4, 28, 43);
-    border-radius: 0;
+    border: 1px solid var(--bigBtnBorder);
+    border-radius: 4em;
 }
 
 #joinFormButton:hover {
-    background-color: rgb(33, 112, 165);
+    background-color: var(--bigBtnBgH);
 }
 
 #joinFormButton:active {
-    background-color: rgb(16, 56, 83);
+    background-color: var(--bigBtnBgA);
     padding-top: 1.6em;
     padding-bottom: 1.4em;
 }
 
+#joinFormButton:focus {
+    box-shadow: 0em 0em 0em .14em var(--focus);
+}
+
 #joinFormName {
-    max-width: 94vw;
+    max-width: 90vw;
     width: 25em;
-    border: 1px solid rgb(4, 28, 43);
+    border: 1px solid var(--bigBtnBorder);
     user-select: auto;
     line-height: 2.4em;
-    border-radius: 0;
+    border-radius: 2em;
+    padding-left: .6em;
+    padding-right: .6em;
+}
+
+#joinFormName:focus {
+    box-shadow: 0em 0em 0em .14em var(--focus);
 }
 
 #startGameTopBox > div {
@@ -109,25 +172,29 @@ button {
 
 #startReady {
     padding: 1.5em;
-    background-color: #065e99ff;
-    color: #daeeffff;
+    background-color: var(--bigBtnBg);
+    color: var(--bigBtnText);
     cursor: pointer;
-    border: 1px solid rgb(4, 28, 43);
-    border-radius: 0;
+    border: 1px solid var(--bigBtnBorder);
+    border-radius: 4em;
 }
 
 #startReady:hover {
-    background-color: rgb(33, 112, 165);
+    background-color: var(--bigBtnBgH);
 }
 
 #startReady:active {
-    background-color: rgb(16, 56, 83);
+    background-color: var(--bigBtnBgA);
     padding-top: 1.6em;
     padding-bottom: 1.4em;
 }
 
+#startReady:focus {
+    box-shadow: 0em 0em 0em .14em var(--focus);
+}
+
 #startProportion {
-    color: white;
+    color: var(--textAlt);
     margin-top: .2em;
 }
 
@@ -146,8 +213,8 @@ button {
 
 .startReadyCaption {
     font-size: 1em;
-    color: #555;
-    border-bottom: 1px solid #aaa;
+    color: var(--greyText);
+    border-bottom: 1px solid var(--greyBorder);
     max-width: 20em;
     width: 95vw;
 }
@@ -165,7 +232,7 @@ button {
     width: .6em;
     display: inline-block;
     border-radius: .3em;
-    background-color: green;
+    background-color: var(--playerReady);
     margin: .3em;
 }
 
@@ -182,12 +249,12 @@ button {
     width: .6em;
     display: inline-block;
     border-radius: .3em;
-    background-color: red;
+    background-color: var(--playerNotReady);
     margin: .3em;
 }
 
 #gameScr {
-    background-color: #daeeffff;
+    background-color: var(--gameBg);
 }
 
 #gameScr > div {
@@ -200,8 +267,8 @@ button {
 #gameInfoBox {
     grid-column: 1;
     grid-row: 1/100;
-    background-color: #1f4e7aff;
-    color: white;
+    /* background-color: #1f4e7aff; controlled be js*/
+    color: var(--textAlt);
     display: grid;
     grid-template-rows: 1.3em auto;
     transition: 1.6s;
@@ -250,8 +317,8 @@ button {
     margin: 0 auto;
     margin-top: 1em;
     font-size: 1em;
-    color: #555;
-    border-bottom: 1px solid #aaa;
+    color: var(--greyText);
+    border-bottom: 1px solid var(--greyBorder);
     width: 95vw;
     padding: .5em;
 }
@@ -273,7 +340,7 @@ button {
 
 #gamePlayersBox > div > div::before {
     content: "";
-    background-color: rgb(227, 230, 238);
+    background-color: var(--inactivePlayerDot);
     border-radius: 100%;
     height: .5em;
     width: .5em;
@@ -290,7 +357,7 @@ button {
 
 #gamePlayersBox > div > div.gamePlayerActive::before {
     content: "";
-    background-color: rgb(75, 105, 240);
+    background-color: var(--activePlayerDot1);
     border-radius: 100%;
     height: .5em;
     width: .5em;
@@ -304,10 +371,10 @@ button {
 }
 @keyframes blinkPlayer {
     0%{
-        background-color: rgb(75, 105, 240);
+        background-color: var(--activePlayerDot1);
     }
     100% {
-        background-color: rgb(150, 186, 240);
+        background-color: var(--activePlayerDot2);
     }
 }
 
@@ -319,6 +386,7 @@ button {
     max-width: 20em;
     padding: .5em;
     border-color: #837f88;
+    border-radius: .5em;
     background-color: #A393AD22;
     word-wrap: break-word;    
     opacity: 0;
@@ -332,8 +400,7 @@ button {
     background-color: #A393AD44;
 }
 #gameVoteImposterBox > button:focus {
-    outline-color: #837f88;
-    outline-offset: 0;
+    box-shadow: 0em 0em 0em .1em #837f88;
 }
 #gameVoteImposterBox > button:active {
     background-color: #A393ADAA;
@@ -343,7 +410,7 @@ button {
 #gameVoteImposterBox > button.voted {
     border-color: #2b292e;
     background-color: #644e7eDD;
-    color: #fff;
+    color: var(--textAlt);
 }
 #gameVoteImposterBox > button.voted:hover {
     background-color: #644e7ed8;
@@ -360,8 +427,9 @@ button {
 .gvcImposter {
     margin: 0 auto;
     margin-bottom: 1em;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
-    background-color: white;
+    box-shadow: 0px 0px 3px 0px var(--boxShadowWeak);
+    background-color: var(--boxBg);
+    border-radius: .4em;
     padding: .5em;
     opacity: 0;
     animation-name: appearAni;
@@ -383,7 +451,8 @@ button {
 .gvcImposter > div {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
-    gap: .25em;
+    gap: 0em;
+    margin-top: .2em;
 }
 
 .gameGreyLineTitle {
@@ -392,13 +461,21 @@ button {
     margin-top: 1em;
     margin-bottom: 1em;
     font-size: 1em;
-    color: #555;
-    border-bottom: 1px solid #aaa;
+    color: var(--greyText);
+    border-bottom: 1px solid var(--greyBorder);
 }
-
 
 .evb {
     padding: 3px;
+    border-radius: 0em;
+}
+.evb:first-child {
+    border-top-left-radius: .3em;
+    border-bottom-left-radius: .3em;
+}
+.evb:last-child {
+    border-top-right-radius: .3em;
+    border-bottom-right-radius: .3em;
 }
 .evb > span {
     font-size: .7em;
@@ -407,7 +484,7 @@ button {
     margin-bottom: .3em;
 }
 .evb:focus {
-    outline: unset;
+    box-shadow: none;
 }
 .evb:active {
     padding-top: 6px;
@@ -416,7 +493,7 @@ button {
 
 .evb1 {
     background-color: rgb(76, 97, 61);
-    color: #fff;
+    color: var(--textAlt);
     border-color: rgb(0, 0, 0);
 }
 .evb1:hover {
@@ -428,7 +505,7 @@ button {
 
 .evb2 {
     background-color: rgb(96, 112, 78);
-    color: #fff;
+    color: var(--textAlt);
     border-color: rgb(0, 0, 0);
 }
 .evb2:hover {
@@ -440,7 +517,7 @@ button {
 
 .evb3 {
     background-color: rgb(119, 122, 78);
-    color: #fff;
+    color: var(--textAlt);
     border-color: rgb(0, 0, 0);
 }
 .evb3:hover {
@@ -452,7 +529,7 @@ button {
 
 .evb4 {
     background-color: rgb(134, 108, 64);
-    color: #fff;
+    color: var(--textAlt);
     border-color: rgb(0, 0, 0);
 }
 .evb4:hover {
@@ -464,7 +541,7 @@ button {
 
 .evb5 {
     background-color: rgb(117, 70, 70);
-    color: #fff;
+    color: var(--textAlt);
     border-color: rgb(0, 0, 0);
 }
 .evb5:hover {
@@ -477,6 +554,9 @@ button {
 .evbselected {
     background-color: #efdf00;
     color: black;
+    box-shadow: 0px 0px 10px 0px #dc0;
+}
+.evbselected:focus {
     box-shadow: 0px 0px 10px 0px #dc0;
 }
 .evbselected > span {
@@ -504,21 +584,28 @@ button {
 .grspTop{
     padding-left: .2em;
     padding-right: .4em;
-    background-color: #fff;
-    box-shadow: 0 0 1px black;
+    background-color: var(--boxBg);
+    box-shadow: 0px 0px 3px 0px var(--boxShadowWeak);
     margin-top: 10px;
+    border-top-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    padding: .4em;
+    padding-right: 1em;
+    z-index: 1;
 }
 
 .grspLeft {
-    box-shadow: 0 0 1px black;
-    background-color: #fff;
+    box-shadow: 0px 0px 3px 0px var(--boxShadowWeak);
+    background-color: var(--boxBg);
     margin-top: 10px;
-    padding: .2em;
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+    padding: .4em;
 }
 
 .grspName {
     font-size: 1.5em;
-    color: white;
+    color: var(--textAlt);
     display: flex;
 }
 
@@ -529,7 +616,7 @@ button {
 
 .grspNameImp {
     font-size: 1.5em;
-    color: white;
+    color: var(--textAlt);
     display: flex;
 }
 
@@ -567,10 +654,10 @@ ul.grspPlayersList > li {
 .grspCorrect {
     margin: 1px;
     background-color: #237e53;
-    color: #fff;
+    color: var(--textAlt);
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspCorrect > span {
@@ -580,10 +667,10 @@ ul.grspPlayersList > li {
 .grspIncorrect{
     margin: 1px;
     background-color: #a13711;
-    color: #fff;
+    color: var(--textAlt);
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspIncorrect > span {
@@ -606,7 +693,7 @@ ul.grspScoreboard > li {
     color: #000;
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspGold > span {
@@ -619,7 +706,7 @@ ul.grspScoreboard > li {
     color: #000;
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspSilver > span {
@@ -632,7 +719,7 @@ ul.grspScoreboard > li {
     color: #000;
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspBronze > span {
@@ -645,7 +732,7 @@ ul.grspScoreboard > li {
     color: #000;
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grsp4th > span {
@@ -658,7 +745,7 @@ ul.grspScoreboard > li {
     color: #000;
     padding-left: .2em;
     padding-right: .2em;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grsp5th > span {
@@ -666,18 +753,9 @@ ul.grspScoreboard > li {
     /*color: #d82c19;*/
 }
 
-span.grspPoint {
-    margin: 1px;
-    background-color: #f7ff80;
-    font-size: .9em;
-    padding-left: .4em;
-    padding-right: .4em;
-    border: 1px solid black;
-}
-
 #endScr {
-    background-color: #424242;
-    color: #fff;
+    background-color: var(--endScrBg);
+    color: var(--textAlt);
     overflow: auto;
 }
 #esTitle {
@@ -689,11 +767,11 @@ span.grspPoint {
 #esAgain {
     display: block;
     padding: .5em;
-    background-color: #065e99ff;
-    color: #daeeffff;
+    background-color: var(--bigBtnBg);
+    color: var(--bigBtnText);
     cursor: pointer;
-    border: 1px solid rgb(4, 28, 43);
-    border-radius: 0;
+    border: 1px solid var(--bigBtnBorder);
+    border-radius: 2em;
     text-align: center;
     margin: 0 auto;
     width: max-content;
@@ -701,10 +779,10 @@ span.grspPoint {
     margin-top: -.3em;
 }
 #esAgain:hover {
-    background-color: rgb(33, 112, 165);
+    background-color: var(--bigBtnBgH);
 }
 #esAgain:active {
-    background-color: rgb(16, 56, 83);
+    background-color: var(--bigBtnBgA);
     padding-top: .6em;
     padding-bottom: .4em;
 }
@@ -720,9 +798,16 @@ span.grspPoint {
 .esTop {
     position: relative;
     margin: .25em;
-    border: 1px solid black;
+    border: 1px solid var(--rankingBorder);
+    border-radius: .4em;
     padding-left: .3em;
     padding-right: .3em;
+    opacity: 0;
+    animation-name: appearAni;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    animation-delay: calc(var(--ani-order) * 150ms + 100ms);
 }
 .esTop > div:first-child {
     position: absolute;
@@ -736,13 +821,13 @@ span.grspPoint {
     font-size: 1.3em;
 }
 #es1 {
-    background-color: #b08f3f;
+    background-color: var(--ranking1);
 }
 #es2 {
-    background-color: #a26e49;
+    background-color: var(--ranking2);
 }
 #es3 {
-    background-color: #685a48;
+    background-color: var(--ranking3);
 }
 #esRanking {
     display: grid;
@@ -750,10 +835,17 @@ span.grspPoint {
 #esRanking > div {
     position: relative;
     margin: .25em;
-    background-color: rgb(94, 94, 94);
-    border: 1px solid black;
+    background-color: var(--rankingLow);
+    border: 1px solid var(--rankingBorder);
+    border-radius: .4em;
     padding-left: .3em;
     padding-right: .3em;
+    opacity: 0;
+    animation-name: appearAni;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    animation-delay: calc(var(--ani-order) * 75ms + 500ms);
 }
 #esRanking > div > div:first-child {
     position: absolute;
@@ -777,39 +869,36 @@ span.grspPoint {
     bottom: 0;
     right: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--boxShadowWeak);
     backdrop-filter: blur(10px);
-    z-index: 101;
+    z-index: 999;
 }
-
 #phaseChangeNotice > div {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
 }
-
 #phaseChangeNotice > div > div{
     text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    background-color: #fff;
+    background-color: var(--boxBg);
     width: 44em;
     padding: 1em;
     padding-left: 0;
     padding-right: 0;
+    border-radius: .5em;
 }
-
 #phaseTitle {
     display: block;
     font-size: 3em;
     line-height: 1.1em;
-    color: rgb(41, 97, 200);
+    color: var(--phaseTitle);
     margin-left: 1em;
     margin-right: 1em;
     margin-top: 12px;
 }
-
 #phaseText {
     display: block;
     font-size: 1.3em;
@@ -827,26 +916,24 @@ span.grspPoint {
     grid-template-columns: auto;
     gap: .2em;
     max-width: 75vw;
-    z-index: 102;
+    z-index: 1000;
 }
-
 .notifyInfo {
-    background-color:rgb(40, 73, 124);
-    color: rgb(236, 245, 255);
-    border: 1px solid rgb(24, 42, 70);
+    background-color: var(--notiInfo);
+    color: var(--textAlt);
+    border: 1px solid var(--notiInfoBorder);
     padding-left: .3em;
     padding-right: .5em;
-    box-shadow: 0px 0px 10px 0px #00000055;
+    box-shadow: 0px 0px 10px 0px var(--boxShadowWeak);
     word-break: break-all;
 }
-
 .notifyError {
-    background-color:rgb(124, 40, 40);
-    color: rgb(255, 227, 227);
-    border: 1px solid rgb(41, 14, 14);
+    background-color:var(--notiError);
+    color: var(--textAlt);
+    border: 1px solid var(--notiErrorBorder);
     padding-left: .3em;
     padding-right: .5em;
-    box-shadow: 0px 0px 10px 0px #00000055; 
+    box-shadow: 0px 0px 10px 0px var(--boxShadowWeak); 
     word-break: break-all;
 }
 
@@ -854,17 +941,12 @@ span.grspPoint {
     position: fixed;
     display: inline-block;
     height: 42px;
-    /* border-radius: 21px; */
+    border-radius: 21px;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     border: 0;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.7);
-    opacity: .4;
-    transition: opacity .5s;
-}
-#toolBox:hover {
-    opacity: 1;
+    background-color: var(--boxBg);
 }
 #toolBox > button {
     height: 100%;
@@ -872,22 +954,25 @@ span.grspPoint {
     padding-left: .5em;
     padding-right: .5em;
     border: none;
-    background-color: #00000000;
+    background-color: var(--boxBg);
+    position: relative;
 }
-/* #toolBox > button:first-child {
+#toolBox > button:first-child {
     border-top-left-radius: 21px;
     border-bottom-left-radius: 21px;
 }
 #toolBox > button:last-child {
     border-top-right-radius: 21px;
     border-bottom-right-radius: 21px;
-} */
+}
 #toolBox > button:hover {
-    background-color: #fff;
+    background-color: rgb(235, 235, 235);
 }
 #toolBox > button:focus {
-    background-color: #fff;
-    outline: 0;
+    background-color: rgb(224, 224, 224);
+    border-top-left-radius: 0em;
+    border-top-right-radius: 0em;
+    z-index: 101;
 }
 #toolBox > button:focus > .toolBoxTool {
     display: block;
@@ -897,10 +982,11 @@ span.grspPoint {
     display: none;
     max-height: calc(100vh - 150px);
     overflow-x: auto;
-    bottom: 0px;
-    /* border-radius: 10px; */
-    background-color: #fff;
-    right: 0;
+    bottom: 42px;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    background-color: var(--boxBg);
+    left: 0;
     padding: 5px;
     min-width: 10em;
     max-width: 85vw;
@@ -908,7 +994,7 @@ span.grspPoint {
 .toolBoxTool > .toolBtn {
     cursor: pointer;
     text-align: left;
-    /* border-radius: 10px; */
+    border-radius: .25em;
     padding-left: .3em;
     padding-right: .3em;
 }
@@ -941,6 +1027,11 @@ span.grspPoint {
         grid-row: 2;
     }
 
+    #gameRightBox > div {
+        max-width: 97vw !important;
+        margin: 0 auto !important;
+    }
+
     #gameRoundStatsBox {
         width: 100%;
     }
@@ -950,6 +1041,17 @@ span.grspPoint {
 
     .grspLeft {
         margin-top: 0;
+        border-top-right-radius: 0em;
+        border-top-left-radius: 0em;
+        border-bottom-left-radius: .5em;
+        border-bottom-right-radius: .5em;
+    }
+
+    .grspTop {
+        border-bottom-left-radius: 0em;
+        border-bottom-right-radius: 0em;
+        border-top-right-radius: .5em;
+        border-top-left-radius: .5em;
     }
 
     .grspName {
@@ -984,6 +1086,19 @@ span.grspPoint {
     }
     .gvcImposter > div {
         grid-template-columns: auto;
+    }
+    .evb {
+        min-height: 2.2em;
+    }
+    .evb:first-child {
+        border-radius: 0;
+        border-top-left-radius: .3em;
+        border-top-right-radius: .3em;
+    }
+    .evb:last-child {
+        border-radius: 0;
+        border-bottom-right-radius: .3em;
+        border-bottom-left-radius: .3em;
     }
     .evb > span {
         line-height: 1em;
@@ -1119,55 +1234,22 @@ span.grspPoint {
 }
 
 @media (prefers-reduced-motion) {
-    #joinScrTopBox{
-        transition: unset;
-    }
-    #gameInfoBox {
-        transition: unset;
-    }
-    #gamePlayersBox > div > div.gamePlayerActive::before {
-        animation-name: unset;
-    }
-    #gameVoteImposterBox > button {
-        opacity: 1;
-        animation-name: unset;
-    }
-    .gvcImposter {
-        opacity: 1;
-        animation-name: unset;
-    }
-    .downSwoosh {
-        animation-name: unset;
-    }
-    .closeZoom {
-        animation-name: unset;
-    }
-    .openZoom {
-        animation-name: unset;
-    }
-    .fadeIn {
-        animation-name: unset;
-    }
-    .fadeOut {
-        animation-name: unset;
-    }
-    .fadeFlash {
-        animation-name: unset;
-    }
+    * {
+        animation-name: unset !important; 
+        opacity: 1 !important;
+        transition: 0s !important;
+    } 
 }
 
+/* 
 @media (prefers-color-scheme: dark) {
 * {
     color: #eee;
 }
 
-*:focus {
-    outline: .16em solid rgb(60, 114, 148);
-}
-
 input {
     background-color: rgb(119, 119, 119);
-    border: 1px solid rgb(56, 56, 56)
+    border: 1px solid rgb(56, 56, 56);
 }
 
 ::placeholder {
@@ -1190,35 +1272,35 @@ button {
 }
 
 #joinFormButton {
-    background-color: #065e99ff;
-    color: #daeeffff;
-    border: 1px solid rgb(4, 28, 43);
+    background-color: var(--bigBtnBg);
+    color: var(--bigBtnText);
+    border: 1px solid var(--bigBtnBorder);
 }
 
 #joinFormButton:hover {
-    background-color: rgb(33, 112, 165);
+    background-color: var(--bigBtnBgH);
 }
 
 #joinFormButton:active {
-    background-color: rgb(16, 56, 83);
+    background-color: var(--bigBtnBgA);
 }
 
 #joinFormName {
-    border: 1px solid rgb(4, 28, 43);
+    border: 1px solid var(--bigBtnBorder);
 }
 
 #startReady {
-    background-color: #065e99ff;
-    color: #daeeffff;
-    border: 1px solid rgb(4, 28, 43);
+    background-color: var(--bigBtnBg);
+    color: var(--bigBtnText);
+    border: 1px solid var(--bigBtnBorder);
 }
 
 #startReady:hover {
-    background-color: rgb(33, 112, 165);
+    background-color: var(--bigBtnBgH);
 }
 
 #startReady:active {
-    background-color: rgb(16, 56, 83);
+    background-color: var(--bigBtnBgA);
 }
 
 #startProportion {
@@ -1231,11 +1313,11 @@ button {
 }
 
 .startReadyPlayer > div {
-    background-color: green;
+    background-color: var(--playerReady);
 }
 
 .startNotReadyPlayer > div {
-    background-color: red;
+    background-color: var(--playerNotReady);
 }
 
 #gameScr {
@@ -1268,7 +1350,7 @@ button {
     background-color: #8e8594;
 }
 #gameVoteImposterBox > button:focus {
-    outline-color: #342547;
+    box-shadow: 0em 0em 0em .1em #342547;
 }
 #gameVoteImposterBox > button:active {
     background-color: #453f47;
@@ -1296,11 +1378,11 @@ button {
 
 .grspTop{
     background-color: rgb(85, 85, 85);
-    box-shadow: 0 0 .1em #aaa;
+    box-shadow: 0 0 .1em var(--greyBorder);
 }
 
 .grspLeft {
-    box-shadow: 0 0 .1em #aaa;
+    box-shadow: 0 0 .1em var(--greyBorder);
     background-color: rgb(85, 85, 85);
 }
 
@@ -1325,43 +1407,43 @@ button {
 .grspCorrect {
     background-color: #237e53;
     color: #fff;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspIncorrect{
     background-color: #a13711;
     color: #fff;
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspGold {
     background-color: #546e59;
     color: rgb(255, 255, 255);
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspSilver {
     background-color: #506854;
     color: rgb(255, 255, 255);
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grspBronze {
     background-color: #757457;
     color: rgb(255, 255, 255);
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grsp4th {
     background-color: #746450;
     color: rgb(255, 255, 255);
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 .grsp5th {
     background-color: #6d4647;
     color: rgb(255, 255, 255);
-    border: 1px solid #010204a4;
+    border: 1px solid var(--boxShadowSemiweak);
 }
 
 span.grspPoint {
@@ -1392,4 +1474,4 @@ span.grspPoint {
 .toolBoxTool {
     background-color: rgb(107, 107, 107);
 }
-}
+} */

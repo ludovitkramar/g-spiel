@@ -31,7 +31,7 @@ let strings_en = { //collections of all the text for ease of management
     "pyrs": "Players:",
     "rnot": "Round:",
     "lide": "Listen and Talk",
-    "ewem": "Everybody will build sentences with the given nound as the hidden subject.",
+    "ewem": "Everybody builds sentences with the given word as the theme.",
     "vttm": "Voting time",
     "wstm": "who was the mole?",
     "etmo": "Evaluate the mole",
@@ -104,7 +104,7 @@ let strings_de = { //german
     "pyrs": "Spieler:",
     "rnot": "Runde:",
     "lide": "Sprechen und Zuhören",
-    "ewem": "Jeder bildet Sätze mit dem angegebenen Nomen als verstecktem Subjekt.",
+    "ewem": "Jeder bildet Sätze mit dem vorgegebenen Wort als Thema.",
     "vttm": "Abstimmung",
     "wstm": "Wer hatte das unterschiedliche Wort? ",
     "etmo": "Bewerten",
@@ -146,7 +146,7 @@ let strings_de = { //german
     "votd": "Abgestimmt:",
     "ddvt": "Hat nicht abgestimmt.",
     "wrgs": "Falsch",
-    "imps": "Richteg",
+    "imps": "Richtig",
     "evad": "Bewertet:",
     "ddev": "Hat nicht bewertet.",
     "rcof": "Wiederverbindungsversuch fehlgeschlagen",
@@ -183,19 +183,19 @@ setLang(localStorage.getItem('lang'))
 let votedImpArray = [];
 //colors
 let c2 = "";
-let talkingColor = '#1f4e7aff';
+let talkingColor = 'var(--gameTalking)';
 let talkingColor2 = '';
-let voteImpColor = '#6c41a3ff';
+let voteImpColor = 'var(--gameVoting)';
 let voteImpColor2 = '';
-let voteCorrectColor = '#2d5020ff';
+let voteCorrectColor = 'var(--gameEvaluating)';
 let voteCorrectColor2 = '';
-let roundStatsColor = '#000000';
+let roundStatsColor = 'var(--gameRoundStats)';
 let roundStatsColor2 = '';
 let darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
 function setTheme(e) {
     if (e.matches) {
         console.info('dark theme')
-        c2 = "#333";
+        c2 = "var(--gameBg)";
         talkingColor2 = c2;
         voteImpColor2 = c2;
         voteCorrectColor2 = c2;
@@ -205,11 +205,11 @@ function setTheme(e) {
         // voteCorrectColor = '#1f3817';
     } else {
         console.info('light theme')
-        roundStatsColor2 = '#eeeeee';
-        c2 = "#fff";
+        roundStatsColor2 = 'var(--gameBgAlt)';
+        c2 = "var(--gameBg)";
         talkingColor2 = c2;
         voteImpColor2 = c2;
-        voteCorrectColor2 = '#eeeeee';
+        voteCorrectColor2 = 'var(--gameBgAlt)';
     }
 }
 setTheme(darkTheme)  //set theme on load
@@ -916,7 +916,7 @@ function showEnd(msg) {
         if (key < 3) { //for the first three players
             for (ppp in p2id[allPoints[key]]) { //for all ids that have the same score
                 var pos = key * 1 + 1;
-                code1 += `<div id="es${pos}" class="esTop">`
+                code1 += `<div id="es${pos}" class="esTop" style="--ani-order: ${pos};">`
                 var stringName = `pos${pos}`
                 code1 += `<div>${strings[stringName]}</div><div>`
                 code1 += `<span>${msg["pnames"][p2id[allPoints[key]][ppp]]}</span>
@@ -926,7 +926,7 @@ function showEnd(msg) {
         } else {
             for (ppp in p2id[allPoints[key]]) { //for all ids that have the same score
                 var pos = key * 1 + 1;
-                code2 += `<div><div>${pos}</div><div>`
+                code2 += `<div style="--ani-order: ${pos};"><div>${pos}</div><div>`
                 code2 += `<span>${msg["pnames"][p2id[allPoints[key]][ppp]]}</span>
                           <span>${allPoints[key]} ${strings["pnts"]}</span>`
                 code2 += '</div></div>'
