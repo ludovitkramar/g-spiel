@@ -178,7 +178,36 @@ function setLang(l) {
     }
     populateStrings();
 }
-setLang(localStorage.getItem('lang'))
+setLang(localStorage.getItem('lang'));
+function setTheme(t) {
+    function set(l) {
+        var link = document.createElement("link");
+        link.href = l;
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.media = "screen,print";
+        document.getElementsByTagName("head")[0].appendChild(link);
+    }
+    switch (t) {
+        case "default":
+            set('/css/style.css')
+            localStorage.setItem('theme', "default")
+            break;
+        case "green":
+            set('/css/green.css')
+            localStorage.setItem('theme', "green")
+            break
+        case "light":
+            set('/css/light.css')
+            localStorage.setItem('theme', "light")
+            break
+        default:
+            set('/css/style.css')
+            localStorage.setItem('theme', "default")
+            break;
+    }
+}
+setTheme(localStorage.getItem('theme'));
 //players that have been selected as imposters by this player in the voting phase.
 let votedImpArray = [];
 //colors

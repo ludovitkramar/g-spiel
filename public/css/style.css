@@ -365,13 +365,13 @@ button {
 
 #gamePlayersBox > div.gamePlayerBoxTitle {
     max-width: 20em;
+    width: 95vw;
     margin: 0 auto;
     margin-top: 1em;
+    margin-bottom: 1em;
     font-size: 1em;
     color: var(--greyText);
     border-bottom: 1px solid var(--greyBorder);
-    width: 95vw;
-    padding: .5em;
 }
 
 #gamePlayersBox > div.gamePlayerBoxGrid {
@@ -380,7 +380,6 @@ button {
     gap: .2em;
     max-width: 20em;
     margin: 0 auto;
-    padding: .5em;
 }
 
 #gamePlayersBox > div > div {
@@ -982,6 +981,9 @@ ul.grspScoreboard > li {
     box-shadow: 0px 0px 3px 0px var(--boxShadowWeak);
     word-break: break-all;
 }
+.notifyInfo > * {
+    color: var(--textAlt);
+}
 .notifyError {
     background-color:var(--notiError);
     color: var(--textAlt);
@@ -990,6 +992,9 @@ ul.grspScoreboard > li {
     padding-right: .5em;
     box-shadow: 0px 0px 3px 0px var(--boxShadowWeak); 
     word-break: break-all;
+}
+.notifyError > * {
+    color: var(--textAlt);
 }
 
 #toolBox {
@@ -1159,7 +1164,6 @@ ul.grspScoreboard > li {
     .evb > span {
         line-height: 1em;
         display: unset; 
-        color: var(--textAlt);
     }
     #esPodium {
         grid-template-columns: auto;

@@ -1,0 +1,195 @@
+:root {
+    --bg: #ffffff;
+    --text: rgb(22, 22, 22);
+    --textAlt: #fff;
+    --focus: rgb(103, 219, 68);
+    /* phase notice: */
+    --phaseTitle: rgb(44, 44, 44);
+    --joinScrBg: #2f8027;
+    /* notifications */
+    --notiInfo: rgb(25, 54, 97);
+    --notiInfoBorder: rgba(24, 42, 70, 0);
+    --notiError: rgb(88, 23, 23);
+    --notiErrorBorder: rgba(41, 14, 14, 0);
+    /* big blue button */
+    --bigBtnBg: #137407;
+    --bigBtnText: rgb(219, 255, 218);
+    --bigBtnBorder: rgba(0, 0, 0, 0);
+    --bigBtnBgH: #199109;
+    --bigBtnBgA: #105507;
+    /* join screen player list */
+    --playerReady: green;
+    --playerNotReady: red;
+    /* grey text used for example in the join screen */
+    --greyText: #555;
+    --greyBorder: #aaa;
+    /* reusable things for all kind of boxes */
+    --boxBg: #fff;
+    --boxShadow: rgba(0, 0, 0, 1);
+    --boxShadowSemiweak: rgba(0, 0, 0, 0.75);
+    --boxShadowWeak: rgba(0, 0, 0, 0.5);
+    /* game screen main colors */
+    --gameBg: #fff;
+    --gameBgAlt: #eee;
+    --gameTalking: #587a06;
+    --gameVoting: #1e7e5e;
+    --gameEvaluating: #293d75;
+    --gameRoundStats: #000000;
+    /* talking phase player list */
+    --inactivePlayerDot: rgb(227, 230, 238);
+    --activePlayerDot1: rgb(93, 226, 40);
+    --activePlayerDot2: rgb(150, 240, 165);
+    --activePlayerShadow: rgb(63, 231, 12);
+    /* voting phase button */
+    --gvtBtnBorder: #7f8883;
+    --gvtBtnBg: #93ada922;
+    --gvtBtnFocusShadow: #7f8884;
+    --gvtBtnBgH: #93ada344;
+    --gvtBtnBgA: rgba(147, 173, 163, 0.667);
+    --gvtBtnBgVoted: #4e7e70dd;
+    --gvtBtnBgVotedH: #4e7e6ed8;
+    --gvtBtnBgVotedA: #4e7e6cee;
+    /* evaluation phase */
+    --evabtn1: rgb(76, 97, 61);
+    --evabtn1H: rgb(96, 122, 77);
+    --evabtn1A: rgb(44, 58, 34);
+    --evabtn2: rgb(96, 112, 78);
+    --evabtn2H: rgb(117, 136, 94);
+    --evabtn2A: rgb(68, 80, 55);
+    --evabtn3: rgb(119, 122, 78);
+    --evabtn3H: rgb(141, 145, 98);
+    --evabtn3A: rgb(63, 65, 42);
+    --evabtn4: rgb(134, 108, 64);
+    --evabtn4H: rgb(167, 138, 89);
+    --evabtn4A: rgb(66, 57, 40);
+    --evabtn5: rgb(117, 70, 70);
+    --evabtn5H: rgb(156, 97, 97);
+    --evabtn5A: rgb(49, 31, 31); 
+    --evabSelected: #efdf00;
+    --evabSelectedShadow: #dc0;
+    --evabSelectedH: #ffee00;
+    --evabSelectedA: #cec000;
+    --evabSelectedText: #000;
+    /* round stat phase */
+    --playerName: royalblue;
+    --imposterName: orangered;
+    --correctGuess: #237e53;
+    --incorrectGuess: #a13711;
+    --grsp1: #b3edbd;
+    --grsp2: #c4fece;
+    --grsp3: #FFFDBF;
+    --grsp4: #FFDBAD;
+    --grsp5: #FFA9AA;
+    /* game ended screen */
+    --endScrBg: #ffffff;
+    --rankingBorder: #00000000;
+    --ranking1: #6be63b;
+    --ranking2: #55bd5c;
+    --ranking3: #42a180;
+    --rankingLow: rgb(94, 94, 94);
+    /* toolbox colors */
+    --tbBG: #fff;
+    --tbH : #eee;
+    --tbA: #ccc;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: rgb(34, 34, 34);
+        --text: #eee;
+        --textAlt: #fff;
+        --focus: rgb(50, 151, 30);
+        --inputBG: rgb(119, 119, 119);
+        --placeholderText: rgb(189, 189, 189);
+        /* phase notice: */
+        --phaseTitle: rgb(41, 200, 62);
+        --joinScrBg: rgb(58, 58, 58);
+        /* notifications */
+        --notiInfo: rgb(40, 73, 124);
+        --notiInfoBorder: rgb(24, 42, 70, 0);
+        --notiError: rgb(124, 40, 40);
+        --notiErrorBorder: rgb(41, 14, 14, 0);
+        /* big blue button */
+        --bigBtnBg: #06991a;
+        --bigBtnText: rgb(218, 255, 226);
+        --bigBtnBorder: rgba(0, 0, 0, 0);
+        --bigBtnBgH: rgb(37, 165, 33);
+        --bigBtnBgA: rgb(16, 83, 16);
+        /* join screen player list */
+        --playerReady: green;
+        --playerNotReady: red;
+        /* grey text used for example in the join screen */
+        --greyText: rgb(133, 133, 133);
+        --greyBorder: rgb(93, 93, 93);
+        /* reusable things for all kind of boxes */
+        --boxBg: rgb(85, 85, 85);
+        --boxShadow: rgb(133, 133, 133);
+        --boxShadowSemiweak: rgba(133, 133, 133, 0.75);
+        --boxShadowWeak: rgba(133, 133, 133, 0.5);
+        /* game screen main colors */
+        --gameBg: rgb(46, 46, 46);
+        --gameBgAlt: rgb(46, 46, 46);
+        --gameTalking: #587a06;
+        --gameVoting: #1e7e5e;
+        --gameEvaluating: #293d75;
+        --gameRoundStats: #000000;
+        /* talking phase player list */
+        --inactivePlayerDot: rgb(78, 78, 78);
+        --activePlayerDot1: rgb(103, 240, 75);
+        --activePlayerDot2: rgb(150, 240, 184);
+        --activePlayerShadow: rgb(181, 255, 132);
+        /* voting phase button */
+        --gvtBtnBorder: #494d48;
+        --gvtBtnBg: #686e64;
+        --gvtBtnFocusShadow: #2d4725;
+        --gvtBtnBgH: #889485;
+        --gvtBtnBgA: #3f4741;
+        --gvtBtnBgVoted: #3a9e50;
+        --gvtBtnBgVotedH: #6ec546;
+        --gvtBtnBgVotedA: #427e2a;
+        /* evaluation phase */
+        --evabtn1: rgb(76, 97, 61);
+        --evabtn1H: rgb(96, 122, 77);
+        --evabtn1A: rgb(44, 58, 34);
+        --evabtn2: rgb(96, 112, 78);
+        --evabtn2H: rgb(117, 136, 94);
+        --evabtn2A: rgb(68, 80, 55);
+        --evabtn3: rgb(119, 122, 78);
+        --evabtn3H: rgb(141, 145, 98);
+        --evabtn3A: rgb(63, 65, 42);
+        --evabtn4: rgb(134, 108, 64);
+        --evabtn4H: rgb(167, 138, 89);
+        --evabtn4A: rgb(66, 57, 40);
+        --evabtn5: rgb(117, 70, 70);
+        --evabtn5H: rgb(156, 97, 97);
+        --evabtn5A: rgb(49, 31, 31); 
+        --evabSelected: #efdf00;
+        --evabSelectedShadow: #dc0;
+        --evabSelectedH: #ffee00;
+        --evabSelectedA: #cec000;
+        --evabSelectedText: #000;
+        /* round stat phase */
+        --playerName: rgb(114, 145, 236);
+        --playerNameShadow: royalblue;
+        --imposterName: rgb(255, 105, 51);
+        --imposterNameShadow: orangered;
+        --correctGuess: #237e53;
+        --incorrectGuess: #a13711;
+        --grsp1: #546e59;
+        --grsp2: #506854;
+        --grsp3: #757457;
+        --grsp4: #746450;
+        --grsp5: #6d4647;
+        /* game ended screen */
+        --endScrBg: #424242;
+        --rankingBorder: #00000000;
+        --ranking1: #51b42a;
+        --ranking2: #80a249;
+        --ranking3: #868831;
+        --rankingLow: rgb(94, 94, 94);
+        /* toolbox colors */
+        --tbBG: rgb(73, 73, 73);
+        --tbH : rgb(112, 112, 112);
+        --tbA: rgb(51, 51, 51);
+      }
+}
