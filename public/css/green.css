@@ -3,6 +3,8 @@
     --text: rgb(22, 22, 22);
     --textAlt: #fff;
     --focus: rgb(103, 219, 68);
+    --inputBG: rgb(255, 255, 255);
+    --placeholderText: rgb(128, 128, 128);
     /* phase notice: */
     --phaseTitle: rgb(44, 44, 44);
     --joinScrBg: #2f8027;

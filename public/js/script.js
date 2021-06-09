@@ -190,7 +190,7 @@ function setTheme(t) {
     }
     switch (t) {
         case "default":
-            set('/css/style.css')
+            set('/css/default.css')
             localStorage.setItem('theme', "default")
             break;
         case "green":
@@ -202,7 +202,7 @@ function setTheme(t) {
             localStorage.setItem('theme', "light")
             break
         default:
-            set('/css/style.css')
+            set('/css/default.css')
             localStorage.setItem('theme', "default")
             break;
     }

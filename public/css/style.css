@@ -4,105 +4,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
-:root {
-    --bg: #ffffff;
-    --text: #000;
-    --textAlt: #fff;
-    --focus: rgb(30, 105, 151);
-    --inputBG: rgb(255, 255, 255);
-    --placeholderText: rgb(82, 82, 82);
-    /* phase notice: */
-    --phaseTitle: rgb(41, 97, 200);
-    --joinScrBg: #4aace9;
-    /* notifications */
-    --notiInfo: rgb(40, 73, 124);
-    --notiInfoBorder: rgb(24, 42, 70);
-    --notiError: rgb(124, 40, 40);
-    --notiErrorBorder: rgb(41, 14, 14);
-    /* big blue button */
-    --bigBtnBg: #065e99;
-    --bigBtnText: #daeeffff;
-    --bigBtnBorder: rgba(0, 0, 0, 0);
-    --bigBtnBgH: rgb(33, 112, 165);
-    --bigBtnBgA: rgb(16, 56, 83);
-    /* join screen player list */
-    --playerReady: green;
-    --playerNotReady: red;
-    /* grey text used for example in the join screen */
-    --greyText: #555;
-    --greyBorder: #aaa;
-    /* reusable things for all kind of boxes */
-    --boxBg: #fff;
-    --boxShadow: rgba(0, 0, 0, 1);
-    --boxShadowSemiweak: rgba(0, 0, 0, 0.75);
-    --boxShadowWeak: rgba(0, 0, 0, 0.5);
-    /* game screen main colors */
-    --gameBg: #fff;
-    --gameBgAlt: #eee;
-    --gameTalking: #1f4e7a;
-    --gameVoting: #6c41a3;
-    --gameEvaluating: #2d5020;
-    --gameRoundStats: #000000;
-    /* talking phase player list */
-    --inactivePlayerDot: rgb(227, 230, 238);
-    --activePlayerDot1: rgb(75, 105, 240);
-    --activePlayerDot2: rgb(150, 186, 240);
-    --activePlayerShadow: rgb(132, 185, 255);
-    /* voting phase button */
-    --gvtBtnBorder: #837f88;
-    --gvtBtnBg: #A393AD22;
-    --gvtBtnFocusShadow: #837f88;
-    --gvtBtnBgH: #A393AD44;
-    --gvtBtnBgA: #A393ADAA;
-    --gvtBtnBgVoted: #644e7edd;
-    --gvtBtnBgVotedH: #644e7ed8;
-    --gvtBtnBgVotedA: #644e7eee;
-    /* evaluation phase */
-    --evabtn1: rgb(76, 97, 61);
-    --evabtn1H: rgb(96, 122, 77);
-    --evabtn1A: rgb(44, 58, 34);
-    --evabtn2: rgb(96, 112, 78);
-    --evabtn2H: rgb(117, 136, 94);
-    --evabtn2A: rgb(68, 80, 55);
-    --evabtn3: rgb(119, 122, 78);
-    --evabtn3H: rgb(141, 145, 98);
-    --evabtn3A: rgb(63, 65, 42);
-    --evabtn4: rgb(134, 108, 64);
-    --evabtn4H: rgb(167, 138, 89);
-    --evabtn4A: rgb(66, 57, 40);
-    --evabtn5: rgb(117, 70, 70);
-    --evabtn5H: rgb(156, 97, 97);
-    --evabtn5A: rgb(49, 31, 31); 
-    --evabSelected: #efdf00;
-    --evabSelectedShadow: #dc0;
-    --evabSelectedH: #ffee00;
-    --evabSelectedA: #cec000;
-    --evabSelectedText: #000;
-    /* round stat phase */
-    --playerName: royalblue;
-    --playerNameShadow: rgba(65, 105, 225, 0);
-    --imposterName: orangered;
-    --imposterNameShadow: rgba(255, 68, 0, 0);
-    --correctGuess: #237e53;
-    --incorrectGuess: #a13711;
-    --grsp1: #b3edbd;
-    --grsp2: #c4fece;
-    --grsp3: #FFFDBF;
-    --grsp4: #FFDBAD;
-    --grsp5: #FFA9AA;
-    /* game ended screen */
-    --endScrBg: #ffffff;
-    --rankingBorder: #00000000;
-    --ranking1: #ffda60;
-    --ranking2: #dfe3eb;
-    --ranking3: #ffc288;
-    --rankingLow: rgb(233, 233, 233);
-    /* toolbox colors */
-    --tbBG: #fff;
-    --tbH : #eee;
-    --tbA: #ccc;
-  }
-
 * {
     padding: 0;
     margin: 0;
@@ -445,6 +346,7 @@ button {
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
     animation-delay: calc(var(--ani-order) * 140ms + 400ms);
+    transition: .1s;
 }
 #gameVoteImposterBox > button:hover {
     background-color: var(--gvtBtnBgH);
@@ -517,6 +419,7 @@ button {
 .evb {
     padding: 3px;
     border-radius: 0em;
+    transition: .1s;
 }
 .evb:first-child {
     border-top-left-radius: .3em;
@@ -1006,7 +909,7 @@ ul.grspScoreboard > li {
     right: 20px;
     border: 0;
     z-index: 100;
-    background-color: var(--boxBg);
+    background-color: var(--tbBG);
     box-shadow: 0 0 3px 0 var(--boxShadowWeak);
 }
 #toolBox > button {
@@ -1015,7 +918,7 @@ ul.grspScoreboard > li {
     padding-left: .5em;
     padding-right: .5em;
     border: none;
-    background-color: var(--boxBg);
+    background-color: var(--tbBG);
     transition: .1s;
 }
 #toolBox > button:first-child {
@@ -1048,7 +951,7 @@ ul.grspScoreboard > li {
     border-top-right-radius: .5em;
     border-bottom-left-radius: .5em;
     border-bottom-right-radius: .5em;
-    background-color: var(--boxBg);
+    background-color: var(--tbBG);
     box-shadow: 0 0 3px 0 var(--boxShadowWeak);
     right: 0;
     padding: 5px;
@@ -1300,105 +1203,4 @@ ul.grspScoreboard > li {
         opacity: 1 !important;
         transition: 0s !important;
     } 
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: rgb(34, 34, 34);
-        --text: #eee;
-        --textAlt: #fff;
-        --focus: rgb(30, 105, 151);
-        --inputBG: rgb(119, 119, 119);
-        --placeholderText: rgb(189, 189, 189);
-        /* phase notice: */
-        --phaseTitle: rgb(41, 97, 200);
-        --joinScrBg: rgb(58, 58, 58);
-        /* notifications */
-        --notiInfo: rgb(40, 73, 124);
-        --notiInfoBorder: rgb(24, 42, 70, 0);
-        --notiError: rgb(124, 40, 40);
-        --notiErrorBorder: rgb(41, 14, 14, 0);
-        /* big blue button */
-        --bigBtnBg: #065e99;
-        --bigBtnText: #daeeffff;
-        --bigBtnBorder: rgba(0, 0, 0, 0);
-        --bigBtnBgH: rgb(33, 112, 165);
-        --bigBtnBgA: rgb(16, 56, 83);
-        /* join screen player list */
-        --playerReady: green;
-        --playerNotReady: red;
-        /* grey text used for example in the join screen */
-        --greyText: rgb(133, 133, 133);
-        --greyBorder: rgb(93, 93, 93);
-        /* reusable things for all kind of boxes */
-        --boxBg: rgb(85, 85, 85);
-        --boxShadow: rgb(133, 133, 133);
-        --boxShadowSemiweak: rgba(133, 133, 133, 0.75);
-        --boxShadowWeak: rgba(133, 133, 133, 0.5);
-        /* game screen main colors */
-        --gameBg: rgb(46, 46, 46);
-        --gameBgAlt: rgb(46, 46, 46);
-        --gameTalking: #1f4e7a;
-        --gameVoting: #6c41a3;
-        --gameEvaluating: #2d5020;
-        --gameRoundStats: #000000;
-        /* talking phase player list */
-        --inactivePlayerDot: rgb(78, 78, 78);
-        --activePlayerDot1: rgb(75, 105, 240);
-        --activePlayerDot2: rgb(150, 186, 240);
-        --activePlayerShadow: rgb(132, 185, 255);
-        /* voting phase button */
-        --gvtBtnBorder: #4a484d;
-        --gvtBtnBg: #6b646e;
-        --gvtBtnFocusShadow: #342547;
-        --gvtBtnBgH: #8e8594;
-        --gvtBtnBgA: #453f47;
-        --gvtBtnBgVoted: #693a9e;
-        --gvtBtnBgVotedH: #8146c5;
-        --gvtBtnBgVotedA: #512a7e;
-        /* evaluation phase */
-        --evabtn1: rgb(76, 97, 61);
-        --evabtn1H: rgb(96, 122, 77);
-        --evabtn1A: rgb(44, 58, 34);
-        --evabtn2: rgb(96, 112, 78);
-        --evabtn2H: rgb(117, 136, 94);
-        --evabtn2A: rgb(68, 80, 55);
-        --evabtn3: rgb(119, 122, 78);
-        --evabtn3H: rgb(141, 145, 98);
-        --evabtn3A: rgb(63, 65, 42);
-        --evabtn4: rgb(134, 108, 64);
-        --evabtn4H: rgb(167, 138, 89);
-        --evabtn4A: rgb(66, 57, 40);
-        --evabtn5: rgb(117, 70, 70);
-        --evabtn5H: rgb(156, 97, 97);
-        --evabtn5A: rgb(49, 31, 31); 
-        --evabSelected: #efdf00;
-        --evabSelectedShadow: #dc0;
-        --evabSelectedH: #ffee00;
-        --evabSelectedA: #cec000;
-        --evabSelectedText: #000;
-        /* round stat phase */
-        --playerName: rgb(114, 145, 236);
-        --playerNameShadow: royalblue;
-        --imposterName: rgb(255, 105, 51);
-        --imposterNameShadow: orangered;
-        --correctGuess: #237e53;
-        --incorrectGuess: #a13711;
-        --grsp1: #546e59;
-        --grsp2: #506854;
-        --grsp3: #757457;
-        --grsp4: #746450;
-        --grsp5: #6d4647;
-        /* game ended screen */
-        --endScrBg: #424242;
-        --rankingBorder: #00000000;
-        --ranking1: #b08f3f;
-        --ranking2: #a26e49;
-        --ranking3: #685a48;
-        --rankingLow: rgb(94, 94, 94);
-        /* toolbox colors */
-        --tbBG: rgb(73, 73, 73);
-        --tbH : rgb(112, 112, 112);
-        --tbA: rgb(51, 51, 51);
-      }
 }

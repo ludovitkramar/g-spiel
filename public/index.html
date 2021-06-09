@@ -10,6 +10,9 @@
     <meta name="description" content="Ein tolles Grammatiklernspiel - Passiversatzformen Übung" />
     <title>Grammatiklernspiel</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="preload" href="/css/default.css" as="style">
+    <link rel="preload" href="/css/light.css" as="style">
+    <link rel="preload" href="/css/green.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -129,24 +132,24 @@
             <i class="fa fa-github" aria-hidden="true"></i>
             Github
         </button><button>
-            <i class="fa fa-globe" aria-hidden="true"></i>
+            <i class="fa fa-paint-brush" aria-hidden="true"></i>
             <div class="toolBoxTool fastDownSwoosh">
-                <div onclick="setLang('de')" class="toolBtn">Deutsch</div>
-                <div onclick="setLang('en')" class="toolBtn">English</div>
+                <div onclick="setTheme('default')" class="toolBtn">Default Design</div>
+                <div onclick="setTheme('light')" class="toolBtn">Suave Design</div>
+                <div onclick="setTheme('green')" class="toolBtn">Natur Design</div>
             </div>
         </button><button>
-          <i class="fa fa-paint-brush" aria-hidden="true"></i>
-          <div class="toolBoxTool fastDownSwoosh">
-              <div onclick="setTheme('default')" class="toolBtn">Default theme</div>
-              <div onclick="setTheme('light')" class="toolBtn">Light Theme</div>
-              <div onclick="setTheme('green')" class="toolBtn">Green Theme</div>
-          </div>
-      </button><button>
             <i class="fa fa-search-plus" aria-hidden="true"></i>
             <div class="toolBoxTool fastDownSwoosh">
                 <div onclick="setTextSize(106)" class="toolBtn" id="sltt">Large Text</div>
                 <div onclick="setTextSize(104)" class="toolBtn" id="smtt">Medium Text</div>
                 <div onclick="setTextSize(101)" class="toolBtn" id="sstt">Small Text</div>
+            </div>
+        </button><button>
+            <i class="fa fa-globe" aria-hidden="true"></i>
+            <div class="toolBoxTool fastDownSwoosh">
+                <div onclick="setLang('de')" class="toolBtn">Deutsch</div>
+                <div onclick="setLang('en')" class="toolBtn">English</div>
             </div>
         </button>
     </div>
