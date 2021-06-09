@@ -9,63 +9,98 @@
     --text: #000;
     --textAlt: #fff;
     --focus: rgb(30, 105, 151);
-
+    --inputBG: rgb(255, 255, 255);
+    --placeholderText: rgb(82, 82, 82);
+    /* phase notice: */
     --phaseTitle: rgb(41, 97, 200);
     --joinScrBg: #4aace9;
-
+    /* notifications */
+    --notiInfo: rgb(40, 73, 124);
+    --notiInfoBorder: rgb(24, 42, 70);
+    --notiError: rgb(124, 40, 40);
+    --notiErrorBorder: rgb(41, 14, 14);
+    /* big blue button */
     --bigBtnBg: #065e99;
     --bigBtnText: #daeeffff;
-    --bigBtnBorder: rgb(4, 28, 43);
+    --bigBtnBorder: rgba(0, 0, 0, 0);
     --bigBtnBgH: rgb(33, 112, 165);
     --bigBtnBgA: rgb(16, 56, 83);
+    /* join screen player list */
     --playerReady: green;
     --playerNotReady: red;
-
+    /* grey text used for example in the join screen */
     --greyText: #555;
     --greyBorder: #aaa;
-
+    /* reusable things for all kind of boxes */
     --boxBg: #fff;
     --boxShadow: rgba(0, 0, 0, 1);
     --boxShadowSemiweak: rgba(0, 0, 0, 0.75);
     --boxShadowWeak: rgba(0, 0, 0, 0.5);
-
+    /* game screen main colors */
     --gameBg: #fff;
     --gameBgAlt: #eee;
     --gameTalking: #1f4e7a;
     --gameVoting: #6c41a3;
     --gameEvaluating: #2d5020;
     --gameRoundStats: #000000;
-
+    /* talking phase player list */
     --inactivePlayerDot: rgb(227, 230, 238);
     --activePlayerDot1: rgb(75, 105, 240);
     --activePlayerDot2: rgb(150, 186, 240);
-    
+    --activePlayerShadow: rgb(132, 185, 255);
+    /* voting phase button */
     --gvtBtnBorder: #837f88;
     --gvtBtnBg: #A393AD22;
     --gvtBtnFocusShadow: #837f88;
     --gvtBtnBgH: #A393AD44;
     --gvtBtnBgA: #A393ADAA;
-    --gvtBtnBorderVoted: #2b292e;
-    --gvtBtnBgVoted: #A393ADDD;
+    --gvtBtnBgVoted: #644e7edd;
     --gvtBtnBgVotedH: #644e7ed8;
     --gvtBtnBgVotedA: #644e7eee;
-    
+    /* evaluation phase */
+    --evabtn1: rgb(76, 97, 61);
+    --evabtn1H: rgb(96, 122, 77);
+    --evabtn1A: rgb(44, 58, 34);
+    --evabtn2: rgb(96, 112, 78);
+    --evabtn2H: rgb(117, 136, 94);
+    --evabtn2A: rgb(68, 80, 55);
+    --evabtn3: rgb(119, 122, 78);
+    --evabtn3H: rgb(141, 145, 98);
+    --evabtn3A: rgb(63, 65, 42);
+    --evabtn4: rgb(134, 108, 64);
+    --evabtn4H: rgb(167, 138, 89);
+    --evabtn4A: rgb(66, 57, 40);
+    --evabtn5: rgb(117, 70, 70);
+    --evabtn5H: rgb(156, 97, 97);
+    --evabtn5A: rgb(49, 31, 31); 
+    --evabSelected: #efdf00;
+    --evabSelectedShadow: #dc0;
+    --evabSelectedH: #ffee00;
+    --evabSelectedA: #cec000;
+    --evabSelectedText: #000;
+    /* round stat phase */
     --playerName: royalblue;
+    --playerNameShadow: rgba(65, 105, 225, 0);
     --imposterName: orangered;
+    --imposterNameShadow: rgba(255, 68, 0, 0);
     --correctGuess: #237e53;
     --incorrectGuess: #a13711;
-    
-    --notiInfo: rgb(40, 73, 124);
-    --notiInfoBorder: rgb(24, 42, 70);
-    --notiError: rgb(124, 40, 40);
-    --notiErrorBorder: rgb(41, 14, 14);
-    
-    --endScrBg: #424242;
-    --rankingBorder: black;
-    --ranking1: #b08f3f;
-    --ranking2: #a26e49;
-    --ranking3: #685a48;
-    --rankingLow: rgb(94, 94, 94);
+    --grsp1: #b3edbd;
+    --grsp2: #c4fece;
+    --grsp3: #FFFDBF;
+    --grsp4: #FFDBAD;
+    --grsp5: #FFA9AA;
+    /* game ended screen */
+    --endScrBg: #ffffff;
+    --rankingBorder: #00000000;
+    --ranking1: #ffda60;
+    --ranking2: #dfe3eb;
+    --ranking3: #ffc288;
+    --rankingLow: rgb(233, 233, 233);
+    /* toolbox colors */
+    --tbBG: #fff;
+    --tbH : #eee;
+    --tbA: #ccc;
   }
 
 * {
@@ -75,10 +110,16 @@
     font-size: 104%;
     user-select: none;
     font-weight: 400;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--text);
 }
 
 *:focus {
     outline: none;
+}
+
+::placeholder {
+    color: var(--placeholderText);
 }
 
 button {
@@ -130,7 +171,9 @@ button {
     color: var(--bigBtnText);
     cursor: pointer;
     border: 1px solid var(--bigBtnBorder);
+    box-shadow: 0em 0em 3px 0em var(--focus);
     border-radius: 4em;
+    transition: .1s;
 }
 
 #joinFormButton:hover {
@@ -156,6 +199,8 @@ button {
     border-radius: 2em;
     padding-left: .6em;
     padding-right: .6em;
+    box-shadow: 0em 0em 3px 0em var(--focus);
+    background-color: var(--inputBG);
 }
 
 #joinFormName:focus {
@@ -177,6 +222,8 @@ button {
     cursor: pointer;
     border: 1px solid var(--bigBtnBorder);
     border-radius: 4em;
+    transition: .1s;
+    box-shadow: 0em 0em 3px 0em var(--focus);
 }
 
 #startReady:hover {
@@ -286,12 +333,14 @@ button {
     float: left;
     margin: .1em;
     opacity: .7;
+    color: var(--textAlt);
 }
 
 #gameRemainingTimeDisplay {
     float: right;
     margin: .1em;
     opacity: .7;
+    color: var(--textAlt);
 }
 
 #gameStateDisplay {
@@ -306,10 +355,12 @@ button {
 #gameStateTitle {
     font-size: 3em;
     line-height: 1.1em;
+    color: var(--textAlt);
 }
 
 #gameStateSubtitle {
     font-size: 1.4em;
+    color: var(--textAlt);
 }
 
 #gamePlayersBox > div.gamePlayerBoxTitle {
@@ -352,7 +403,7 @@ button {
 #gamePlayersBox > div > div.gamePlayerActive {
     padding: .3em;
     padding-left: 1.5em;
-    text-shadow: rgb(132 185 255) 0px 0 4px;
+    text-shadow: var(--activePlayerShadow) 0px 0 4px;
 }
 
 #gamePlayersBox > div > div.gamePlayerActive::before {
@@ -385,9 +436,9 @@ button {
     width: 90vw;
     max-width: 20em;
     padding: .5em;
-    border-color: #837f88;
+    border: 0;
     border-radius: .5em;
-    background-color: #A393AD22;
+    background-color: var(--gvtBtnBg);
     word-wrap: break-word;    
     opacity: 0;
     animation-name: appearAni;
@@ -397,26 +448,25 @@ button {
     animation-delay: calc(var(--ani-order) * 140ms + 400ms);
 }
 #gameVoteImposterBox > button:hover {
-    background-color: #A393AD44;
+    background-color: var(--gvtBtnBgH);
 }
 #gameVoteImposterBox > button:focus {
-    box-shadow: 0em 0em 0em .1em #837f88;
+    box-shadow: 0em 0em 0em .1em var(--gvtBtnFocusShadow);
 }
 #gameVoteImposterBox > button:active {
-    background-color: #A393ADAA;
+    background-color: var(--gvtBtnBgA);
     padding-top: .6em;
     padding-bottom: .4em;
 }
 #gameVoteImposterBox > button.voted {
-    border-color: #2b292e;
-    background-color: #644e7eDD;
+    background-color: var(--gvtBtnBgVoted);
     color: var(--textAlt);
 }
 #gameVoteImposterBox > button.voted:hover {
-    background-color: #644e7ed8;
+    background-color: var(--gvtBtnBgVotedH);
 }
 #gameVoteImposterBox > button.voted:active {
-    background-color: #644e7eEE;
+    background-color: var(--gvtBtnBgVotedA);
 }
 
 #gameVoteCorrectnesBox {
@@ -482,6 +532,7 @@ button {
     line-height: 1em;
     display: block; 
     margin-bottom: .3em;
+    color: var(--textAlt);
 }
 .evb:focus {
     box-shadow: none;
@@ -492,81 +543,76 @@ button {
 }
 
 .evb1 {
-    background-color: rgb(76, 97, 61);
+    background-color: var(--evabtn1);
     color: var(--textAlt);
-    border-color: rgb(0, 0, 0);
 }
 .evb1:hover {
-    background-color: rgb(96, 122, 77);
+    background-color: var(--evabtn1H);
 }
 .evb1:active {
-    background-color: rgb(44, 58, 34);
+    background-color: var(--evabtn1A);
 }
 
 .evb2 {
-    background-color: rgb(96, 112, 78);
+    background-color: var(--evabtn2);
     color: var(--textAlt);
-    border-color: rgb(0, 0, 0);
 }
 .evb2:hover {
-    background-color: rgb(117, 136, 94);
+    background-color: var(--evabtn2H);
 }
 .evb2:active {
-    background-color: rgb(68, 80, 55);
+    background-color: var(--evabtn2A);
 }
 
 .evb3 {
-    background-color: rgb(119, 122, 78);
+    background-color: var(--evabtn3);
     color: var(--textAlt);
-    border-color: rgb(0, 0, 0);
 }
 .evb3:hover {
-    background-color: rgb(141, 145, 98);
+    background-color: var(--evabtn3H);
 }
 .evb3:active {
-    background-color: rgb(63, 65, 42);
+    background-color: var(--evabtn3A);
 }
 
 .evb4 {
-    background-color: rgb(134, 108, 64);
+    background-color: var(--evabtn4);
     color: var(--textAlt);
-    border-color: rgb(0, 0, 0);
 }
 .evb4:hover {
-    background-color: rgb(167, 138, 89);
+    background-color: var(--evabtn4H);
 }
 .evb4:active {
-    background-color: rgb(66, 57, 40);
+    background-color: var(--evabtn4A);
 }
 
 .evb5 {
-    background-color: rgb(117, 70, 70);
+    background-color: var(--evabtn5);
     color: var(--textAlt);
-    border-color: rgb(0, 0, 0);
 }
 .evb5:hover {
-    background-color: rgb(156, 97, 97);
+    background-color: var(--evabtn5H);
 }
 .evb5:active {
-    background-color: rgb(49, 31, 31);
+    background-color: var(--evabtn5A);
 }
 
 .evbselected {
-    background-color: #efdf00;
-    color: black;
-    box-shadow: 0px 0px 10px 0px #dc0;
+    background-color: var(--evabSelected);
+    color: var(--evabSelectedText);
+    box-shadow: 0px 0px 10px 0px var(--evabSelectedShadow);
 }
 .evbselected:focus {
-    box-shadow: 0px 0px 10px 0px #dc0;
+    box-shadow: 0px 0px 10px 0px var(--evabSelectedShadow);
 }
 .evbselected > span {
-    color: #111;
+    color: var(--evabSelectedText);
 }
 .evbselected:hover {
-    background-color: #ffee00;
+    background-color: var(--evabSelectedH);
 }
 .evbselected:active {
-    background-color: #cec000;
+    background-color: var(--evabSelectedA);
 }
 
 #gameRoundStatsBox {
@@ -611,7 +657,8 @@ button {
 
 .grspName > * {
     margin-top: auto;
-    color: royalblue;
+    color: var(--playerName);
+    text-shadow: 0px 0px 8px var(--playerNameShadow);
 }
 
 .grspNameImp {
@@ -622,7 +669,8 @@ button {
 
 .grspNameImp > * {
     margin-top: auto;
-    color: orangered;
+    color: var(--imposterName);
+    text-shadow: 0px 0px 8px var(--imposterNameShadow);
 }
 
 .grspPoints {
@@ -653,7 +701,7 @@ ul.grspPlayersList > li {
 
 .grspCorrect {
     margin: 1px;
-    background-color: #237e53;
+    background-color: var(--correctGuess);
     color: var(--textAlt);
     padding-left: .2em;
     padding-right: .2em;
@@ -662,11 +710,12 @@ ul.grspPlayersList > li {
 
 .grspCorrect > span {
     font-size: .8em;
+    color: var(--textAlt);
 }
 
 .grspIncorrect{
     margin: 1px;
-    background-color: #a13711;
+    background-color: var(--incorrectGuess);
     color: var(--textAlt);
     padding-left: .2em;
     padding-right: .2em;
@@ -675,6 +724,7 @@ ul.grspPlayersList > li {
 
 .grspIncorrect > span {
     font-size: .8em;
+    color: var(--textAlt);
 }
 
 ul.grspScoreboard {
@@ -689,8 +739,8 @@ ul.grspScoreboard > li {
 
 .grspGold {
     margin: 1px;
-    background-color: #b3edbd;
-    color: #000;
+    background-color: var(--grsp1);
+    color: var(--text);
     padding-left: .2em;
     padding-right: .2em;
     border: 1px solid var(--boxShadowSemiweak);
@@ -702,8 +752,8 @@ ul.grspScoreboard > li {
 
 .grspSilver {
     margin: 1px;
-    background-color: #c4fece;
-    color: #000;
+    background-color: var(--grsp2);
+    color: var(--text);
     padding-left: .2em;
     padding-right: .2em;
     border: 1px solid var(--boxShadowSemiweak);
@@ -715,8 +765,8 @@ ul.grspScoreboard > li {
 
 .grspBronze {
     margin: 1px;
-    background-color: #FFFDBF;
-    color: #000;
+    background-color: var(--grsp3);
+    color: var(--text);
     padding-left: .2em;
     padding-right: .2em;
     border: 1px solid var(--boxShadowSemiweak);
@@ -728,8 +778,8 @@ ul.grspScoreboard > li {
 
 .grsp4th {
     margin: 1px;
-    background-color: #FFDBAD;
-    color: #000;
+    background-color: var(--grsp4);
+    color: var(--text);
     padding-left: .2em;
     padding-right: .2em;
     border: 1px solid var(--boxShadowSemiweak);
@@ -741,8 +791,8 @@ ul.grspScoreboard > li {
 
 .grsp5th {
     margin: 1px;
-    background-color: #FFA9AA;
-    color: #000;
+    background-color: var(--grsp5);
+    color: var(--text);
     padding-left: .2em;
     padding-right: .2em;
     border: 1px solid var(--boxShadowSemiweak);
@@ -777,6 +827,7 @@ ul.grspScoreboard > li {
     width: max-content;
     margin-bottom: 1em;
     margin-top: -.3em;
+    transition: .1s;
 }
 #esAgain:hover {
     background-color: var(--bigBtnBgH);
@@ -786,10 +837,14 @@ ul.grspScoreboard > li {
     padding-top: .6em;
     padding-bottom: .4em;
 }
+#esAgain:focus {
+    box-shadow: 0em 0em 0em .14em var(--focus);
+}
 #esGrid {
     margin: 0 auto;
     width: 40em;
     max-width: 100vw; 
+    margin-bottom: 4em;
 }
 #esPodium {
     display: grid;
@@ -883,7 +938,7 @@ ul.grspScoreboard > li {
     text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    background-color: var(--boxBg);
+    background-color: var(--bg);
     width: 44em;
     padding: 1em;
     padding-left: 0;
@@ -924,7 +979,7 @@ ul.grspScoreboard > li {
     border: 1px solid var(--notiInfoBorder);
     padding-left: .3em;
     padding-right: .5em;
-    box-shadow: 0px 0px 10px 0px var(--boxShadowWeak);
+    box-shadow: 0px 0px 3px 0px var(--boxShadowWeak);
     word-break: break-all;
 }
 .notifyError {
@@ -933,7 +988,7 @@ ul.grspScoreboard > li {
     border: 1px solid var(--notiErrorBorder);
     padding-left: .3em;
     padding-right: .5em;
-    box-shadow: 0px 0px 10px 0px var(--boxShadowWeak); 
+    box-shadow: 0px 0px 3px 0px var(--boxShadowWeak); 
     word-break: break-all;
 }
 
@@ -943,10 +998,11 @@ ul.grspScoreboard > li {
     height: 42px;
     border-radius: 21px;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     border: 0;
     z-index: 100;
     background-color: var(--boxBg);
+    box-shadow: 0 0 3px 0 var(--boxShadowWeak);
 }
 #toolBox > button {
     height: 100%;
@@ -955,7 +1011,7 @@ ul.grspScoreboard > li {
     padding-right: .5em;
     border: none;
     background-color: var(--boxBg);
-    position: relative;
+    transition: .1s;
 }
 #toolBox > button:first-child {
     border-top-left-radius: 21px;
@@ -966,12 +1022,12 @@ ul.grspScoreboard > li {
     border-bottom-right-radius: 21px;
 }
 #toolBox > button:hover {
-    background-color: rgb(235, 235, 235);
+    background-color: var(--tbH);
 }
 #toolBox > button:focus {
-    background-color: rgb(224, 224, 224);
-    border-top-left-radius: 0em;
-    border-top-right-radius: 0em;
+    background-color: var(--tbA);
+    /* border-top-left-radius: 0em;
+    border-top-right-radius: 0em; */
     z-index: 101;
 }
 #toolBox > button:focus > .toolBoxTool {
@@ -982,11 +1038,14 @@ ul.grspScoreboard > li {
     display: none;
     max-height: calc(100vh - 150px);
     overflow-x: auto;
-    bottom: 42px;
+    bottom: 52px;
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
+    border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
     background-color: var(--boxBg);
-    left: 0;
+    box-shadow: 0 0 3px 0 var(--boxShadowWeak);
+    right: 0;
     padding: 5px;
     min-width: 10em;
     max-width: 85vw;
@@ -997,13 +1056,14 @@ ul.grspScoreboard > li {
     border-radius: .25em;
     padding-left: .3em;
     padding-right: .3em;
+    transition: .1s;
 }
 .toolBoxTool > .toolBtn:hover {
-    background-color: rgba(134, 134, 134, 0.452);
+    background-color: var(--tbH);
     cursor: pointer;
 }
 .toolBoxTool > .toolBtn:active {
-    background-color: rgba(95, 95, 95, 0.746);
+    background-color: var(--tbA);
     cursor: pointer;
 }
 
@@ -1026,10 +1086,8 @@ ul.grspScoreboard > li {
         grid-column: 1;
         grid-row: 2;
     }
-
     #gameRightBox > div {
-        max-width: 97vw !important;
-        margin: 0 auto !important;
+        padding-bottom: 4em;
     }
 
     #gameRoundStatsBox {
@@ -1061,12 +1119,6 @@ ul.grspScoreboard > li {
     .grspNameImp {
         display: inline-block;
     }
-
-    .grspPoints {
-        display: inline-block;
-        margin-left: .2em;
-        font-size: .8em;
-    }
 }
 
 @media (max-width: 38em) {
@@ -1083,6 +1135,10 @@ ul.grspScoreboard > li {
     }
     #gameStateSubtitle{
         font-size: 1.2em;
+    }
+    #gameRightBox > div {
+        max-width: 97vw !important;
+        margin: 0 auto !important;
     }
     .gvcImposter > div {
         grid-template-columns: auto;
@@ -1103,6 +1159,7 @@ ul.grspScoreboard > li {
     .evb > span {
         line-height: 1em;
         display: unset; 
+        color: var(--textAlt);
     }
     #esPodium {
         grid-template-columns: auto;
@@ -1241,237 +1298,103 @@ ul.grspScoreboard > li {
     } 
 }
 
-/* 
 @media (prefers-color-scheme: dark) {
-* {
-    color: #eee;
+    :root {
+        --bg: rgb(34, 34, 34);
+        --text: #eee;
+        --textAlt: #fff;
+        --focus: rgb(30, 105, 151);
+        --inputBG: rgb(119, 119, 119);
+        --placeholderText: rgb(189, 189, 189);
+        /* phase notice: */
+        --phaseTitle: rgb(41, 97, 200);
+        --joinScrBg: rgb(58, 58, 58);
+        /* notifications */
+        --notiInfo: rgb(40, 73, 124);
+        --notiInfoBorder: rgb(24, 42, 70, 0);
+        --notiError: rgb(124, 40, 40);
+        --notiErrorBorder: rgb(41, 14, 14, 0);
+        /* big blue button */
+        --bigBtnBg: #065e99;
+        --bigBtnText: #daeeffff;
+        --bigBtnBorder: rgba(0, 0, 0, 0);
+        --bigBtnBgH: rgb(33, 112, 165);
+        --bigBtnBgA: rgb(16, 56, 83);
+        /* join screen player list */
+        --playerReady: green;
+        --playerNotReady: red;
+        /* grey text used for example in the join screen */
+        --greyText: rgb(133, 133, 133);
+        --greyBorder: rgb(93, 93, 93);
+        /* reusable things for all kind of boxes */
+        --boxBg: rgb(85, 85, 85);
+        --boxShadow: rgb(133, 133, 133);
+        --boxShadowSemiweak: rgba(133, 133, 133, 0.75);
+        --boxShadowWeak: rgba(133, 133, 133, 0.5);
+        /* game screen main colors */
+        --gameBg: rgb(46, 46, 46);
+        --gameBgAlt: rgb(46, 46, 46);
+        --gameTalking: #1f4e7a;
+        --gameVoting: #6c41a3;
+        --gameEvaluating: #2d5020;
+        --gameRoundStats: #000000;
+        /* talking phase player list */
+        --inactivePlayerDot: rgb(78, 78, 78);
+        --activePlayerDot1: rgb(75, 105, 240);
+        --activePlayerDot2: rgb(150, 186, 240);
+        --activePlayerShadow: rgb(132, 185, 255);
+        /* voting phase button */
+        --gvtBtnBorder: #4a484d;
+        --gvtBtnBg: #6b646e;
+        --gvtBtnFocusShadow: #342547;
+        --gvtBtnBgH: #8e8594;
+        --gvtBtnBgA: #453f47;
+        --gvtBtnBgVoted: #693a9e;
+        --gvtBtnBgVotedH: #8146c5;
+        --gvtBtnBgVotedA: #512a7e;
+        /* evaluation phase */
+        --evabtn1: rgb(76, 97, 61);
+        --evabtn1H: rgb(96, 122, 77);
+        --evabtn1A: rgb(44, 58, 34);
+        --evabtn2: rgb(96, 112, 78);
+        --evabtn2H: rgb(117, 136, 94);
+        --evabtn2A: rgb(68, 80, 55);
+        --evabtn3: rgb(119, 122, 78);
+        --evabtn3H: rgb(141, 145, 98);
+        --evabtn3A: rgb(63, 65, 42);
+        --evabtn4: rgb(134, 108, 64);
+        --evabtn4H: rgb(167, 138, 89);
+        --evabtn4A: rgb(66, 57, 40);
+        --evabtn5: rgb(117, 70, 70);
+        --evabtn5H: rgb(156, 97, 97);
+        --evabtn5A: rgb(49, 31, 31); 
+        --evabSelected: #efdf00;
+        --evabSelectedShadow: #dc0;
+        --evabSelectedH: #ffee00;
+        --evabSelectedA: #cec000;
+        --evabSelectedText: #000;
+        /* round stat phase */
+        --playerName: rgb(114, 145, 236);
+        --playerNameShadow: royalblue;
+        --imposterName: rgb(255, 105, 51);
+        --imposterNameShadow: orangered;
+        --correctGuess: #237e53;
+        --incorrectGuess: #a13711;
+        --grsp1: #546e59;
+        --grsp2: #506854;
+        --grsp3: #757457;
+        --grsp4: #746450;
+        --grsp5: #6d4647;
+        /* game ended screen */
+        --endScrBg: #424242;
+        --rankingBorder: #00000000;
+        --ranking1: #b08f3f;
+        --ranking2: #a26e49;
+        --ranking3: #685a48;
+        --rankingLow: rgb(94, 94, 94);
+        /* toolbox colors */
+        --tbBG: rgb(73, 73, 73);
+        --tbH : rgb(112, 112, 112);
+        --tbA: rgb(51, 51, 51);
+      }
 }
-
-input {
-    background-color: rgb(119, 119, 119);
-    border: 1px solid rgb(56, 56, 56);
-}
-
-::placeholder {
-    color: rgb(189, 189, 189);
-}
-
-button {
-    background-color: rgb(92, 92, 92);
-    color: rgb(214, 214, 214);
-    border: 1px solid rgb(70, 70, 70);
-}
-
-#joinScr {
-    background-color: rgb(34, 34, 34);
-}
-
-#joinScrTopBox{
-    background-color: rgb(58, 58, 58);
-    color: rgb(0, 0, 0);
-}
-
-#joinFormButton {
-    background-color: var(--bigBtnBg);
-    color: var(--bigBtnText);
-    border: 1px solid var(--bigBtnBorder);
-}
-
-#joinFormButton:hover {
-    background-color: var(--bigBtnBgH);
-}
-
-#joinFormButton:active {
-    background-color: var(--bigBtnBgA);
-}
-
-#joinFormName {
-    border: 1px solid var(--bigBtnBorder);
-}
-
-#startReady {
-    background-color: var(--bigBtnBg);
-    color: var(--bigBtnText);
-    border: 1px solid var(--bigBtnBorder);
-}
-
-#startReady:hover {
-    background-color: var(--bigBtnBgH);
-}
-
-#startReady:active {
-    background-color: var(--bigBtnBgA);
-}
-
-#startProportion {
-    color: white;
-}
-
-.startReadyCaption {
-    color: rgb(133, 133, 133);
-    border-bottom: 1px solid rgb(93, 93, 93);
-}
-
-.startReadyPlayer > div {
-    background-color: var(--playerReady);
-}
-
-.startNotReadyPlayer > div {
-    background-color: var(--playerNotReady);
-}
-
-#gameScr {
-    background-color: rgb(46, 46, 46);
-}
-
-#gameInfoBox {
-    background-color: #1f4e7aff;
-    color: white;
-}
-
-#gamePlayersBox > div.gamePlayerBoxTitle {
-    color: rgb(136, 136, 136);
-    border-bottom: 1px solid rgb(92, 92, 92);
-}
-
-#gamePlayersBox > div > div::before {
-    background-color: rgb(78, 78, 78);
-}
-
-#gamePlayersBox > div > div.gamePlayerActive {
-    text-shadow: rgb(132 185 255) 0px 0 4px;
-}
-
-#gameVoteImposterBox > button {
-    border-color: #4a484d;
-    background-color: #6b646e;
-}
-#gameVoteImposterBox > button:hover {
-    background-color: #8e8594;
-}
-#gameVoteImposterBox > button:focus {
-    box-shadow: 0em 0em 0em .1em #342547;
-}
-#gameVoteImposterBox > button:active {
-    background-color: #453f47;
-}
-#gameVoteImposterBox > button.voted {
-    border-color: #2b292e;
-    background-color: #693a9e;
-    color: #fff;
-}
-#gameVoteImposterBox > button.voted:hover {
-    background-color: #8146c5;
-}
-#gameVoteImposterBox > button.voted:active {
-    background-color: #512a7e;
-}
-
-.gameGreyLineTitle {
-    color: rgb(136, 136, 136);
-    border-bottom: 1px solid rgb(92, 92, 92);    
-}
-
-.gvcImposter {
-    background-color: rgb(85, 85, 85);
-}
-
-.grspTop{
-    background-color: rgb(85, 85, 85);
-    box-shadow: 0 0 .1em var(--greyBorder);
-}
-
-.grspLeft {
-    box-shadow: 0 0 .1em var(--greyBorder);
-    background-color: rgb(85, 85, 85);
-}
-
-.grspName {
-    color: white;
-}
-
-.grspName > * {
-    color: rgb(114, 145, 236);
-    text-shadow: 0px 0px 8px royalblue;
-}
-
-.grspNameImp {
-    color: white;
-}
-
-.grspNameImp > * {
-    color: rgb(255, 105, 51);
-    text-shadow: 0px 0px 8px orangered;
-}
-
-.grspCorrect {
-    background-color: #237e53;
-    color: #fff;
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grspIncorrect{
-    background-color: #a13711;
-    color: #fff;
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grspGold {
-    background-color: #546e59;
-    color: rgb(255, 255, 255);
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grspSilver {
-    background-color: #506854;
-    color: rgb(255, 255, 255);
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grspBronze {
-    background-color: #757457;
-    color: rgb(255, 255, 255);
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grsp4th {
-    background-color: #746450;
-    color: rgb(255, 255, 255);
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-.grsp5th {
-    background-color: #6d4647;
-    color: rgb(255, 255, 255);
-    border: 1px solid var(--boxShadowSemiweak);
-}
-
-span.grspPoint {
-    background-color: #f7ff80;
-    border: 1px solid black;
-}
-
-#phaseChangeNotice > div > div{
-    background-color: rgb(31, 31, 31);
-}
-
-#phaseTitle {
-    color: rgb(41, 97, 200);
-}
-
-#toolBox {
-    background-color: rgba(73, 73, 73, 0.9);
-}
-#toolBox > button {
-    background-color: #00000000;
-}
-#toolBox > button:hover {
-    background-color: rgb(107, 107, 107);
-}
-#toolBox > button:focus {
-    background-color: rgb(107, 107, 107);
-}
-.toolBoxTool {
-    background-color: rgb(107, 107, 107);
-}
-} */

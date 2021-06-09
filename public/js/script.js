@@ -182,40 +182,15 @@ setLang(localStorage.getItem('lang'))
 //players that have been selected as imposters by this player in the voting phase.
 let votedImpArray = [];
 //colors
-let c2 = "";
 let talkingColor = 'var(--gameTalking)';
-let talkingColor2 = '';
+let talkingColor2 = 'var(--gameBg)';
 let voteImpColor = 'var(--gameVoting)';
-let voteImpColor2 = '';
+let voteImpColor2 = 'var(--gameBg)';
 let voteCorrectColor = 'var(--gameEvaluating)';
-let voteCorrectColor2 = '';
+let voteCorrectColor2 = 'var(--gameBgAlt)';
 let roundStatsColor = 'var(--gameRoundStats)';
-let roundStatsColor2 = '';
-let darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
-function setTheme(e) {
-    if (e.matches) {
-        console.info('dark theme')
-        c2 = "var(--gameBg)";
-        talkingColor2 = c2;
-        voteImpColor2 = c2;
-        voteCorrectColor2 = c2;
-        roundStatsColor2 = c2;
-        // talkingColor = '#163857';
-        // voteImpColor = '#402761';
-        // voteCorrectColor = '#1f3817';
-    } else {
-        console.info('light theme')
-        roundStatsColor2 = 'var(--gameBgAlt)';
-        c2 = "var(--gameBg)";
-        talkingColor2 = c2;
-        voteImpColor2 = c2;
-        voteCorrectColor2 = 'var(--gameBgAlt)';
-    }
-}
-setTheme(darkTheme)  //set theme on load
-darkTheme.addEventListener("change", (e) => { //set theme when changed dynamically
-    setTheme(e)
-})
+let roundStatsColor2 = 'var(--gameBgAlt)';
+
 document.getElementById('esAgain').addEventListener("click", function () {
     window.location.reload()
     return false;
