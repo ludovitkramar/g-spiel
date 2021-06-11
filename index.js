@@ -15,7 +15,7 @@ var joinedPlayers = {};  //players that have joined with a name, key is  sID, wi
 var readyPlayers = {}; //players that have joined and are ready to start, same format as above
 //game related variables:
 var gameRunning = false;
-const words = [["Stuhl", "Sofa"], ["Computer", "Laptop"], ["Wassereis", "Lolli"], ["Schreibstift", "Kugelschreiber"], ["Cannabis", "Tabak"], ["Hund", "Katze"]];
+const words = [["Stuhl", "Bett"], ["Fahrrad", "Flugzeug"], ["Wassereis", "Kuchen"], ["Brokkoli", "Baum"], ["Marihuana", "Bier"], ["Hund", "Elefant"], ["Bahn", "Reise"]];
 let game = {
   players: [],
   pnames: {},

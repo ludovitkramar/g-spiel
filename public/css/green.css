@@ -2,23 +2,23 @@
     --bg: #ffffff;
     --text: rgb(22, 22, 22);
     --textAlt: #fff;
-    --focus: rgb(103, 219, 68);
+    --focus: rgb(54, 65, 51);
     --inputBG: rgb(255, 255, 255);
     --placeholderText: rgb(128, 128, 128);
     /* phase notice: */
-    --phaseTitle: rgb(44, 44, 44);
-    --joinScrBg: #2f8027;
+    --phaseTitle: rgb(148, 178, 67);
+    --joinScrBg: #989a95;
     /* notifications */
-    --notiInfo: rgb(25, 54, 97);
+    --notiInfo: rgb(107, 141, 191);
     --notiInfoBorder: rgba(24, 42, 70, 0);
-    --notiError: rgb(88, 23, 23);
+    --notiError: rgb(174, 93, 93);
     --notiErrorBorder: rgba(41, 14, 14, 0);
     /* big blue button */
-    --bigBtnBg: #137407;
-    --bigBtnText: rgb(219, 255, 218);
+    --bigBtnBg: #566b42;
+    --bigBtnText: rgb(220, 229, 220);
     --bigBtnBorder: rgba(0, 0, 0, 0);
-    --bigBtnBgH: #199109;
-    --bigBtnBgA: #105507;
+    --bigBtnBgH: #677c53;
+    --bigBtnBgA: #4a5a3a;
     /* join screen player list */
     --playerReady: green;
     --playerNotReady: red;
@@ -35,13 +35,13 @@
     --gameBgAlt: #eee;
     --gameTalking: #587a06;
     --gameVoting: #1e7e5e;
-    --gameEvaluating: #293d75;
+    --gameEvaluating: #757029;
     --gameRoundStats: #000000;
     /* talking phase player list */
     --inactivePlayerDot: rgb(227, 230, 238);
-    --activePlayerDot1: rgb(93, 226, 40);
-    --activePlayerDot2: rgb(150, 240, 165);
-    --activePlayerShadow: rgb(63, 231, 12);
+    --activePlayerDot1: rgb(119, 182, 94);
+    --activePlayerDot2: rgb(185, 212, 190);
+    --activePlayerShadow: rgb(179, 209, 168);
     /* voting phase button */
     --gvtBtnBorder: #7f8883;
     --gvtBtnBg: #93ada922;
@@ -85,14 +85,14 @@
     /* game ended screen */
     --endScrBg: #ffffff;
     --rankingBorder: #00000000;
-    --ranking1: #6be63b;
-    --ranking2: #55bd5c;
-    --ranking3: #42a180;
-    --rankingLow: rgb(94, 94, 94);
+    --ranking1: #86ed5e;
+    --ranking2: #7bc780;
+    --ranking3: #69b69b;
+    --rankingLow: rgb(214, 214, 214);
     /* toolbox colors */
     --tbBG: #fff;
-    --tbH : #eee;
-    --tbA: #ccc;
+    --tbH: #ebeee8;
+    --tbA: #cbd0c4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -133,13 +133,13 @@
         --gameBgAlt: rgb(46, 46, 46);
         --gameTalking: #587a06;
         --gameVoting: #1e7e5e;
-        --gameEvaluating: #293d75;
+        --gameEvaluating: #58562e;
         --gameRoundStats: #000000;
         /* talking phase player list */
         --inactivePlayerDot: rgb(78, 78, 78);
-        --activePlayerDot1: rgb(103, 240, 75);
-        --activePlayerDot2: rgb(150, 240, 184);
-        --activePlayerShadow: rgb(181, 255, 132);
+        --activePlayerDot1: rgb(113, 194, 97);
+        --activePlayerDot2: rgb(180, 224, 197);
+        --activePlayerShadow: rgb(178, 228, 168);
         /* voting phase button */
         --gvtBtnBorder: #494d48;
         --gvtBtnBg: #686e64;
