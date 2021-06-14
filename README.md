@@ -7,10 +7,7 @@ Passiversatzformen
 - Responsive design, mobile and desktop friendly.
 - Autoreconnect, no need to fear unstable connections.
 - Flexible player count.
-<<<<<<< HEAD
 - End early if desired. Dynamic game length.
-=======
->>>>>>> ceebf788a6a372ed100cc9907e5c6f0c9b1a0d23
 - No personal data is collected.
 - AGPL license, free to modify and redistribute.
 - Customization. Dark mode and multiple themes.
@@ -108,16 +105,10 @@ If the address is ```gSpiel``` like above, the modifications are included in the
 
 ### /public/index.html
 
-<<<<<<< HEAD
 - Change the source of ```/css/style.css```
 - Change the source of ```/socket.io/socket.io.js```
 - Change the source of ```/js/script.js```
 - Change the source of ```/font-awesome-4.7.0/css/font-awesome.css```
-=======
-- Change the source of /css/style.css and the other stylesheets
-- Change the source of /socket.io/socket.io.js
-- Change the source of /js/script.js
->>>>>>> ceebf788a6a372ed100cc9907e5c6f0c9b1a0d23
 
 ### /public/js/script.js
 
