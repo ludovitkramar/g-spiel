@@ -135,6 +135,46 @@ io.on('connection', (socket) => {
       console.log("invalid correctnes vote by " + sID)
     }
   })
+  //vote endearly
+  socket.on("endEarly", msg => { //msg is boolean if want to end early
+    if (gameRunning) {
+      console.log(`${sID} voted endEarly: ${msg}`)
+      if (msg && game["endEarlyVotes"].indexOf(sID) == -1) { // this player wants to end early and didn't vote already
+        game["endEarlyVotes"].push(sID);
+        var votedN = game["endEarlyVotes"].length;
+        var requiredN = Math.round(game["connectedCount"] * 0.61);
+        for (key in game["players"]) { //for every player
+          io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} würde das Spiel gerne vorzeitig beenden. (${votedN}/${requiredN})`);
+        }
+        console.log(game['endEarlyVotes']);
+        if (votedN >= requiredN) { //if enough votes to end
+          game["totalRounds"] = game["round"];
+          gameSendGameState();
+          for (key in game["players"]) { //for every player
+            io.to(game["players"][key]).emit("sMsg", `Dies ist die letzte Runde.`);
+          }
+        }
+      } else if (!msg && game["endEarlyVotes"].indexOf(sID) != -1) { // cancel vote
+        const index = game['endEarlyVotes'].indexOf(sID);
+        game['endEarlyVotes'].splice(index, 1);
+        var votedN = game["endEarlyVotes"].length;
+        var requiredN = Math.round(game["connectedCount"] * 0.61);
+        for (key in game["players"]) { //for every player
+          io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} hat die Abstimmung zur vorzeitigen Beendigung des Spiels abgebrochen. (${votedN}/${requiredN})`);
+        }
+        console.log(game['endEarlyVotes']);
+        if (game["round"] == game["totalRounds"] && votedN < requiredN) { //cancel end early
+          game["totalRounds"] = game["players"].length;
+          gameSendGameState();
+          for (key in game["players"]) { //for every player
+            io.to(game["players"][key]).emit("sMsg", `Vorzeitiges Ende wird aufgehoben.`);
+          }
+        }
+      }
+    } else {
+      console.log('invalid endearly vote')
+    }
+  })
   //When a connection goes down:
   socket.on('disconnect', (socket) => {
     connectionCounter -= 1;
@@ -142,6 +182,8 @@ io.on('connection', (socket) => {
     if (gameRunning && game["players"].indexOf(sID) != -1) { //if the game is running and this id is a player
       console.log('player disconnected while in game')
       io.sockets.emit("gameRunningError", `${game["pnames"][sID]} (${sID}) hat die Verbindung mitten im Spiel unterbrochen.`);
+      game["connectedCount"] -= 1;
+      console.log(`${game["connectedCount"]} players are connected`);
     } else {
       delete joinedPlayers[sID]; //remove from joinedPlayers object
       delete readyPlayers[sID];
@@ -168,6 +210,8 @@ io.on('connection', (socket) => {
         for (key in game["players"]) { //for every player
           io.to(game["players"][key]).emit("sMsg", `${game["pnames"][sID]} (${sID}) wurde wieder verbunden.`);
         }
+        game["connectedCount"] += 1;
+        console.log(`${game["connectedCount"]} players are connected`);
       } else {
         console.log('not player wanted to reconnect: ' + msg)
       }
@@ -192,10 +236,11 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 5, // time for players to talk in seconds
+    "talkTime": 3, // time for players to talk in seconds
     "voteTime": 10, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
+    "endEarlyVotes": [], //ids that want to end early
   };
   gameRunning = true;
   console.log('start game says hi!')
@@ -210,7 +255,8 @@ function gameInit() { //initialize the game
   io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
   game["totalRounds"] = game["players"].length;
   game["impostersCount"] = Math.floor((game["players"].length + 4) / 5); //calculate number of imposters
-  console.log(game)
+  game["connectedCount"] = game["players"].length;
+  //console.log(game)
   gameSendGameState();
   game["players"].forEach(e => { //send each player command to start game and client game state
     io.to(e).emit("startGame", "start");
@@ -226,6 +272,7 @@ function gameSendGameState() {
     "round": game["round"], //round counter, when = player count game ends.
     "talkTime": game["talkTime"], // time for players to talk in seconds
     "voteTime": game["voteTime"], //time for players to vote in seconds
+    "totalRounds": game["totalRounds"], //num of total rounds
   };
   game["players"].forEach(e => { //send each player command to start game and client game state
     io.to(e).emit("gameStateUpdate", clientGame);
@@ -439,8 +486,8 @@ function gameSendRoundStatsEnd() { //send command to remove round stats from scr
 
 function gameEndOfRound() {
   console.log("end of round:" + game["round"] + " , game state below:");
-  console.log(game);
-  if (game["round"] == game["totalRounds"]) { //if is the last round
+  //console.log(game);
+  if (game["round"] >= game["totalRounds"]) { //if is the last round
     gameEnds();
   } else {
     game["players"].forEach(e => { // to every player

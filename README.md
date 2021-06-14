@@ -2,7 +2,8 @@
 
 - Responsive design, mobile and desktop friendly.
 - Autoreconnect, no need to fear unstable connections.
-- Flexible player count
+- Flexible player count.
+- End early if desired. Dynamic game length.
 - No personal data is collected.
 - AGPL license, free to modify and redistribute.
 - Customization. Dark mode and multiple themes.
@@ -93,9 +94,10 @@ http://example.com/gSpiel/
 
 ### /public/index.html
 
-- Change the source of /css/style.css
-- Change the source of /socket.io/socket.io.js
-- Change the source of /js/script.js
+- Change the source of ```/css/style.css```
+- Change the source of ```/socket.io/socket.io.js```
+- Change the source of ```/js/script.js```
+- Change the source of ```/font-awesome-4.7.0/css/font-awesome.css```
 
 ### /public/js/script.js
 
@@ -103,6 +105,13 @@ Change the first line to
 
 ```js
 let socket = io.connect("/", { path: "/EXAMPLE/socket.io" });
+```
+
+### /public/css/style.css
+
+Change the source of the font file to
+```css
+src: url(/gSpiel/font/TitilliumWeb-Regular.ttf);
 ```
 
 ### /index.js

@@ -86,6 +86,8 @@ let strings_en = { //collections of all the text for ease of management
     "pos1": "1st place",
     "pos2": "2nd place",
     "pos3": "3rd place",
+    "edev": "End game early",
+    "edec": "Cancel vote",
 };
 let strings_de = { //german
     "join": "Beitreten!",
@@ -159,6 +161,8 @@ let strings_de = { //german
     "pos1": "1. Platz",
     "pos2": "2. Platz",
     "pos3": "3. Platz",
+    "edev": "Spiel früh beenden",
+    "edec": "Abstimmung abbrechen",
 };
 //set correct language
 function setLang(l) {
@@ -386,6 +390,8 @@ function populateStrings() {
     document.getElementById('sstt').innerText = strings["sstt"];
     document.getElementById('esTitle').innerText = strings["gend"];
     document.getElementById('esAgain').innerText = strings["pyag"];
+    document.getElementById('edev').innerText = strings["edev"];
+    document.getElementById('edec').innerText = strings["edec"];
 }
 
 function joinGame() { //tell the server you want to join
@@ -474,7 +480,7 @@ function gameStateUpdate() {
     //show the points //the element has been removed
     //document.getElementById('gameYourPoints').innerHTML = `Your points: ${clientGame["ppoints"][sid]}`;
     //show the round
-    document.getElementById('gameRoundCounter').innerHTML = `${strings["rnot"]} ${clientGame["round"]} / ${clientGame["players"].length}`;
+    document.getElementById('gameRoundCounter').innerHTML = `${strings["rnot"]} ${clientGame["round"]} / ${clientGame["totalRounds"]}`;
 }
 
 function hideAllScreens() {
@@ -517,6 +523,12 @@ function noticeNewPhase(phaseCode) {
     const noticeboxdiv = document.getElementById('phaseNoticeDialogueBox')
     function showPhaseNotice(textsArray) {
         noticediv.classList.remove('hidden');
+        //i guess this bellow fixes the flash when moving between tabs
+        noticediv.classList.remove('fadeIn');
+        noticeboxdiv.classList.remove('openZoom');
+        noticediv.classList.remove('fadeOut');
+        noticeboxdiv.classList.remove('closeZoom');
+
         //play open animation
         noticediv.classList.add('fadeIn')
         setTimeout(() => {
@@ -526,7 +538,7 @@ function noticeNewPhase(phaseCode) {
         setTimeout(() => {
             noticediv.classList.remove('fadeIn')
             noticeboxdiv.classList.remove('openZoom')
-        }, 500);
+        }, 2600);
         //set the text
         document.getElementById('phaseTitle').innerHTML = textsArray[0];
         document.getElementById('phaseText').innerHTML = textsArray[1];
@@ -954,4 +966,8 @@ function attemptReconnect() {
 
 function disconnect() {
     socket.disconnect()
+}
+
+function endEarly(b) { //b is boolean
+    socket.emit("endEarly", b); //tell the server what you want to do about ending early
 }

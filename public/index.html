@@ -13,7 +13,7 @@
     <link rel="preload" href="/css/default.css" as="style">
     <link rel="preload" href="/css/light.css" as="style">
     <link rel="preload" href="/css/green.css" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
 </head>
 
 <body>
@@ -131,6 +131,12 @@
         </button><button onclick="window.open(`https://github.com/ludovitkramar/g-spiel`, '_blank');">
             <i class="fa fa-github" aria-hidden="true"></i>
             Github
+        </button><button>
+            <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+            <div class="toolBoxTool fastDownSwoosh">
+                <div onclick="endEarly(true)" class="toolBtn" id="edev">End early</div>
+                <div onclick="endEarly(false)" class="toolBtn" id="edec">Cancel vote</div>
+            </div>
         </button><button>
             <i class="fa fa-paint-brush" aria-hidden="true"></i>
             <div class="toolBoxTool fastDownSwoosh">
