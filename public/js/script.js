@@ -1,4 +1,4 @@
-let socket = io.connect("/", { path: "/socket.io" }); //connect ro socket.io
+let socket = io.connect("/", { path: "/gSpiel/socket.io" }); //connect ro socket.io
 var sid = ""; //the session id of this player
 var joinedPlayers = {}; //same object as the server
 var readyPlayers = {}; //same object as the server
@@ -194,19 +194,19 @@ function setTheme(t) {
     }
     switch (t) {
         case "default":
-            set('/css/default.css')
+            set('/gSpiel/css/default.css')
             localStorage.setItem('theme', "default")
             break;
         case "green":
-            set('/css/green.css')
+            set('/gSpiel/css/green.css')
             localStorage.setItem('theme', "green")
             break
         case "light":
-            set('/css/light.css')
+            set('/gSpiel/css/light.css')
             localStorage.setItem('theme', "light")
             break
         default:
-            set('/css/default.css')
+            set('/gSpiel/css/default.css')
             localStorage.setItem('theme', "default")
             break;
     }
