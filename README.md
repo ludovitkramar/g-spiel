@@ -1,14 +1,24 @@
+# G42 Grammatiklernspiel
+
+Passiversatzformen
+
 # Features
 
 - Responsive design, mobile and desktop friendly.
 - Autoreconnect, no need to fear unstable connections.
 - Flexible player count.
+<<<<<<< HEAD
 - End early if desired. Dynamic game length.
+=======
+>>>>>>> ceebf788a6a372ed100cc9907e5c6f0c9b1a0d23
 - No personal data is collected.
 - AGPL license, free to modify and redistribute.
 - Customization. Dark mode and multiple themes.
 - English and German user interface.
 
+Try it here
+- https://kykvit.com/gSpiel
+- https://grammatikspiel.herokuapp.com/
 
 # Rules
 
@@ -82,30 +92,41 @@ Für je fünf Spieler gibt es einen Hochstapler.
 - 11-15 Spieler: 3 Hochstapler
 - usw.
 
+# Running the server with heroku
+
+Use the branches with heroku in the name, no modification is necessary.
 
 # Running the server behind a proxy
 
-To use an address like the one below, some modifications are necessary.
+To use an address like the one below, some modifications are necessary. 
 ```
 http://example.com/gSpiel/
 ```
+If the address is ```gSpiel``` like above, the modifications are included in the branches named with proxy.
 
 ## Modifications
 
 ### /public/index.html
 
+<<<<<<< HEAD
 - Change the source of ```/css/style.css```
 - Change the source of ```/socket.io/socket.io.js```
 - Change the source of ```/js/script.js```
 - Change the source of ```/font-awesome-4.7.0/css/font-awesome.css```
+=======
+- Change the source of /css/style.css and the other stylesheets
+- Change the source of /socket.io/socket.io.js
+- Change the source of /js/script.js
+>>>>>>> ceebf788a6a372ed100cc9907e5c6f0c9b1a0d23
 
 ### /public/js/script.js
 
-Change the first line to
+- Change the first line to
 
 ```js
-let socket = io.connect("/", { path: "/EXAMPLE/socket.io" });
+let socket = io.connect("/", { path: "/gSpiel/socket.io" });
 ```
+- Change all the sources of the stylesheets.
 
 ### /public/css/style.css
 
@@ -116,13 +137,13 @@ src: url(/gSpiel/font/TitilliumWeb-Regular.ttf);
 
 ### /index.js
 
-Change the line below to match with the port you want to use for the proxy.
+The server uses the port specified by the PORT environment variable, if not present it falls back to 8282.
 
 ```js
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8282;
 ```
 
-## Proxy with apache
+## Example proxy configuration with apache
 
 ### Modules 
 
