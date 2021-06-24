@@ -15,7 +15,7 @@ var joinedPlayers = {};  //players that have joined with a name, key is  sID, wi
 var readyPlayers = {}; //players that have joined and are ready to start, same format as above
 //game related variables:
 var gameRunning = false;
-const words = [["Stuhl", "Bett"], ["Fahrrad", "Flugzeug"], ["Wassereis", "Kuchen"], ["Brokkoli", "Baum"], ["Marihuana", "Bier"], ["Hund", "Elefant"], ["Bahn", "Reise"]];
+const words = [["Brokkoli", "Baum"]];
 let game = {
   players: [],
   pnames: {},
@@ -236,7 +236,7 @@ function gameInit() { //initialize the game
     "usedWordSets": [], //keys of sets used
     "setIndex": 0, //current set
     "imposterIndex": 0, // if the imposter gets the first or the second word of the word pair
-    "talkTime": 30, // time for players to talk in seconds
+    "talkTime": 20, // time for players to talk in seconds
     "voteTime": 10, //time for players to vote in seconds
     "canVote": false, //when a client sends a imposter vote, it will only be registered if this is true
     "canVoteCorrectnes": false, //when a client sends a correctnes vote, it will only be registered if this is true
@@ -253,7 +253,7 @@ function gameInit() { //initialize the game
   readyPlayers = {}; //clear ready players for potential next game
   io.sockets.emit("joinPlayersNames", joinedPlayers); //send empty joinedPlayers to clients
   io.sockets.emit("readyPlayers", readyPlayers); //send empty readyPlayers to the clients
-  game["totalRounds"] = game["players"].length;
+  game["totalRounds"] = 1;
   game["impostersCount"] = Math.floor((game["players"].length + 4) / 5); //calculate number of imposters
   game["connectedCount"] = game["players"].length;
   //console.log(game)
